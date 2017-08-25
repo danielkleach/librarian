@@ -17,9 +17,9 @@ class CreateTrackersTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('book_id')->unsigned();
-            $table->dateTime('due_date');
             $table->dateTime('checkout_date');
-            $table->dateTime('return_date');
+            $table->dateTime('due_date');
+            $table->dateTime('return_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

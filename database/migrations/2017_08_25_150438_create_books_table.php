@@ -22,6 +22,9 @@ class CreateBooksTable extends Migration
             $table->string('cover_image');
             $table->string('isbn');
             $table->smallInteger('publication_year')->unsigned();
+            $table->string('owner');
+            $table->integer('total_copies')->unsigned();
+            $table->integer('available_copies')->unsigned();
             $table->timestamps();
             $table->softDeletes();
 
