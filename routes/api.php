@@ -78,7 +78,7 @@ Route::middleware('auth:api')->group(function () {
         });
     });
 
-    Route::prefix('reviews')->group(function () {
+    Route::prefix('user-reviews')->group(function () {
 
         Route::get('/', 'UserReviewController@index');
         Route::post('/', 'UserReviewController@store');
