@@ -48,9 +48,6 @@ $factory->define(App\Author::class, function (Faker $faker) {
 
 $factory->define(App\Book::class, function (Faker $faker) {
 
-    $totalCopies = $faker->numberBetween(1, 100);
-    $availableCopies = $faker->numberBetween(0, $totalCopies);
-
     return [
         'category_id' => factory(Category::class)->lazy(),
         'author_id' => factory(Author::class)->lazy(),
@@ -59,9 +56,7 @@ $factory->define(App\Book::class, function (Faker $faker) {
         'cover_image' => $faker->imageUrl(200, 200),
         'isbn' => $faker->isbn10,
         'publication_year' => $faker->year,
-        'owner' => $faker->name,
-        'total_copies' => $totalCopies,
-        'available_copies' => $availableCopies
+        'owner' => $faker->name
     ];
 });
 
@@ -72,14 +67,15 @@ $factory->define(App\Tracker::class, function (Faker $faker) {
         $endDate = 'now'
     )->format($format = 'Y-m-d H:i:s');
 
-    $dueDate = $faker->dateTime(Carbon::createFromFormat('Y-m-d H:i:s', $checkoutDate)->addDays(15));
+    $dueDate = Carbon::createFromFormat('Y-m-d H:i:s', $checkoutDate)
+        ->addDays(15)->format($format = 'Y-m-d H:i:s');
 
     $checkedIn = $faker->boolean(70);
 
     $returnDate = $checkedIn
         ? $faker->dateTimeBetween(
-            Carbon::createFromFormat('Y-m-d H:i:s', $checkoutDate)->addDay(),
-            Carbon::createFromFormat('Y-m-d H:i:s', $dueDate)->addDays(30)
+            Carbon::createFromFormat('Y-m-d H:i:s', $checkoutDate)->addDay()->format($format = 'Y-m-d H:i:s'),
+            Carbon::createFromFormat('Y-m-d H:i:s', $dueDate)->addDays(30)->format($format = 'Y-m-d H:i:s')
         )
         : null;
 
