@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Author;
 use App\Book;
+use App\Category;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,24 +17,35 @@ class BookTest extends TestCase
     {
         $book = factory(Book::class)->create();
 
-        $response = $this->get("/api/books/{$book->id}");
+        $response = $this->getJson("/api/books/{$book->id}");
 
-        $response->assertJsonFragment($book);
+        $response->assertJsonFragment([
+            'id' => (int) $book->id,
+            'category_id' => (int) $book->category_id,
+            'author_id' => (int) $book->author_id,
+            'title' => $book->title,
+            'description' => $book->description,
+            'cover_image' => $book->cover_image,
+            'isbn' => $book->isbn,
+            'publication_year' => (int) $book->publication_year,
+            'owner' => $book->owner
+        ]);
     }
 
     public function testStoreEndpointCreatesABookInTheDatabase()
     {
+        $category = factory(Category::class)->create();
+        $author = factory(Author::class)->create();
+
         $data = [
-            'category_id' => 1,
-            'author_id' => 1,
+            'category_id' => $category->id,
+            'author_id' => $author->id,
             'title' => 'Test title',
             'description' => 'Test description.',
             'cover_image' => 'http://lorempixel.com/300/300',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
-            'owner' => 'Daniel Leach',
-            'total_copies' => 2,
-            'available_copies' => 2
+            'owner' => 'Daniel Leach'
         ];
 
         $response = $this->postJson("/api/books", $data);
@@ -46,16 +59,12 @@ class BookTest extends TestCase
         $book = factory(Book::class)->create();
 
         $data = [
-            'category_id' => 1,
-            'author_id' => 1,
             'title' => 'New test title',
             'description' => 'New test description.',
             'cover_image' => 'http://lorempixel.com/300/300',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
-            'owner' => 'Daniel Leach',
-            'total_copies' => 2,
-            'available_copies' => 2
+            'owner' => 'Daniel Leach'
         ];
 
         $response = $this->patchJson("/api/books/{$book->id}", $data);
