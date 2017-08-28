@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Responsable;
 
-class DestroyBookResponse implements Responsable
+class DestroyCategoryResponse implements Responsable
 {
     protected $book;
 
@@ -15,6 +15,6 @@ class DestroyBookResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json(['message' => 'This book has been deleted.']);
+        return response()->json(['message' => 'This category has been deleted.']);
     }
 }

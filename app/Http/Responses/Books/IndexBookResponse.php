@@ -6,10 +6,32 @@ use Illuminate\Contracts\Support\Responsable;
 
 class IndexBookResponse implements Responsable
 {
+    protected $books;
+
+    public function __construct($books)
+    {
+        $this->books = $books;
+    }
+
     public function toResponse($request)
     {
-        return [
+        return response()->json($this->transformBooks());
+    }
 
-        ];
+    protected function transformBooks()
+    {
+        return $this->books->map(function ($book) {
+            return [
+                'id' => (int) $book->id,
+                'category_id' => (int) $book->category_id,
+                'author_id' => (int) $book->author_id,
+                'title' => $book->title,
+                'description' => $book->description,
+                'cover_image' => $book->cover_image,
+                'isbn' => $book->isbn,
+                'publication_year' => $book->publication_year,
+                'owner' => $book->owner
+            ];
+        });
     }
 }
