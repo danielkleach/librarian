@@ -2,30 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\Author;
+use Illuminate\Http\Request;
+
 class AuthorController extends Controller
 {
+    protected $authorModel;
+
+    public function __construct(Author $authorModel)
+    {
+        $this->authorModel = $authorModel;
+    }
+
     public function index()
     {
+        $categories = $this->authorModel->paginate(25);
 
+        return new IndexAuthorResponse($categories);
     }
 
-    public function show()
+    public function show($authorId)
     {
+        $author = $this->authorModel->findOrFail($authorId);
 
+        return new ShowAuthorResponse($author);
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        $author = $this->authorModel->create($request->all());
 
+        return new StoreAuthorResponse($author);
     }
 
-    public function update()
+    public function update(Request $request, $authorId)
     {
+        $author = $this->authorModel->findOrFail($authorId);
 
+        $author->update($request->all());
+
+        return new UpdateAuthorResponse($author);
     }
 
-    public function destroy()
+    public function destroy($authorId)
     {
+        $author = $this->authorModel->findOrFail($authorId);
 
+        $author->delete();
+
+        return new DestroyAuthorResponse($author);
     }
 }

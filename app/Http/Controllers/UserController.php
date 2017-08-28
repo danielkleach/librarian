@@ -2,30 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Illuminate\Http\Request;
+
 class UserController extends Controller
 {
+    protected $userModel;
+
+    public function __construct(User $userModel)
+    {
+        $this->userModel = $userModel;
+    }
+
     public function index()
     {
+        $categories = $this->userModel->paginate(25);
 
+        return new IndexUserResponse($categories);
     }
 
-    public function show()
+    public function show($userId)
     {
+        $user = $this->userModel->findOrFail($userId);
 
+        return new ShowUserResponse($user);
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        $user = $this->userModel->create($request->all());
 
+        return new StoreUserResponse($user);
     }
 
-    public function update()
+    public function update(Request $request, $userId)
     {
+        $user = $this->userModel->findOrFail($userId);
 
+        $user->update($request->all());
+
+        return new UpdateUserResponse($user);
     }
 
-    public function destroy()
+    public function destroy($userId)
     {
+        $user = $this->userModel->findOrFail($userId);
 
+        $user->delete();
+
+        return new DestroyUserResponse($user);
     }
 }

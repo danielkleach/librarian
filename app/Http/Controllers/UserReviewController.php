@@ -2,30 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\UserReview;
+use Illuminate\Http\Request;
+
 class UserReviewController extends Controller
 {
+    protected $userReviewModel;
+
+    public function __construct(UserReview $userReviewModel)
+    {
+        $this->userReviewModel = $userReviewModel;
+    }
+
     public function index()
     {
+        $categories = $this->userReviewModel->paginate(25);
 
+        return new IndexUserReviewResponse($categories);
     }
 
-    public function show()
+    public function show($userReviewId)
     {
+        $userReview = $this->userReviewModel->findOrFail($userReviewId);
 
+        return new ShowUserReviewResponse($userReview);
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        $userReview = $this->userReviewModel->create($request->all());
 
+        return new StoreUserReviewResponse($userReview);
     }
 
-    public function update()
+    public function update(Request $request, $userReviewId)
     {
+        $userReview = $this->userReviewModel->findOrFail($userReviewId);
 
+        $userReview->update($request->all());
+
+        return new UpdateUserReviewResponse($userReview);
     }
 
-    public function destroy()
+    public function destroy($userReviewId)
     {
+        $userReview = $this->userReviewModel->findOrFail($userReviewId);
 
+        $userReview->delete();
+
+        return new DestroyUserReviewResponse($userReview);
     }
 }
