@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -44,5 +45,26 @@ class User extends Authenticatable
     public function userReviews()
     {
         return $this->hasMany(UserReview::class, 'user_id');
+    }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
+
+    /**
+     * Determines how many books this user currently has checked out.
+     */
+    public function getCheckedOut()
+    {
+        return $this->trackers->where('return_date', null)->count();
+    }
+
+    /**
+     * Determines how many books this user currently has overdue.
+     */
+    public function getOverDue()
+    {
+        return $this->trackers->where('due_date', '<', Carbon::now()->toDateTimeString())
+            ->where('return_date', null)->count();
     }
 }
