@@ -37,6 +37,16 @@ class Book extends Model
     }
 
     /**
+     * A Book has many Trackers.
+     *
+     * @return mixed
+     */
+    public function trackers()
+    {
+        return $this->hasMany(Tracker::class, 'book_id');
+    }
+
+    /**
      * A Book has many UserReviews.
      *
      * @return mixed
