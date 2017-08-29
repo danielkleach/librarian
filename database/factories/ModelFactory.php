@@ -1,5 +1,6 @@
 <?php
 
+use App\Type;
 use App\User;
 use App\Book;
 use App\Author;
@@ -95,5 +96,13 @@ $factory->define(App\UserReview::class, function (Faker $faker) {
         'book_id' => factory(Book::class)->lazy(),
         'rating' => $faker->numberBetween(1, 5),
         'comments' => $faker->text(200)
+    ];
+});
+
+$factory->define(App\Status::class, function (Faker $faker) {
+
+    return [
+        'book_id' => rand(1, 50),
+        'status_type_id' => rand(1, 4),
     ];
 });
