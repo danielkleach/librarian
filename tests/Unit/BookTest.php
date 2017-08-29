@@ -3,7 +3,9 @@
 namespace Tests\Unit;
 
 use App\Book;
+use App\Tracker;
 use App\UserReview;
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -30,12 +32,8 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyAvailableBooks()
     {
-        $book1 = factory(Book::class)->create([
-            'status' => 'available'
-        ]);
-        $book2 = factory(Book::class)->create([
-            'status' => 'unavailable'
-        ]);
+        $book1 = factory(Book::class)->create(['status' => 'available']);
+        $book2 = factory(Book::class)->create(['status' => 'unavailable']);
 
         $availableBooks = Book::available()->get();
 
@@ -45,46 +43,59 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyUnavailableBooks()
     {
-        $book1 = factory(Book::class)->create([
-            'status' => 'unavailable'
-        ]);
-        $book2 = factory(Book::class)->create([
-            'status' => 'available'
-        ]);
+        $book1 = factory(Book::class)->create(['status' => 'unavailable']);
+        $book2 = factory(Book::class)->create(['status' => 'available']);
 
-        $availableBooks = Book::unavailable()->get();
+        $unavailableBooks = Book::unavailable()->get();
 
-        $this->assertTrue($availableBooks->contains($book1));
-        $this->assertFalse($availableBooks->contains($book2));
+        $this->assertTrue($unavailableBooks->contains($book1));
+        $this->assertFalse($unavailableBooks->contains($book2));
     }
 
     public function testItCanGetOnlyLostBooks()
     {
-        $book1 = factory(Book::class)->create([
-            'status' => 'lost'
-        ]);
-        $book2 = factory(Book::class)->create([
-            'status' => 'available'
-        ]);
+        $book1 = factory(Book::class)->create(['status' => 'lost']);
+        $book2 = factory(Book::class)->create(['status' => 'available']);
 
-        $availableBooks = Book::lost()->get();
+        $lostBooks = Book::lost()->get();
 
-        $this->assertTrue($availableBooks->contains($book1));
-        $this->assertFalse($availableBooks->contains($book2));
+        $this->assertTrue($lostBooks->contains($book1));
+        $this->assertFalse($lostBooks->contains($book2));
     }
 
     public function testItCanGetOnlyRemovedBooks()
     {
-        $book1 = factory(Book::class)->create([
-            'status' => 'removed'
-        ]);
-        $book2 = factory(Book::class)->create([
-            'status' => 'available'
+        $book1 = factory(Book::class)->create(['status' => 'removed']);
+        $book2 = factory(Book::class)->create(['status' => 'available']);
+
+        $removedBooks = Book::removed()->get();
+
+        $this->assertTrue($removedBooks->contains($book1));
+        $this->assertFalse($removedBooks->contains($book2));
+    }
+
+    public function testItCanGetOnlyOverdueBooks()
+    {
+        $book1 = factory(Book::class)->create(['status' => 'available']);
+        $book2 = factory(Book::class)->create(['status' => 'unavailable']);
+
+        factory(Tracker::class)->create([
+            'book_id' => $book1->id,
+            'checkout_date' => Carbon::createFromDate(2017, 01, 01),
+            'due_date' => Carbon::createFromDate(2017, 01, 15),
+            'return_date' => Carbon::createFromDate(2017, 01, 11)
         ]);
 
-        $availableBooks = Book::removed()->get();
+        factory(Tracker::class)->create([
+            'book_id' => $book2->id,
+            'checkout_date' => Carbon::createFromDate(2017, 01, 01),
+            'due_date' => Carbon::createFromDate(2017, 01, 15),
+            'return_date' => null
+        ]);
 
-        $this->assertTrue($availableBooks->contains($book1));
-        $this->assertFalse($availableBooks->contains($book2));
+        $overdueBooks = Book::overdue()->get();
+
+        $this->assertTrue($overdueBooks->contains($book2));
+        $this->assertFalse($overdueBooks->contains($book1));
     }
 }
