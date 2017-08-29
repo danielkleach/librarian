@@ -24,7 +24,9 @@ class StoreUserResponse implements Responsable
             'id' => (int) $this->user->id,
             'first_name' => $this->user->first_name,
             'last_name' => $this->user->last_name,
-            'email' => $this->user->email
+            'email' => $this->user->email,
+            'checked_out' => $this->user->getCheckedOut(),
+            'overdue' => $this->user->getOverdue()
         ];
     }
 }

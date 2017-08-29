@@ -25,7 +25,9 @@ class IndexUserResponse implements Responsable
                 'id' => (int) $user->id,
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
-                'email' => $user->email
+                'email' => $user->email,
+                'checked_out' => $user->getCheckedOut(),
+                'overdue' => $user->getOverdue()
             ];
         });
     }
