@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
@@ -102,6 +103,21 @@ class Book extends Model
     public function scopeRemoved($query)
     {
         return $query->where('status', 'removed');
+    }
+
+    /**
+     * Scope a query to only include overdue books.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOverdue($query)
+    {
+        return $query->where('status', '!=', 'available')
+            ->whereHas('trackers', function ($query) {
+                $query->where('due_date', '<', Carbon::now()->toDateTimeString())
+                    ->whereNull('return_date');
+            });
     }
 
     /***********************************************/
