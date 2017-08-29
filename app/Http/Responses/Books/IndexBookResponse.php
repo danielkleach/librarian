@@ -30,7 +30,8 @@ class IndexBookResponse implements Responsable
                 'cover_image' => $book->cover_image,
                 'isbn' => $book->isbn,
                 'publication_year' => $book->publication_year,
-                'owner' => $book->owner
+                'owner' => $book->owner,
+                'status' => $book->status
             ];
         });
     }

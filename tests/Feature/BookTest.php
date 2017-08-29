@@ -28,7 +28,8 @@ class BookTest extends TestCase
             'cover_image' => $book->cover_image,
             'isbn' => $book->isbn,
             'publication_year' => (int) $book->publication_year,
-            'owner' => $book->owner
+            'owner' => $book->owner,
+            'status' => $book->status
         ]);
     }
 

@@ -29,7 +29,8 @@ class ShowBookResponse implements Responsable
             'cover_image' => $this->book->cover_image,
             'isbn' => $this->book->isbn,
             'publication_year' => $this->book->publication_year,
-            'owner' => $this->book->owner
+            'owner' => $this->book->owner,
+            'status' => $this->book->status
         ];
     }
 }

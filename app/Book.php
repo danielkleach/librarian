@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
     protected $guarded = [];
+
+    protected $attributes = [
+        'status' => 'available'
+    ];
+
     /***********************************************/
     /**************** Relationships ****************/
     /***********************************************/
@@ -29,5 +34,53 @@ class Book extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    /***********************************************/
+    /******************* Scopes ********************/
+    /***********************************************/
+
+    /**
+     * Scope a query to only include available books.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAvailable($query)
+    {
+        return $query->where('status', 'available');
+    }
+
+    /**
+     * Scope a query to only include unavailable books.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUnavailable($query)
+    {
+        return $query->where('status', 'unavailable');
+    }
+
+    /**
+     * Scope a query to only include lost books.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeLost($query)
+    {
+        return $query->where('status', 'lost');
+    }
+
+    /**
+     * Scope a query to only include removed books.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeRemoved($query)
+    {
+        return $query->where('status', 'removed');
     }
 }

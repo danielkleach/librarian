@@ -57,7 +57,10 @@ $factory->define(App\Book::class, function (Faker $faker) {
         'cover_image' => $faker->imageUrl(200, 200),
         'isbn' => $faker->isbn10,
         'publication_year' => $faker->year,
-        'owner' => $faker->name
+        'owner' => $faker->name,
+        'status' => $faker->boolean(90)
+            ? $faker->randomElement(['available', 'unavailable'])
+            : $faker->randomElement(['lost', 'removed']),
     ];
 });
 
