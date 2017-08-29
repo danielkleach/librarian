@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Author;
 use App\Book;
+use App\Author;
 use App\Category;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
