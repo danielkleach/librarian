@@ -31,7 +31,8 @@ class IndexBookResponse implements Responsable
                 'isbn' => $book->isbn,
                 'publication_year' => $book->publication_year,
                 'owner' => $book->owner,
-                'status' => $book->status
+                'status' => $book->status,
+                'average_rating' => $book->getAverageRating()
             ];
         });
     }
