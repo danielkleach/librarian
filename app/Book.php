@@ -93,4 +93,16 @@ class Book extends Model
     {
         return $query->where('status', 'removed');
     }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
+
+    /**
+     * Get the average rating for this book.
+     */
+    public function getAverageRating()
+    {
+        return $this->userReviews->avg('rating');
+    }
 }

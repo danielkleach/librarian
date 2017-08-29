@@ -30,7 +30,8 @@ class ShowBookResponse implements Responsable
             'isbn' => $this->book->isbn,
             'publication_year' => $this->book->publication_year,
             'owner' => $this->book->owner,
-            'status' => $this->book->status
+            'status' => $this->book->status,
+            'average_rating' => $this->book->getAverageRating()
         ];
     }
 }
