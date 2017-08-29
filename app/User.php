@@ -21,4 +21,28 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /***********************************************/
+    /**************** Relationships ****************/
+    /***********************************************/
+
+    /**
+     * A User has many Trackers.
+     *
+     * @return mixed
+     */
+    public function trackers()
+    {
+        return $this->hasMany(Tracker::class, 'user_id');
+    }
+
+    /**
+     * A User has many UserReviews.
+     *
+     * @return mixed
+     */
+    public function userReviews()
+    {
+        return $this->hasMany(UserReview::class, 'user_id');
+    }
 }
