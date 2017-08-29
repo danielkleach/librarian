@@ -50,8 +50,8 @@ $factory->define(App\Author::class, function (Faker $faker) {
 $factory->define(App\Book::class, function (Faker $faker) {
 
     return [
-        'category_id' => factory(Category::class)->lazy(),
-        'author_id' => factory(Author::class)->lazy(),
+        'category_id' => rand(1, 20),
+        'author_id' => rand(1, 20),
         'title' => $faker->sentence,
         'description' => $faker->text(200),
         'cover_image' => $faker->imageUrl(200, 200),
@@ -81,8 +81,8 @@ $factory->define(App\Tracker::class, function (Faker $faker) {
         : null;
 
     return [
-        'user_id' => factory(User::class)->lazy(),
-        'book_id' => factory(Book::class)->lazy(),
+        'user_id' => rand(1, 50),
+        'book_id' => rand(1, 50),
         'checkout_date' => $checkoutDate,
         'due_date' => $dueDate,
         'return_date' => $returnDate
@@ -92,8 +92,8 @@ $factory->define(App\Tracker::class, function (Faker $faker) {
 $factory->define(App\UserReview::class, function (Faker $faker) {
 
     return [
-        'user_id' => factory(User::class)->lazy(),
-        'book_id' => factory(Book::class)->lazy(),
+        'user_id' => rand(1, 50),
+        'book_id' => rand(1, 50),
         'rating' => $faker->numberBetween(1, 5),
         'comments' => $faker->text(200)
     ];
