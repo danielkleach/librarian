@@ -43,7 +43,7 @@ class Book extends Model
      */
     public function userReviews()
     {
-        return $this->belongsTo(UserReview::class, 'book_id');
+        return $this->hasMany(UserReview::class, 'book_id');
     }
 
     /***********************************************/
