@@ -36,6 +36,16 @@ class Book extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    /**
+     * A Book has many UserReviews.
+     *
+     * @return mixed
+     */
+    public function userReviews()
+    {
+        return $this->belongsTo(UserReview::class, 'book_id');
+    }
+
     /***********************************************/
     /******************* Scopes ********************/
     /***********************************************/
