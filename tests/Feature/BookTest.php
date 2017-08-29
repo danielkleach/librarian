@@ -29,7 +29,8 @@ class BookTest extends TestCase
             'isbn' => $book->isbn,
             'publication_year' => (int) $book->publication_year,
             'owner' => $book->owner,
-            'status' => $book->status
+            'status' => $book->status,
+            'average_rating' => $book->average_rating
         ]);
     }
 
