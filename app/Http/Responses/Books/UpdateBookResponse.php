@@ -24,12 +24,12 @@ class UpdateBookResponse implements Responsable
             'id' => (int) $this->book->id,
             'category_id' => (int) $this->book->category_id,
             'author_id' => (int) $this->book->author_id,
+            'owner_id' => (int) $this->book->owner_id,
             'title' => $this->book->title,
             'description' => $this->book->description,
             'cover_image' => $this->book->cover_image,
             'isbn' => $this->book->isbn,
             'publication_year' => $this->book->publication_year,
-            'owner' => $this->book->owner,
             'status' => $this->book->status
         ];
     }
