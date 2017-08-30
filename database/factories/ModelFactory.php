@@ -50,17 +50,40 @@ $factory->define(App\Author::class, function (Faker $faker) {
 $factory->define(App\Book::class, function (Faker $faker) {
 
     return [
-        'category_id' => rand(1, 20),
-        'author_id' => rand(1, 20),
         'title' => $faker->sentence,
         'description' => $faker->text(200),
         'cover_image' => $faker->imageUrl(200, 200),
         'isbn' => $faker->isbn10,
         'publication_year' => $faker->year,
         'owner' => $faker->name,
+        'location' => $faker->word,
         'status' => $faker->boolean(90)
             ? $faker->randomElement(['available', 'unavailable'])
             : $faker->randomElement(['lost', 'removed']),
+    ];
+});
+
+$factory->state(App\Book::class, 'withCategory', function ($faker) {
+    return [
+        'category_id' => factory(Category::class)->lazy()
+    ];
+});
+
+$factory->state(App\Book::class, 'withAuthor', function ($faker) {
+    return [
+        'author_id' => factory(Author::class)->lazy()
+    ];
+});
+
+$factory->state(App\Book::class, 'withRandomCategory', function ($faker) {
+    return [
+        'category_id' => Category::all()->random()->id
+    ];
+});
+
+$factory->state(App\Book::class, 'withRandomAuthor', function ($faker) {
+    return [
+        'author_id' => Author::all()->random()->id
     ];
 });
 
@@ -84,28 +107,52 @@ $factory->define(App\Tracker::class, function (Faker $faker) {
         : null;
 
     return [
-        'user_id' => rand(1, 50),
-        'book_id' => rand(1, 50),
         'checkout_date' => $checkoutDate,
         'due_date' => $dueDate,
         'return_date' => $returnDate
     ];
 });
 
+$factory->state(App\Tracker::class, 'withUser', function ($faker) {
+    return [
+        'user_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\Tracker::class, 'withBook', function ($faker) {
+    return [
+        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor'])->lazy()
+    ];
+});
+
+$factory->state(App\Tracker::class, 'withRandomBook', function ($faker) {
+    return [
+        'book_id' => Book::all()->random()->id
+    ];
+});
+
 $factory->define(App\UserReview::class, function (Faker $faker) {
 
     return [
-        'user_id' => rand(1, 50),
-        'book_id' => rand(1, 50),
         'rating' => $faker->numberBetween(1, 5),
         'comments' => $faker->text(200)
     ];
 });
 
-$factory->define(App\Status::class, function (Faker $faker) {
-
+$factory->state(App\UserReview::class, 'withUser', function ($faker) {
     return [
-        'book_id' => rand(1, 50),
-        'status_type_id' => rand(1, 4),
+        'user_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\UserReview::class, 'withBook', function ($faker) {
+    return [
+        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor'])->lazy()
+    ];
+});
+
+$factory->state(App\UserReview::class, 'withRandomBook', function ($faker) {
+    return [
+        'book_id' => Book::all()->random()->id
     ];
 });
