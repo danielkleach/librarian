@@ -28,6 +28,16 @@ class User extends Authenticatable
     /***********************************************/
 
     /**
+     * A User has many Books.
+     *
+     * @return mixed
+     */
+    public function books()
+    {
+        return $this->hasMany(Book::class, 'owner_id');
+    }
+
+    /**
      * A User has many Trackers.
      *
      * @return mixed

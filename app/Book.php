@@ -38,6 +38,16 @@ class Book extends Model
     }
 
     /**
+     * A Book belongs to a User.
+     *
+     * @return mixed
+     */
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    /**
      * A Book has many Trackers.
      *
      * @return mixed
