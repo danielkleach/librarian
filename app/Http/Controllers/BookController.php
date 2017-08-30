@@ -16,14 +16,14 @@ class BookController extends Controller
 
     public function index()
     {
-        $books = $this->bookModel->with(['author', 'category'])->paginate(25);
+        $books = $this->bookModel->with(['author', 'category', 'owner'])->paginate(25);
 
         return new IndexBookResponse($books);
     }
 
     public function show($bookId)
     {
-        $book = $this->bookModel->with(['author', 'category', 'userReviews.user'])->findOrFail($bookId);
+        $book = $this->bookModel->with(['author', 'category', 'owner', 'userReviews.user'])->findOrFail($bookId);
 
         return new ShowBookResponse($book);
     }
