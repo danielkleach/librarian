@@ -16,9 +16,9 @@ class AuthorController extends Controller
 
     public function index()
     {
-        $categories = $this->authorModel->paginate(25);
+        $authors = $this->authorModel->paginate(25);
 
-        return new IndexAuthorResponse($categories);
+        return new IndexAuthorResponse($authors);
     }
 
     public function show($authorId)

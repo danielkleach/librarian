@@ -16,14 +16,14 @@ class TrackerController extends Controller
 
     public function index()
     {
-        $categories = $this->trackerModel->paginate(25);
+        $trackers = $this->trackerModel->with(['user', 'book'])->paginate(25);
 
-        return new IndexTrackerResponse($categories);
+        return new IndexTrackerResponse($trackers);
     }
 
     public function show($trackerId)
     {
-        $tracker = $this->trackerModel->findOrFail($trackerId);
+        $tracker = $this->trackerModel->with(['user', 'book'])->findOrFail($trackerId);
 
         return new ShowTrackerResponse($tracker);
     }

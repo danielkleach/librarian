@@ -16,14 +16,14 @@ class UserController extends Controller
 
     public function index()
     {
-        $categories = $this->userModel->paginate(25);
+        $users = $this->userModel->paginate(25);
 
-        return new IndexUserResponse($categories);
+        return new IndexUserResponse($users);
     }
 
     public function show($userId)
     {
-        $user = $this->userModel->findOrFail($userId);
+        $user = $this->userModel->with(['userReviews.book', 'trackers.book'])->findOrFail($userId);
 
         return new ShowUserResponse($user);
     }

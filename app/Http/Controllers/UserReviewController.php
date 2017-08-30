@@ -16,14 +16,14 @@ class UserReviewController extends Controller
 
     public function index()
     {
-        $categories = $this->userReviewModel->paginate(25);
+        $userReviews = $this->userReviewModel->with(['user', 'book'])->paginate(25);
 
-        return new IndexUserReviewResponse($categories);
+        return new IndexUserReviewResponse($userReviews);
     }
 
     public function show($userReviewId)
     {
-        $userReview = $this->userReviewModel->findOrFail($userReviewId);
+        $userReview = $this->userReviewModel->with(['user', 'book'])->findOrFail($userReviewId);
 
         return new ShowUserReviewResponse($userReview);
     }
