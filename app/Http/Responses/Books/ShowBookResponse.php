@@ -28,10 +28,19 @@ class ShowBookResponse implements Responsable
             'description' => $this->book->description,
             'cover_image' => $this->book->cover_image,
             'isbn' => $this->book->isbn,
-            'publication_year' => $this->book->publication_year,
+            'publication_year' => (int) $this->book->publication_year,
             'owner' => $this->book->owner,
             'status' => $this->book->status,
-            'average_rating' => $this->book->getAverageRating()
+            'average_rating' => $this->book->getAverageRating(),
+            'user_reviews' => $this->book->userReviews->map(function ($review) {
+                return [
+                    'id' => (int) $review->id,
+                    'user_id' => (int) $review->user_id,
+                    'user_name' => $review->user->first_name,
+                    'rating' => $review->rating,
+                    'comments' => $review->comments
+                ];
+            })
         ];
     }
 }

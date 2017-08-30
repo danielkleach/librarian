@@ -23,7 +23,9 @@ class ShowUserReviewResponse implements Responsable
         return [
             'id' => (int) $this->userReview->id,
             'user_id' => (int) $this->userReview->user_id,
+            'user_name' => $this->userReview->user->name,
             'book_id' => (int) $this->userReview->book_id,
+            'book_title' => $this->userReview->book->title,
             'rating' => $this->userReview->rating,
             'comments' => $this->userReview->comments
         ];

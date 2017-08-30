@@ -24,7 +24,9 @@ class IndexBookResponse implements Responsable
             return [
                 'id' => (int) $book->id,
                 'category_id' => (int) $book->category_id,
+                'category_name' => $book->category->name,
                 'author_id' => (int) $book->author_id,
+                'author_name' => $book->author->name,
                 'title' => $book->title,
                 'description' => $book->description,
                 'cover_image' => $book->cover_image,
