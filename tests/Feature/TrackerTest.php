@@ -23,7 +23,9 @@ class TrackerTest extends TestCase
         $response->assertJsonFragment([
             'id' => (int) $tracker->id,
             'user_id' => (int) $tracker->user_id,
+            'user_name' => $tracker->user->first_name,
             'book_id' => (int) $tracker->book_id,
+            'book_title' => $tracker->book->title,
             'checkout_date' => $tracker->checkout_date->toDateTimeString(),
             'due_date' => $tracker->due_date->toDateTimeString(),
             'return_date' => $tracker->return_date
