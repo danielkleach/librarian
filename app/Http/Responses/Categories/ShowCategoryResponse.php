@@ -22,7 +22,8 @@ class ShowCategoryResponse implements Responsable
     {
         return [
             'id' => (int) $this->category->id,
-            'name' => $this->category->name
+            'name' => $this->category->name,
+            'book_count' => $this->category->getBookCount()
         ];
     }
 }

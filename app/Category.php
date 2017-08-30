@@ -21,4 +21,16 @@ class Category extends Model
     {
         return $this->hasMany(Book::class, 'category_id');
     }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
+
+    /**
+     * Get the average rating for this book.
+     */
+    public function getBookCount()
+    {
+        return $this->books->count();
+    }
 }

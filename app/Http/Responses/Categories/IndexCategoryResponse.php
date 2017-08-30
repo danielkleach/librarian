@@ -23,7 +23,8 @@ class IndexCategoryResponse implements Responsable
         return $this->categories->map(function ($category) {
             return [
                 'id' => (int) $category->id,
-                'name' => $category->name
+                'name' => $category->name,
+                'book_count' => $category->getBookCount()
             ];
         });
     }
