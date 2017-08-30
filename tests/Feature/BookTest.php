@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use App\Book;
 use App\Author;
 use App\Category;
@@ -15,20 +16,23 @@ class BookTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
         $response = $this->getJson("/api/books/{$book->id}");
 
         $response->assertJsonFragment([
             'id' => (int) $book->id,
             'category_id' => (int) $book->category_id,
+            'category_name' => $book->category->name,
             'author_id' => (int) $book->author_id,
+            'author_name' => $book->author->name,
+            'owner_id' => (int) $book->owner_id,
+            'owner_name' => $book->owner->first_name,
             'title' => $book->title,
             'description' => $book->description,
             'cover_image' => $book->cover_image,
             'isbn' => $book->isbn,
             'publication_year' => (int) $book->publication_year,
-            'owner' => $book->owner,
             'location' => $book->location,
             'status' => $book->status,
             'average_rating' => $book->averageRating,
@@ -48,16 +52,17 @@ class BookTest extends TestCase
     {
         $category = factory(Category::class)->create();
         $author = factory(Author::class)->create();
+        $user = factory(User::class)->create();
 
         $data = [
             'category_id' => $category->id,
             'author_id' => $author->id,
+            'owner_id' => $user->id,
             'title' => 'Test title',
             'description' => 'Test description.',
             'cover_image' => 'http://lorempixel.com/300/300',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
-            'owner' => 'Daniel Leach',
             'location' => 'Software office'
         ];
 
@@ -69,7 +74,7 @@ class BookTest extends TestCase
 
     public function testUpdateEndpointUpdatesAPostInTheDatabase()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
         $data = [
             'title' => 'New test title',
@@ -77,7 +82,6 @@ class BookTest extends TestCase
             'cover_image' => 'http://lorempixel.com/300/300',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
-            'owner' => 'Daniel Leach',
             'location' => 'Software office'
         ];
 
@@ -89,7 +93,7 @@ class BookTest extends TestCase
 
     public function testDestroyEndpointRemovesABook()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
         $response = $this->deleteJson("/api/books/{$book->id}");
 

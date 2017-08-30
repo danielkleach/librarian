@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use App\Book;
 use App\Tracker;
-use App\UserReview;
 use Carbon\Carbon;
+use App\UserReview;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -15,7 +15,7 @@ class BookTest extends TestCase
 
     public function testItCanGetAverageBookRating()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
         factory(UserReview::class)->states(['withUser'])->create([
             'book_id' => $book->id,
@@ -32,8 +32,13 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyAvailableBooks()
     {
-        $book1 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'available']);
-        $book2 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'unavailable']);
+        $book1 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'available']);
+
+        $book2 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'unavailable']);
 
         $availableBooks = Book::available()->get();
 
@@ -43,8 +48,13 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyUnavailableBooks()
     {
-        $book1 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'unavailable']);
-        $book2 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'available']);
+        $book1 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'unavailable']);
+
+        $book2 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'available']);
 
         $unavailableBooks = Book::unavailable()->get();
 
@@ -54,8 +64,13 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyLostBooks()
     {
-        $book1 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'lost']);
-        $book2 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'available']);
+        $book1 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'lost']);
+
+        $book2 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'available']);
 
         $lostBooks = Book::lost()->get();
 
@@ -65,8 +80,13 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyRemovedBooks()
     {
-        $book1 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'removed']);
-        $book2 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'available']);
+        $book1 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'removed']);
+
+        $book2 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'available']);
 
         $removedBooks = Book::removed()->get();
 
@@ -76,8 +96,13 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyOverdueBooks()
     {
-        $book1 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'available']);
-        $book2 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create(['status' => 'unavailable']);
+        $book1 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'available']);
+
+        $book2 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['status' => 'unavailable']);
 
         factory(Tracker::class)->states(['withUser'])->create([
             'book_id' => $book1->id,

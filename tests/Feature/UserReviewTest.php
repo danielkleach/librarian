@@ -33,7 +33,7 @@ class UserReviewTest extends TestCase
     public function testStoreEndpointCreatesAUserReviewInTheDatabase()
     {
         $user = factory(User::class)->create();
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
         $data = [
             'user_id' => (int) $user->id,
