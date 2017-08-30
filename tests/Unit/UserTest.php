@@ -16,14 +16,14 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        factory(Tracker::class)->create([
+        factory(Tracker::class)->states(['withBook'])->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null
         ]);
 
-        factory(Tracker::class)->create([
+        factory(Tracker::class)->states(['withBook'])->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
@@ -37,14 +37,14 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        factory(Tracker::class)->create([
+        factory(Tracker::class)->states(['withBook'])->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null
         ]);
 
-        factory(Tracker::class)->create([
+        factory(Tracker::class)->states(['withBook'])->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),

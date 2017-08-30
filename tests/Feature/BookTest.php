@@ -15,7 +15,7 @@ class BookTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $response = $this->getJson("/api/books/{$book->id}");
 
@@ -29,6 +29,7 @@ class BookTest extends TestCase
             'isbn' => $book->isbn,
             'publication_year' => (int) $book->publication_year,
             'owner' => $book->owner,
+            'location' => $book->location,
             'status' => $book->status,
             'average_rating' => $book->averageRating,
             'user_reviews' => $book->userReviews->map(function ($review) {
@@ -56,7 +57,8 @@ class BookTest extends TestCase
             'cover_image' => 'http://lorempixel.com/300/300',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
-            'owner' => 'Daniel Leach'
+            'owner' => 'Daniel Leach',
+            'location' => 'Software office'
         ];
 
         $response = $this->postJson("/api/books", $data);
@@ -67,7 +69,7 @@ class BookTest extends TestCase
 
     public function testUpdateEndpointUpdatesAPostInTheDatabase()
     {
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $data = [
             'title' => 'New test title',
@@ -75,7 +77,8 @@ class BookTest extends TestCase
             'cover_image' => 'http://lorempixel.com/300/300',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
-            'owner' => 'Daniel Leach'
+            'owner' => 'Daniel Leach',
+            'location' => 'Software office'
         ];
 
         $response = $this->patchJson("/api/books/{$book->id}", $data);
@@ -86,7 +89,7 @@ class BookTest extends TestCase
 
     public function testDestroyEndpointRemovesABook()
     {
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $response = $this->deleteJson("/api/books/{$book->id}");
 

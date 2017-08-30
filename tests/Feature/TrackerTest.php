@@ -16,7 +16,7 @@ class TrackerTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedTracker()
     {
-        $tracker = factory(Tracker::class)->create();
+        $tracker = factory(Tracker::class)->states(['withUser', 'withBook'])->create();
 
         $response = $this->getJson("/api/trackers/{$tracker->id}");
 
@@ -37,7 +37,7 @@ class TrackerTest extends TestCase
     public function testStoreEndpointCreatesATrackerInTheDatabase()
     {
         $user = factory(User::class)->create();
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $data = [
             'user_id' => (int) $user->id,
@@ -55,7 +55,7 @@ class TrackerTest extends TestCase
 
     public function testUpdateEndpointUpdatesATrackerInTheDatabase()
     {
-        $tracker = factory(Tracker::class)->create();
+        $tracker = factory(Tracker::class)->states(['withUser', 'withBook'])->create();
 
         $data = [
             'return_date' => Carbon::createFromFormat('Y-m-d H:i:s', $tracker->checkout_date)
@@ -70,7 +70,7 @@ class TrackerTest extends TestCase
 
     public function testDestroyEndpointRemovesATracker()
     {
-        $tracker = factory(Tracker::class)->create();
+        $tracker = factory(Tracker::class)->states(['withUser', 'withBook'])->create();
 
         $response = $this->deleteJson("/api/trackers/{$tracker->id}");
 

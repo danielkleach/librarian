@@ -15,7 +15,7 @@ class UserReviewTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedUserReview()
     {
-        $userReview = factory(UserReview::class)->create();
+        $userReview = factory(UserReview::class)->states(['withUser', 'withBook'])->create();
 
         $response = $this->getJson("/api/user-reviews/{$userReview->id}");
 
@@ -33,7 +33,7 @@ class UserReviewTest extends TestCase
     public function testStoreEndpointCreatesAUserReviewInTheDatabase()
     {
         $user = factory(User::class)->create();
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $data = [
             'user_id' => (int) $user->id,
@@ -50,7 +50,7 @@ class UserReviewTest extends TestCase
 
     public function testUpdateEndpointUpdatesAUserReviewInTheDatabase()
     {
-        $userReview = factory(UserReview::class)->create();
+        $userReview = factory(UserReview::class)->states(['withUser', 'withBook'])->create();
 
         $data = [
             'rating' => 4,
@@ -65,7 +65,7 @@ class UserReviewTest extends TestCase
 
     public function testDestroyEndpointRemovesAUserReview()
     {
-        $userReview = factory(UserReview::class)->create();
+        $userReview = factory(UserReview::class)->states(['withUser', 'withBook'])->create();
 
         $response = $this->deleteJson("/api/user-reviews/{$userReview->id}");
 
