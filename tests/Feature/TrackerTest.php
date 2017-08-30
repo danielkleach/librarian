@@ -2,10 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use App\Book;
 use App\Tracker;
-use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,40 +29,6 @@ class TrackerTest extends TestCase
                 ? $tracker->return_date->toDateTimeString()
                 : null
         ]);
-    }
-
-    public function testStoreEndpointCreatesATrackerInTheDatabase()
-    {
-        $user = factory(User::class)->create();
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
-
-        $data = [
-            'user_id' => (int) $user->id,
-            'book_id' => (int) $book->id,
-            'checkout_date' => Carbon::now()->subWeeks(2)->toDateTimeString(),
-            'due_date' => Carbon::now()->toDateTimeString(),
-            'return_date' => null
-        ];
-
-        $response = $this->postJson("/api/trackers", $data);
-
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('trackers', $data);
-    }
-
-    public function testUpdateEndpointUpdatesATrackerInTheDatabase()
-    {
-        $tracker = factory(Tracker::class)->states(['withUser', 'withBook'])->create();
-
-        $data = [
-            'return_date' => Carbon::createFromFormat('Y-m-d H:i:s', $tracker->checkout_date)
-                ->addDays(7)->toDateTimeString()
-        ];
-
-        $response = $this->patchJson("/api/trackers/{$tracker->id}", $data);
-
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('trackers', $data);
     }
 
     public function testDestroyEndpointRemovesATracker()

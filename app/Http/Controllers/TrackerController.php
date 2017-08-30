@@ -28,22 +28,6 @@ class TrackerController extends Controller
         return new ShowTrackerResponse($tracker);
     }
 
-    public function store(Request $request)
-    {
-        $tracker = $this->trackerModel->create($request->all());
-
-        return new StoreTrackerResponse($tracker);
-    }
-
-    public function update(Request $request, $trackerId)
-    {
-        $tracker = $this->trackerModel->findOrFail($trackerId);
-
-        $tracker->update($request->all());
-
-        return new UpdateTrackerResponse($tracker);
-    }
-
     public function destroy($trackerId)
     {
         $tracker = $this->trackerModel->findOrFail($trackerId);
