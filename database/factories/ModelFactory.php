@@ -55,7 +55,6 @@ $factory->define(App\Book::class, function (Faker $faker) {
         'cover_image' => $faker->imageUrl(200, 200),
         'isbn' => $faker->isbn10,
         'publication_year' => $faker->year,
-        'owner' => $faker->name,
         'location' => $faker->word,
         'status' => $faker->boolean(90)
             ? $faker->randomElement(['available', 'unavailable'])
@@ -75,6 +74,12 @@ $factory->state(App\Book::class, 'withAuthor', function ($faker) {
     ];
 });
 
+$factory->state(App\Book::class, 'withUser', function ($faker) {
+    return [
+        'owner_id' => factory(User::class)->lazy()
+    ];
+});
+
 $factory->state(App\Book::class, 'withRandomCategory', function ($faker) {
     return [
         'category_id' => Category::all()->random()->id
@@ -84,6 +89,12 @@ $factory->state(App\Book::class, 'withRandomCategory', function ($faker) {
 $factory->state(App\Book::class, 'withRandomAuthor', function ($faker) {
     return [
         'author_id' => Author::all()->random()->id
+    ];
+});
+
+$factory->state(App\Book::class, 'withRandomUser', function ($faker) {
+    return [
+        'owner_id' => User::all()->random()->id
     ];
 });
 
@@ -121,7 +132,13 @@ $factory->state(App\Tracker::class, 'withUser', function ($faker) {
 
 $factory->state(App\Tracker::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor'])->lazy()
+        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
+    ];
+});
+
+$factory->state(App\Tracker::class, 'withRandomUser', function ($faker) {
+    return [
+        'user_id' => User::all()->random()->id
     ];
 });
 
@@ -147,7 +164,13 @@ $factory->state(App\UserReview::class, 'withUser', function ($faker) {
 
 $factory->state(App\UserReview::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor'])->lazy()
+        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
+    ];
+});
+
+$factory->state(App\UserReview::class, 'withRandomUser', function ($faker) {
+    return [
+        'user_id' => User::all()->random()->id
     ];
 });
 
