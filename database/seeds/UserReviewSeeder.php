@@ -6,7 +6,7 @@ use App\Tracker;
 use App\UserReview;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class UserReviewSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class, 100)->create();
+        factory(UserReview::class, 100)
+            ->states(['withRandomUser', 'withRandomBook'])
+            ->create();
     }
 }
