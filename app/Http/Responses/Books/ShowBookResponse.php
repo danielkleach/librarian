@@ -30,6 +30,7 @@ class ShowBookResponse implements Responsable
             'isbn' => $this->book->isbn,
             'publication_year' => (int) $this->book->publication_year,
             'owner' => $this->book->owner,
+            'location' => $this->book->location,
             'status' => $this->book->status,
             'average_rating' => $this->book->getAverageRating(),
             'user_reviews' => $this->book->userReviews->map(function ($review) {
