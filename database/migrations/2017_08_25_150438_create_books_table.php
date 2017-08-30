@@ -23,6 +23,7 @@ class CreateBooksTable extends Migration
             $table->string('isbn');
             $table->smallInteger('publication_year')->unsigned();
             $table->string('owner');
+            $table->string('location');
             $table->string('status')->default('available');
             $table->timestamps();
             $table->softDeletes();
