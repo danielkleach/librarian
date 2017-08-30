@@ -17,12 +17,12 @@ class CreateBooksTable extends Migration
             $table->increments('id');
             $table->integer('category_id')->unsigned();
             $table->integer('author_id')->unsigned();
+            $table->integer('owner_id')->unsigned();
             $table->string('title');
             $table->text('description');
             $table->string('cover_image');
             $table->string('isbn');
             $table->smallInteger('publication_year')->unsigned();
-            $table->string('owner');
             $table->string('location');
             $table->string('status')->default('available');
             $table->timestamps();
@@ -30,6 +30,7 @@ class CreateBooksTable extends Migration
 
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('author_id')->references('id')->on('authors');
+            $table->foreign('owner_id')->references('id')->on('users');
         });
     }
 
