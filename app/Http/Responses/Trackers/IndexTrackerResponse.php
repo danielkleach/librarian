@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 
 class IndexTrackerResponse implements Responsable
@@ -27,9 +28,14 @@ class IndexTrackerResponse implements Responsable
                 'user_name' => $tracker->user->first_name,
                 'book_id' => (int) $tracker->book_id,
                 'book_title' => $tracker->book->title,
-                'checkout_date' => $tracker->checkout_date,
-                'due_date' => $tracker->due_date,
-                'return_date' => $tracker->return_date
+                'checkout_date' => Carbon::createFromFormat('Y-m-d H:i:s', $this->tracker->checkout_date)
+                    ->toDateTimeString(),
+                'due_date' => Carbon::createFromFormat('Y-m-d H:i:s', $this->tracker->due_date)
+                    ->toDateTimeString(),
+                'return_date' => $this->tracker->return_date
+                    ? Carbon::createFromFormat('Y-m-d H:i:s', $this->tracker->return_date)
+                        ->toDateTimeString()
+                    : null
             ];
         });
     }
