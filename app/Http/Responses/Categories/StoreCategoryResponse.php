@@ -15,7 +15,7 @@ class StoreCategoryResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformCategory());
+        return response()->json($this->transformCategory(), 201);
     }
 
     protected function transformCategory()

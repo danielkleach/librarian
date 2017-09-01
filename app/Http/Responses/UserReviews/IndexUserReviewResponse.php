@@ -15,7 +15,7 @@ class IndexUserReviewResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformUserReviews());
+        return response()->json($this->transformUserReviews(), 200);
     }
 
     protected function transformUserReviews()

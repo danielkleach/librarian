@@ -15,7 +15,7 @@ class IndexUserResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformUsers());
+        return response()->json($this->transformUsers(), 200);
     }
 
     protected function transformUsers()

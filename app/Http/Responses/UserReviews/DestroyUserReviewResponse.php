@@ -15,6 +15,6 @@ class DestroyUserReviewResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json(['message' => 'This user review has been deleted.']);
+        return response()->json(['message' => 'This user review has been deleted.'], 204);
     }
 }

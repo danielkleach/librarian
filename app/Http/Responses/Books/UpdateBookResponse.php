@@ -15,7 +15,7 @@ class UpdateBookResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformBook());
+        return response()->json($this->transformBook(), 200);
     }
 
     protected function transformBook()

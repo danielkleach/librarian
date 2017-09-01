@@ -16,7 +16,7 @@ class IndexTrackerResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformTrackers());
+        return response()->json($this->transformTrackers(), 200);
     }
 
     protected function transformTrackers()
@@ -28,12 +28,12 @@ class IndexTrackerResponse implements Responsable
                 'user_name' => $tracker->user->first_name,
                 'book_id' => (int) $tracker->book_id,
                 'book_title' => $tracker->book->title,
-                'checkout_date' => Carbon::createFromFormat('Y-m-d H:i:s', $this->tracker->checkout_date)
+                'checkout_date' => Carbon::createFromFormat('Y-m-d H:i:s', $tracker->checkout_date)
                     ->toDateTimeString(),
-                'due_date' => Carbon::createFromFormat('Y-m-d H:i:s', $this->tracker->due_date)
+                'due_date' => Carbon::createFromFormat('Y-m-d H:i:s', $tracker->due_date)
                     ->toDateTimeString(),
-                'return_date' => $this->tracker->return_date
-                    ? Carbon::createFromFormat('Y-m-d H:i:s', $this->tracker->return_date)
+                'return_date' => $tracker->return_date
+                    ? Carbon::createFromFormat('Y-m-d H:i:s', $tracker->return_date)
                         ->toDateTimeString()
                     : null
             ];

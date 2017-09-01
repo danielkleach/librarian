@@ -16,7 +16,7 @@ class UpdateTrackerResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformTracker());
+        return response()->json($this->transformTracker(), 200);
     }
 
     protected function transformTracker()

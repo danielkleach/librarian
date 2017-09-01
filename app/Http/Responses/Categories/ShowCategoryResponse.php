@@ -15,7 +15,7 @@ class ShowCategoryResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformCategory());
+        return response()->json($this->transformCategory(), 200);
     }
 
     protected function transformCategory()

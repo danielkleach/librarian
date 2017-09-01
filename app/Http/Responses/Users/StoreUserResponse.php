@@ -15,7 +15,7 @@ class StoreUserResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformUser());
+        return response()->json($this->transformUser(), 201);
     }
 
     protected function transformUser()

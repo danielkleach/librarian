@@ -15,7 +15,7 @@ class StoreUserReviewResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformUserReview());
+        return response()->json($this->transformUserReview(), 201);
     }
 
     protected function transformUserReview()

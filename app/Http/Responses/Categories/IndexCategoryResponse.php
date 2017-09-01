@@ -15,7 +15,7 @@ class IndexCategoryResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformCategories());
+        return response()->json($this->transformCategories(), 200);
     }
 
     protected function transformCategories()

@@ -15,7 +15,7 @@ class ShowUserResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformUser());
+        return response()->json($this->transformUser(), 200);
     }
 
     protected function transformUser()

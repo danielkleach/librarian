@@ -20,15 +20,15 @@ class CoverImageController extends Controller
 
         $coverImage = $book->coverImage->save($request->cover_image);
 
-        return ['cover_image_url' => $coverImage->url()];
+        return new StoreCoverImageResponse($coverImage);
     }
 
     public function destroy($bookId)
     {
         $book = $this->bookModel->findOrFail($bookId);
 
-        $book->coverImage->delete();
+        $coverImage = $book->coverImage->delete();
 
-        return response()->json('', 204);
+        return new DestroyCoverImageResponse($coverImage);
     }
 }

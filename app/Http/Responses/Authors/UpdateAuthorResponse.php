@@ -15,7 +15,7 @@ class UpdateAuthorResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformAuthor());
+        return response()->json($this->transformAuthor(), 200);
     }
 
     protected function transformAuthor()

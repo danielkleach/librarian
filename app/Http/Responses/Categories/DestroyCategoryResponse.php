@@ -15,6 +15,6 @@ class DestroyCategoryResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json(['message' => 'This category has been deleted.']);
+        return response()->json(['message' => 'This category has been deleted.'], 204);
     }
 }

@@ -15,7 +15,7 @@ class StoreBookResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformBook());
+        return response()->json($this->transformBook(), 201);
     }
 
     protected function transformBook()

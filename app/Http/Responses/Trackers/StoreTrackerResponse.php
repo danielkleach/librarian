@@ -16,7 +16,7 @@ class StoreTrackerResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformTracker());
+        return response()->json($this->transformTracker(), 201);
     }
 
     protected function transformTracker()

@@ -15,7 +15,7 @@ class StoreAuthorResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformAuthor());
+        return response()->json($this->transformAuthor(), 201);
     }
 
     protected function transformAuthor()

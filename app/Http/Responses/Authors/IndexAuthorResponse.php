@@ -15,7 +15,7 @@ class IndexAuthorResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformAuthors());
+        return response()->json($this->transformAuthors(), 200);
     }
 
     protected function transformAuthors()

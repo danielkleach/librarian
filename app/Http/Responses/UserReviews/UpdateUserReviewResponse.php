@@ -15,7 +15,7 @@ class UpdateUserReviewResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformUserReview());
+        return response()->json($this->transformUserReview(), 200);
     }
 
     protected function transformUserReview()

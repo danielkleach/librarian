@@ -15,7 +15,7 @@ class IndexBookResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json($this->transformBooks());
+        return response()->json($this->transformBooks(), 200);
     }
 
     protected function transformBooks()
