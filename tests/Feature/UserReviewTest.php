@@ -25,7 +25,7 @@ class UserReviewTest extends TestCase
             'comments' => 'This book is decent.'
         ];
 
-        $response = $this->postJson("/api/user-reviews", $data);
+        $response = $this->postJson("/api/books/{$book->id}/user-reviews", $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('user_reviews', $data);
