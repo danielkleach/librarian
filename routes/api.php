@@ -66,8 +66,12 @@ Route::middleware('auth:api')->group(function () {
             Route::patch('/', 'BookController@update');
             Route::delete('/', 'BookController@destroy');
 
-            Route::post('/cover-image', 'CoverImageController@store');
-            Route::delete('/cover-image', 'CoverImageController@destroy');
+            Route::prefix('cover-image')->group(function () {
+
+                Route::post('/', 'CoverImageController@store');
+                Route::delete('/', 'CoverImageController@destroy');
+            });
+
         });
     });
 
