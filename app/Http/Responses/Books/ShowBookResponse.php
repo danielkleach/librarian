@@ -42,7 +42,7 @@ class ShowBookResponse implements Responsable
                 return [
                     'id' => (int) $review->id,
                     'user_id' => (int) $review->user_id,
-                    'user_name' => $review->user->first_name,
+                    'user_name' => $review->user->full_name,
                     'rating' => $review->rating,
                     'comments' => $review->comments
                 ];
