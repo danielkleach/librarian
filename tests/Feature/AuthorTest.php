@@ -17,6 +17,7 @@ class AuthorTest extends TestCase
 
         $response = $this->getJson("/api/authors/{$author->id}");
 
+        $response->assertStatus(200);
         $response->assertJsonFragment([
             'id' => (int) $author->id,
             'name' => $author->name
@@ -31,7 +32,7 @@ class AuthorTest extends TestCase
 
         $response = $this->postJson("/api/authors", $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('authors', $data);
     }
 
@@ -55,7 +56,7 @@ class AuthorTest extends TestCase
 
         $response = $this->deleteJson("/api/authors/{$author->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
         $this->assertDatabaseMissing('authors', ['id' => $author->id, 'deleted_at' => null]);
     }
 }

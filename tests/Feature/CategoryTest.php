@@ -17,6 +17,7 @@ class CategoryTest extends TestCase
 
         $response = $this->getJson("/api/categories/{$category->id}");
 
+        $response->assertStatus(200);
         $response->assertJsonFragment([
             'id' => (int) $category->id,
             'name' => $category->name
@@ -31,7 +32,7 @@ class CategoryTest extends TestCase
 
         $response = $this->postJson("/api/categories", $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('categories', $data);
     }
 
@@ -55,7 +56,7 @@ class CategoryTest extends TestCase
 
         $response = $this->deleteJson("/api/categories/{$category->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
         $this->assertDatabaseMissing('categories', ['id' => $category->id, 'deleted_at' => null]);
     }
 }

@@ -19,6 +19,7 @@ class UserReviewTest extends TestCase
 
         $response = $this->getJson("/api/user-reviews/{$userReview->id}");
 
+        $response->assertStatus(200);
         $response->assertJsonFragment([
             'id' => (int) $userReview->id,
             'user_id' => (int) $userReview->user_id,
@@ -44,7 +45,7 @@ class UserReviewTest extends TestCase
 
         $response = $this->postJson("/api/user-reviews", $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('user_reviews', $data);
     }
 
@@ -69,7 +70,7 @@ class UserReviewTest extends TestCase
 
         $response = $this->deleteJson("/api/user-reviews/{$userReview->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
         $this->assertDatabaseMissing('user_reviews', ['id' => $userReview->id, 'deleted_at' => null]);
     }
 }

@@ -23,6 +23,8 @@ class CoverImageTest extends TestCase
 
         $response = $this->postJson("/api/books/{$book->id}/cover-image", $data);
 
+        $response->assertStatus(201);
+
         $coverImage = $book->coverImage;
         $response->assertJsonFragment(['cover_image_url' => $coverImage->url()]);
         Storage::disk('media')->assertExists("{$coverImage->media->id}/test.jpg");
@@ -39,6 +41,8 @@ class CoverImageTest extends TestCase
         ];
 
         $response = $this->postJson("/api/books/{$book->id}/cover-image", $data);
+
+        $response->assertStatus(201);
 
         $coverImage = $book->fresh()->coverImage;
         $response->assertJsonFragment(['cover_image_url' => $coverImage->url()]);

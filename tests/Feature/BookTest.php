@@ -20,6 +20,7 @@ class BookTest extends TestCase
 
         $response = $this->getJson("/api/books/{$book->id}");
 
+        $response->assertStatus(200);
         $response->assertJsonFragment([
             'id' => (int) $book->id,
             'category_id' => (int) $book->category_id,
@@ -69,7 +70,7 @@ class BookTest extends TestCase
 
         $response = $this->postJson("/api/books", $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('books', $data);
     }
 
@@ -97,7 +98,7 @@ class BookTest extends TestCase
 
         $response = $this->deleteJson("/api/books/{$book->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
         $this->assertDatabaseMissing('books', ['id' => $book->id, 'deleted_at' => null]);
     }
 }

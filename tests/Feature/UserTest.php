@@ -17,6 +17,7 @@ class UserTest extends TestCase
 
         $response = $this->getJson("/api/users/{$user->id}");
 
+        $response->assertStatus(200);
         $response->assertJsonFragment([
             'id' => (int) $user->id,
             'first_name' => $user->first_name,
@@ -59,7 +60,7 @@ class UserTest extends TestCase
 
         $response = $this->postJson("/api/users", $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('users', $data);
     }
 
@@ -85,7 +86,7 @@ class UserTest extends TestCase
 
         $response = $this->deleteJson("/api/users/{$user->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
         $this->assertDatabaseMissing('users', ['id' => $user->id, 'deleted_at' => null]);
     }
 }

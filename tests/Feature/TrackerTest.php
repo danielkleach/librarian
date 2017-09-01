@@ -17,6 +17,7 @@ class TrackerTest extends TestCase
 
         $response = $this->getJson("/api/trackers/{$tracker->id}");
 
+        $response->assertStatus(200);
         $response->assertJsonFragment([
             'id' => (int) $tracker->id,
             'user_id' => (int) $tracker->user_id,
@@ -37,7 +38,7 @@ class TrackerTest extends TestCase
 
         $response = $this->deleteJson("/api/trackers/{$tracker->id}");
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
         $this->assertDatabaseMissing('trackers', ['id' => $tracker->id, 'deleted_at' => null]);
     }
 }
