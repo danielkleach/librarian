@@ -25,7 +25,7 @@ class UserReviewTest extends TestCase
             'comments' => 'This book is decent.'
         ];
 
-        $response = $this->postJson("/api/books/{$book->id}/user-reviews", $data);
+        $response = $this->postJson("/books/{$book->id}/user-reviews", $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('user_reviews', $data);
@@ -40,7 +40,7 @@ class UserReviewTest extends TestCase
             'comments' => 'This book is pretty good.'
         ];
 
-        $response = $this->patchJson("/api/user-reviews/{$userReview->id}", $data);
+        $response = $this->patchJson("/user-reviews/{$userReview->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('user_reviews', $data);
@@ -50,7 +50,7 @@ class UserReviewTest extends TestCase
     {
         $userReview = factory(UserReview::class)->states(['withUser', 'withBook'])->create();
 
-        $response = $this->deleteJson("/api/user-reviews/{$userReview->id}");
+        $response = $this->deleteJson("/user-reviews/{$userReview->id}");
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('user_reviews', ['id' => $userReview->id, 'deleted_at' => null]);

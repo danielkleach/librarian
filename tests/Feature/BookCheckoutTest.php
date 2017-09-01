@@ -21,7 +21,7 @@ class BookCheckoutTest extends TestCase
             'user_id' => (int) $user->id
         ];
 
-        $response = $this->postJson("/api/books/{$book->id}/checkout", $data);
+        $response = $this->postJson("/books/{$book->id}/checkout", $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('trackers', $data);

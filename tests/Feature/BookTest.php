@@ -18,7 +18,7 @@ class BookTest extends TestCase
     {
         $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
-        $response = $this->getJson("/api/books/{$book->id}");
+        $response = $this->getJson("/books/{$book->id}");
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -68,7 +68,7 @@ class BookTest extends TestCase
             'location' => 'Software office'
         ];
 
-        $response = $this->postJson("/api/books", $data);
+        $response = $this->postJson("/books", $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('books', $data);
@@ -86,7 +86,7 @@ class BookTest extends TestCase
             'location' => 'Software office'
         ];
 
-        $response = $this->patchJson("/api/books/{$book->id}", $data);
+        $response = $this->patchJson("/books/{$book->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('books', $data);
@@ -96,7 +96,7 @@ class BookTest extends TestCase
     {
         $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
-        $response = $this->deleteJson("/api/books/{$book->id}");
+        $response = $this->deleteJson("/books/{$book->id}");
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('books', ['id' => $book->id, 'deleted_at' => null]);

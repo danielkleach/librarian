@@ -15,7 +15,7 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->getJson("/api/users/{$user->id}");
+        $response = $this->getJson("/users/{$user->id}");
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -58,7 +58,7 @@ class UserTest extends TestCase
             'password' => 'Tester12'
         ];
 
-        $response = $this->postJson("/api/users", $data);
+        $response = $this->postJson("/users", $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('users', $data);
@@ -74,7 +74,7 @@ class UserTest extends TestCase
             'email' => 'tester@tester.com'
         ];
 
-        $response = $this->patchJson("/api/users/{$user->id}", $data);
+        $response = $this->patchJson("/users/{$user->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('users', $data);
@@ -84,7 +84,7 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->deleteJson("/api/users/{$user->id}");
+        $response = $this->deleteJson("/users/{$user->id}");
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('users', ['id' => $user->id, 'deleted_at' => null]);

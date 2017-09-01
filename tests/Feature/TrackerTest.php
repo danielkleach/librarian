@@ -15,7 +15,7 @@ class TrackerTest extends TestCase
     {
         $tracker = factory(Tracker::class)->states(['withUser', 'withBook'])->create();
 
-        $response = $this->deleteJson("/api/trackers/{$tracker->id}");
+        $response = $this->deleteJson("/trackers/{$tracker->id}");
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('trackers', ['id' => $tracker->id, 'deleted_at' => null]);
