@@ -22,7 +22,7 @@ class UserReviewTest extends TestCase
         $response->assertJsonFragment([
             'id' => (int) $userReview->id,
             'user_id' => (int) $userReview->user_id,
-            'user_name' => $userReview->user->name,
+            'user_name' => $userReview->user->full_name,
             'book_id' => (int) $userReview->book_id,
             'book_title' => $userReview->book->title,
             'rating' => $userReview->rating,

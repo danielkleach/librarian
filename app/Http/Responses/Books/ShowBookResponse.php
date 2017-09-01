@@ -27,7 +27,7 @@ class ShowBookResponse implements Responsable
             'author_id' => (int) $this->book->author_id,
             'author_name' => $this->book->author->name,
             'owner_id' => (int) $this->book->owner_id,
-            'owner_name' => $this->book->owner->first_name,
+            'owner_name' => $this->book->owner->full_name,
             'title' => $this->book->title,
             'description' => $this->book->description,
             'isbn' => $this->book->isbn,

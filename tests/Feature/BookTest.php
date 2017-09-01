@@ -27,7 +27,7 @@ class BookTest extends TestCase
             'author_id' => (int) $book->author_id,
             'author_name' => $book->author->name,
             'owner_id' => (int) $book->owner_id,
-            'owner_name' => $book->owner->first_name,
+            'owner_name' => $book->owner->full_name,
             'title' => $book->title,
             'description' => $book->description,
             'isbn' => $book->isbn,
