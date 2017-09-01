@@ -29,7 +29,10 @@ class StoreBookResponse implements Responsable
             'description' => $this->book->description,
             'isbn' => $this->book->isbn,
             'publication_year' => $this->book->publication_year,
-            'status' => $this->book->status
+            'status' => $this->book->status,
+            'cover_image_url' => $this->book->getFirstMedia('cover_image')
+                ? $this->book->getFirstMedia('cover_image')->getUrl()
+                : null
         ];
     }
 }

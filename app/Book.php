@@ -4,10 +4,25 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
-class Book extends Model
+class Book extends Model implements HasMedia
 {
-    protected $guarded = [];
+    use HasMediaTrait;
+
+    private $cacheCoverImage;
+
+    protected $fillable = [
+        'category_id',
+        'author_id',
+        'owner_id',
+        'title',
+        'description',
+        'isbn',
+        'publication_year',
+        'location'
+    ];
 
     protected $attributes = [
         'status' => 'available'
@@ -140,5 +155,19 @@ class Book extends Model
     public function getAverageRating()
     {
         return $this->userReviews->avg('rating');
+    }
+
+    /**
+     * Get the cover image.
+     *
+     * @return string
+     */
+    public function getCoverImageAttribute()
+    {
+        if ($this->cacheCoverImage) {
+            return $this->cacheCoverImage;
+        }
+
+        return $this->cacheCoverImage = new CoverImage($this);
     }
 }
