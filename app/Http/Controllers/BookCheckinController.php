@@ -15,11 +15,11 @@ class BookCheckinController extends Controller
         $this->trackerModel = $trackerModel;
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $bookId)
     {
         $tracker = $this->trackerModel
             ->where('user_id', '=', $request->user_id)
-            ->where('book_id', '=', $request->book_id)
+            ->where('book_id', '=', $bookId)
             ->whereNull('return_date')
             ->firstOrFail();
 

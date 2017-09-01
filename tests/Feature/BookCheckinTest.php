@@ -18,11 +18,10 @@ class BookCheckinTest extends TestCase
         ]);
 
         $data = [
-            'user_id' => $tracker->user_id,
-            'book_id' => $tracker->book_id
+            'user_id' => $tracker->user_id
         ];
 
-        $response = $this->postJson("/api/books/checkin", $data);
+        $response = $this->postJson("/api/books/{$tracker->book_id}/checkin", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('trackers', $data);

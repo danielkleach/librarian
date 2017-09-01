@@ -57,14 +57,14 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', 'BookController@index');
         Route::post('/', 'BookController@store');
 
-        Route::post('/checkout', 'BookCheckoutController@store');
-        Route::post('/checkin', 'BookCheckinController@store');
-
         Route::prefix('{bookId}')->group(function () {
 
             Route::get('/', 'BookController@show');
             Route::patch('/', 'BookController@update');
             Route::delete('/', 'BookController@destroy');
+
+            Route::post('/checkout', 'BookCheckoutController@store');
+            Route::post('/checkin', 'BookCheckinController@store');
 
             Route::prefix('cover-image')->group(function () {
 

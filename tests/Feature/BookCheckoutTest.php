@@ -18,11 +18,10 @@ class BookCheckoutTest extends TestCase
         $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
         $data = [
-            'user_id' => (int) $user->id,
-            'book_id' => (int) $book->id
+            'user_id' => (int) $user->id
         ];
 
-        $response = $this->postJson("/api/books/checkout", $data);
+        $response = $this->postJson("/api/books/{$book->id}/checkout", $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('trackers', $data);
