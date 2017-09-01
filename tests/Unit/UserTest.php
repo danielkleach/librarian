@@ -12,6 +12,14 @@ class UserTest extends TestCase
 {
     use DatabaseTransactions;
 
+    public function testItCanGetTheFullNameForAUser()
+    {
+        $user = factory(User::class)->create();
+        $fullName = $user->first_name . ' ' . $user->last_name;
+
+        $this->assertEquals($fullName, $user->full_name);
+    }
+
     public function testItCanGetNumberOfBooksUserCurrentlyHasCheckedOut()
     {
         $user = factory(User::class)->create();

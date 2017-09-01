@@ -62,6 +62,14 @@ class User extends Authenticatable
     /***********************************************/
 
     /**
+     * Combine the user's first name and last name.
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
      * Determines how many books this user currently has checked out.
      */
     public function getCheckedOut()
