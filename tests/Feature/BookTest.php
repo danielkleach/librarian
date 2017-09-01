@@ -30,7 +30,6 @@ class BookTest extends TestCase
             'owner_name' => $book->owner->first_name,
             'title' => $book->title,
             'description' => $book->description,
-            'cover_image' => $book->cover_image,
             'isbn' => $book->isbn,
             'publication_year' => (int) $book->publication_year,
             'location' => $book->location,
@@ -60,7 +59,6 @@ class BookTest extends TestCase
             'owner_id' => $user->id,
             'title' => 'Test title',
             'description' => 'Test description.',
-            'cover_image' => 'http://lorempixel.com/300/300',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
             'location' => 'Software office'
@@ -79,7 +77,6 @@ class BookTest extends TestCase
         $data = [
             'title' => 'New test title',
             'description' => 'New test description.',
-            'cover_image' => 'http://lorempixel.com/300/300',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
             'location' => 'Software office'

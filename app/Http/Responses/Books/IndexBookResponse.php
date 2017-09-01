@@ -31,7 +31,6 @@ class IndexBookResponse implements Responsable
                 'owner_name' => $book->user->first_name,
                 'title' => $book->title,
                 'description' => $book->description,
-                'cover_image' => $book->cover_image,
                 'isbn' => $book->isbn,
                 'publication_year' => $book->publication_year,
                 'location' => $book->location,

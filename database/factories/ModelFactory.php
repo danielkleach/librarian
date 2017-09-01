@@ -52,7 +52,6 @@ $factory->define(App\Book::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence,
         'description' => $faker->text(200),
-        'cover_image' => $faker->imageUrl(200, 200),
         'isbn' => $faker->isbn10,
         'publication_year' => $faker->year,
         'location' => $faker->word,

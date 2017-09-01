@@ -20,7 +20,6 @@ class CreateBooksTable extends Migration
             $table->integer('owner_id')->unsigned();
             $table->string('title');
             $table->text('description');
-            $table->string('cover_image');
             $table->string('isbn');
             $table->smallInteger('publication_year')->unsigned();
             $table->string('location');
