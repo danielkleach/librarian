@@ -35,6 +35,9 @@ class BookTest extends TestCase
             'location' => $book->location,
             'status' => $book->status,
             'average_rating' => $book->averageRating,
+            'cover_image_url' => $book->getFirstMedia('cover_image')
+                ? $book->getFirstMedia('cover_image')->getUrl()
+                : null,
             'user_reviews' => $book->userReviews->map(function ($review) {
                 return [
                     'id' => (int) $review->id,

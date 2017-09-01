@@ -35,7 +35,10 @@ class IndexBookResponse implements Responsable
                 'publication_year' => $book->publication_year,
                 'location' => $book->location,
                 'status' => $book->status,
-                'average_rating' => $book->getAverageRating()
+                'average_rating' => $book->getAverageRating(),
+                'cover_image_url' => $this->book->getFirstMedia('cover_image')
+                    ? $this->book->getFirstMedia('cover_image')->getUrl()
+                    : null
             ];
         });
     }

@@ -35,6 +35,9 @@ class ShowBookResponse implements Responsable
             'location' => $this->book->location,
             'status' => $this->book->status,
             'average_rating' => $this->book->getAverageRating(),
+            'cover_image_url' => $this->book->getFirstMedia('cover_image')
+                ? $this->book->getFirstMedia('cover_image')->getUrl()
+                : null,
             'user_reviews' => $this->book->userReviews->map(function ($review) {
                 return [
                     'id' => (int) $review->id,
