@@ -14,23 +14,14 @@ class UserReviewController extends Controller
         $this->userReviewModel = $userReviewModel;
     }
 
-    public function index()
+    public function store(Request $request, $bookId)
     {
-        $userReviews = $this->userReviewModel->with(['user', 'book'])->paginate(25);
-
-        return new IndexUserReviewResponse($userReviews);
-    }
-
-    public function show($userReviewId)
-    {
-        $userReview = $this->userReviewModel->with(['user', 'book'])->findOrFail($userReviewId);
-
-        return new ShowUserReviewResponse($userReview);
-    }
-
-    public function store(Request $request)
-    {
-        $userReview = $this->userReviewModel->create($request->all());
+        $userReview = $this->userReviewModel->create([
+            'user_id' => $request->user_id,
+            'book_id' => $bookId,
+            'rating' => $request->rating,
+            'comments' => $request->comments
+        ]);
 
         return new StoreUserReviewResponse($userReview);
     }

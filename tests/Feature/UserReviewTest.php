@@ -13,24 +13,6 @@ class UserReviewTest extends TestCase
 {
     use DatabaseTransactions, WithoutMiddleware;
 
-    public function testShowEndpointReturnsTheSpecifiedUserReview()
-    {
-        $userReview = factory(UserReview::class)->states(['withUser', 'withBook'])->create();
-
-        $response = $this->getJson("/api/user-reviews/{$userReview->id}");
-
-        $response->assertStatus(200);
-        $response->assertJsonFragment([
-            'id' => (int) $userReview->id,
-            'user_id' => (int) $userReview->user_id,
-            'user_name' => $userReview->user->full_name,
-            'book_id' => (int) $userReview->book_id,
-            'book_title' => $userReview->book->title,
-            'rating' => $userReview->rating,
-            'comments' => $userReview->comments
-        ]);
-    }
-
     public function testStoreEndpointCreatesAUserReviewInTheDatabase()
     {
         $user = factory(User::class)->create();
