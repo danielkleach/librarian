@@ -72,32 +72,22 @@ Route::middleware('auth:api')->group(function () {
                 Route::delete('/', 'CoverImageController@destroy');
             });
 
+            Route::prefix('user-reviews')->group(function () {
+
+                Route::post('/', 'UserReviewController@store');
+
+            });
         });
     });
 
     Route::prefix('trackers')->group(function () {
 
-        Route::get('/', 'TrackerController@index');
-        Route::post('/', 'TrackerController@store');
-
-        Route::prefix('{trackerId}')->group(function () {
-
-            Route::get('/', 'TrackerController@show');
-            Route::patch('/', 'TrackerController@update');
-            Route::delete('/', 'TrackerController@destroy');
-        });
+        Route::delete('{trackerId}', 'TrackerController@destroy');
     });
 
     Route::prefix('user-reviews')->group(function () {
 
-        Route::get('/', 'UserReviewController@index');
-        Route::post('/', 'UserReviewController@store');
-
-        Route::prefix('{reviewId}')->group(function () {
-
-            Route::get('/', 'UserReviewController@show');
-            Route::patch('/', 'UserReviewController@update');
-            Route::delete('/', 'UserReviewController@destroy');
-        });
+        Route::patch('{reviewId}', 'UserReviewController@update');
+        Route::delete('{reviewId}', 'UserReviewController@destroy');
     });
 });
