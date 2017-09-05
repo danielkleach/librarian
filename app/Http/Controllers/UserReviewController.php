@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UserReview;
-use Illuminate\Http\Request;
+use App\Http\Requests\UserReviewRequest;
 
 class UserReviewController extends Controller
 {
@@ -14,7 +14,7 @@ class UserReviewController extends Controller
         $this->userReviewModel = $userReviewModel;
     }
 
-    public function store(Request $request, $bookId)
+    public function store(UserReviewRequest $request, $bookId)
     {
         $userReview = $this->userReviewModel->create([
             'user_id' => $request->user_id,
@@ -26,7 +26,7 @@ class UserReviewController extends Controller
         return new StoreUserReviewResponse($userReview);
     }
 
-    public function update(Request $request, $userReviewId)
+    public function update(UserReviewRequest $request, $userReviewId)
     {
         $userReview = $this->userReviewModel->findOrFail($userReviewId);
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-use Illuminate\Http\Request;
+use App\Http\Requests\CoverImageRequest;
 
 class CoverImageController extends Controller
 {
@@ -14,7 +14,7 @@ class CoverImageController extends Controller
         $this->bookModel = $bookModel;
     }
 
-    public function store(Request $request, $bookId)
+    public function store(CoverImageRequest $request, $bookId)
     {
         $book = $this->bookModel->findOrFail($bookId);
 

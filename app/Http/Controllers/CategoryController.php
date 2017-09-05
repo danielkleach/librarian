@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -28,14 +28,14 @@ class CategoryController extends Controller
         return new ShowCategoryResponse($category);
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         $category = $this->categoryModel->create($request->all());
 
         return new StoreCategoryResponse($category);
     }
 
-    public function update(Request $request, $categoryId)
+    public function update(CategoryRequest $request, $categoryId)
     {
         $category = $this->categoryModel->findOrFail($categoryId);
 

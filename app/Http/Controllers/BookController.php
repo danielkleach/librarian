@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-use Illuminate\Http\Request;
+use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
 {
@@ -28,14 +28,14 @@ class BookController extends Controller
         return new ShowBookResponse($book);
     }
 
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
         $book = $this->bookModel->create($request->all());
 
         return new StoreBookResponse($book);
     }
 
-    public function update(Request $request, $bookId)
+    public function update(BookRequest $request, $bookId)
     {
         $book = $this->bookModel->findOrFail($bookId);
 

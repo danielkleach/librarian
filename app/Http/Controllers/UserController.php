@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -28,14 +28,14 @@ class UserController extends Controller
         return new ShowUserResponse($user);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $user = $this->userModel->create($request->all());
 
         return new StoreUserResponse($user);
     }
 
-    public function update(Request $request, $userId)
+    public function update(UserRequest $request, $userId)
     {
         $user = $this->userModel->findOrFail($userId);
 

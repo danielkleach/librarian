@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Author;
-use Illuminate\Http\Request;
+use App\Http\Requests\AuthorRequest;
 
 class AuthorController extends Controller
 {
@@ -28,14 +28,14 @@ class AuthorController extends Controller
         return new ShowAuthorResponse($author);
     }
 
-    public function store(Request $request)
+    public function store(AuthorRequest $request)
     {
         $author = $this->authorModel->create($request->all());
 
         return new StoreAuthorResponse($author);
     }
 
-    public function update(Request $request, $authorId)
+    public function update(AuthorRequest $request, $authorId)
     {
         $author = $this->authorModel->findOrFail($authorId);
 

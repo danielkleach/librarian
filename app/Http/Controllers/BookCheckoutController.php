@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Tracker;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Http\Requests\BookCheckoutRequest;
 
 class BookCheckoutController extends Controller
 {
@@ -15,7 +15,7 @@ class BookCheckoutController extends Controller
         $this->trackerModel = $trackerModel;
     }
 
-    public function store(Request $request, $bookId)
+    public function store(BookCheckoutRequest $request, $bookId)
     {
         $tracker = $this->trackerModel->create([
             'user_id' => $request->user_id,
