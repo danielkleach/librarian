@@ -35,6 +35,7 @@ class IndexBookResponse implements Responsable
                 'publication_year' => $book->publication_year,
                 'location' => $book->location,
                 'status' => $book->status,
+                'featured' => $book->featured,
                 'average_rating' => $book->getAverageRating(),
                 'cover_image_url' => $book->getFirstMedia('cover_image')
                     ? $book->getFirstMedia('cover_image')->getUrl()

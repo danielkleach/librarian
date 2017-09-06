@@ -34,6 +34,7 @@ class ShowBookResponse implements Responsable
             'publication_year' => (int) $this->book->publication_year,
             'location' => $this->book->location,
             'status' => $this->book->status,
+            'featured' => $this->book->featured,
             'average_rating' => $this->book->getAverageRating(),
             'cover_image_url' => $this->book->getFirstMedia('cover_image')
                 ? $this->book->getFirstMedia('cover_image')->getUrl()

@@ -58,6 +58,7 @@ $factory->define(App\Book::class, function (Faker $faker) {
         'status' => $faker->boolean(90)
             ? $faker->randomElement(['available', 'unavailable'])
             : $faker->randomElement(['lost', 'removed']),
+        'featured' => $faker->boolean(10)
     ];
 });
 

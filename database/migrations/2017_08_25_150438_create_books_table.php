@@ -24,6 +24,7 @@ class CreateBooksTable extends Migration
             $table->smallInteger('publication_year')->unsigned();
             $table->string('location');
             $table->string('status')->default('available');
+            $table->boolean('featured')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

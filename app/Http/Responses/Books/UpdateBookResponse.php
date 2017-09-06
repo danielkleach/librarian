@@ -30,6 +30,7 @@ class UpdateBookResponse implements Responsable
             'isbn' => $this->book->isbn,
             'publication_year' => $this->book->publication_year,
             'status' => $this->book->status,
+            'featured' => $this->book->featured,
             'cover_image_url' => $this->book->getFirstMedia('cover_image')
                 ? $this->book->getFirstMedia('cover_image')->getUrl()
                 : null

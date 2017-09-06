@@ -35,6 +35,7 @@ class BookTest extends TestCase
             'publication_year' => (int) $book->publication_year,
             'location' => $book->location,
             'status' => $book->status,
+            'featured' => $book->featured,
             'average_rating' => $book->averageRating,
             'cover_image_url' => $book->getFirstMedia('cover_image')
                 ? $book->getFirstMedia('cover_image')->getUrl()

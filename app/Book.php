@@ -28,6 +28,10 @@ class Book extends Model implements HasMedia
         'status' => 'available'
     ];
 
+    protected $casts = [
+        'featured' => 'boolean'
+    ];
+
     /***********************************************/
     /**************** Relationships ****************/
     /***********************************************/
