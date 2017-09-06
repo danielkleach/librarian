@@ -3,17 +3,32 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Traits\ErrorResponsesTrait;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class Handler extends ExceptionHandler
 {
+    use ErrorResponsesTrait;
+
     /**
      * A list of the exception types that are not reported.
      *
      * @var array
      */
     protected $dontReport = [
-        //
+        AuthenticationException::class,
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        ValidationException::class
     ];
 
     /**
@@ -42,12 +57,37 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param \Illuminate\Http\Request $request
+     * @param Exception $e
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Exception $e)
     {
-        return parent::render($request, $exception);
+        $response = parent::render($request, $e);
+
+        $response = collect([
+            AuthenticationException::class => $this->errorUnauthorized(),
+            AuthorizationException::class => $this->errorForbidden(),
+            Exception::class => $this->errorInternalError(),
+            HttpException::class => $this->errorForbidden(),
+            MaintenanceModeException::class => $this->errorServiceUnavailable(),
+            ModelNotFoundException::class => $this->errorNotFound(),
+            NotFoundHttpException::class => $this->errorNotFound(),
+            ServiceUnavailableHttpException::class => $this->errorServiceUnavailable()
+        ])->get(get_class($e), $response);
+
+        return $response;
+    }
+
+    /**
+     * Convert an authentication exception into an unauthenticated response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $e
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function unauthenticated($request, AuthenticationException $e)
+    {
+        return $this->errorUnauthorized();
     }
 }
