@@ -150,7 +150,7 @@ $factory->state(App\Tracker::class, 'withRandomBook', function ($faker) {
 $factory->define(App\UserReview::class, function (Faker $faker) {
 
     return [
-        'rating' => $faker->numberBetween(1, 5),
+        'rating' => $faker->numberBetween(1, 4),
         'comments' => $faker->text(200)
     ];
 });
