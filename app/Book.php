@@ -149,6 +149,17 @@ class Book extends Model implements HasMedia
             });
     }
 
+    /**
+     * Scope a query to only include featured books.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFeatured($query)
+    {
+        return $query->where('featured', true);
+    }
+
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/

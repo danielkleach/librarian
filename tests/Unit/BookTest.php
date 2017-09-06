@@ -123,4 +123,20 @@ class BookTest extends TestCase
         $this->assertTrue($overdueBooks->contains($book2));
         $this->assertFalse($overdueBooks->contains($book1));
     }
+
+    public function testItCanGetOnlyFeaturedBooks()
+    {
+        $book1 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['featured' => true]);
+
+        $book2 = factory(Book::class)
+            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->create(['featured' => false]);
+
+        $removedBooks = Book::featured()->get();
+
+        $this->assertTrue($removedBooks->contains($book1));
+        $this->assertFalse($removedBooks->contains($book2));
+    }
 }
