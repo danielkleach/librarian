@@ -12,6 +12,7 @@
 */
 Route::group(['middleware' => ['respondWithJson']], function() {
 
+    Route::get('/popular/books', 'PopularBooksController@index');
     Route::prefix('users')->group(function () {
 
         Route::get('/', 'UserController@index');
