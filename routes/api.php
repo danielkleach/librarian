@@ -12,6 +12,7 @@
 */
 Route::group(['middleware' => ['respondWithJson']], function() {
 
+    Route::get('/featured/books', 'FeaturedBooksController@index');
     Route::get('/popular/books', 'PopularBooksController@index');
     Route::get('/new/books', 'NewBooksController@index');
     Route::get('/recommended/books', 'RecommendedBooksController@index');
