@@ -32,7 +32,7 @@ class IndexBookResponse implements Responsable
                 'title' => $book->title,
                 'description' => $book->description,
                 'isbn' => $book->isbn,
-                'publication_year' => $book->publication_year,
+                'publication_year' => (int) $book->publication_year,
                 'location' => $book->location,
                 'status' => $book->status,
                 'featured' => $book->featured,
