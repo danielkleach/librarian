@@ -55,6 +55,8 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::get('/', 'UserController@show');
                 Route::patch('/', 'UserController@update');
                 Route::delete('/', 'UserController@destroy');
+
+                Route::get('/trackers', 'UserTrackerController@index');
             });
         });
 
