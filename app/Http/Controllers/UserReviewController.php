@@ -30,6 +30,7 @@ class UserReviewController extends Controller
     public function update(UserReviewRequest $request, $userReviewId)
     {
         $userReview = $this->userReviewModel->findOrFail($userReviewId);
+        $this->authorize('update', $userReview);
 
         $userReview->update($request->all());
 
@@ -39,6 +40,7 @@ class UserReviewController extends Controller
     public function destroy($userReviewId)
     {
         $userReview = $this->userReviewModel->findOrFail($userReviewId);
+        $this->authorize('destroy', $userReview);
 
         $userReview->delete();
 
