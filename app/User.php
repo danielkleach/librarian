@@ -62,6 +62,16 @@ class User extends Authenticatable
     /***********************************************/
 
     /**
+     * Generate an api token for the user.
+     */
+    public function generateToken()
+    {
+        $this->api_token = str_random(80);
+        $this->save();
+        return $this->api_token;
+    }
+
+    /**
      * Combine the user's first name and last name.
      */
     public function getFullNameAttribute()
