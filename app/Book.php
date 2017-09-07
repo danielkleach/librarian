@@ -169,7 +169,9 @@ class Book extends Model implements HasMedia
      */
     public function getAverageRating()
     {
-        return $this->userReviews->avg('rating');
+        return $this->userReviews
+            ? $this->userReviews->avg('rating')
+            : null;
     }
 
     /**
