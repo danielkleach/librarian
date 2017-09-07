@@ -19,10 +19,6 @@ class UserReviewRequest extends Request
         switch ($this->method()) {
             case 'POST':
                 return [
-                    'user_id' => [
-                        'required',
-                        'integer',
-                    ],
                     'rating' => [
                         'required',
                         'integer'

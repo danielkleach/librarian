@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UserReview;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserReviewRequest;
 
 class UserReviewController extends Controller
@@ -17,7 +18,7 @@ class UserReviewController extends Controller
     public function store(UserReviewRequest $request, $bookId)
     {
         $userReview = $this->userReviewModel->create([
-            'user_id' => $request->user_id,
+            'user_id' => Auth::user()->id,
             'book_id' => $bookId,
             'rating' => $request->rating,
             'comments' => $request->comments

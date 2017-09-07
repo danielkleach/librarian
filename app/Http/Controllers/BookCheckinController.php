@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Tracker;
 use Carbon\Carbon;
-use App\Http\Requests\BookCheckinRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookCheckinController extends Controller
 {
@@ -15,10 +16,10 @@ class BookCheckinController extends Controller
         $this->trackerModel = $trackerModel;
     }
 
-    public function store(BookCheckinRequest $request, $bookId)
+    public function store(Request $request, $bookId)
     {
         $tracker = $this->trackerModel
-            ->where('user_id', '=', $request->user_id)
+            ->where('user_id', '=', Auth::user()->id)
             ->where('book_id', '=', $bookId)
             ->whereNull('return_date')
             ->firstOrFail();
