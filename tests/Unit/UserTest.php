@@ -20,45 +20,47 @@ class UserTest extends TestCase
         $this->assertEquals($fullName, $user->full_name);
     }
 
-    public function testItCanGetNumberOfBooksUserCurrentlyHasCheckedOut()
+    public function testItCanGetBooksUserCurrentlyHasCheckedOut()
     {
         $user = factory(User::class)->create();
 
-        factory(Tracker::class)->states(['withBook'])->create([
+        $tracker1 = factory(Tracker::class)->states(['withBook'])->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null
         ]);
 
-        factory(Tracker::class)->states(['withBook'])->create([
+        $tracker2 = factory(Tracker::class)->states(['withBook'])->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => Carbon::createFromDate(2017, 01, 11)
         ]);
 
-        $this->assertEquals(1, $user->getCheckedOut());
+        $this->assertTrue($user->getCheckedOut()->contains($tracker1));
+        $this->assertFalse($user->getCheckedOut()->contains($tracker2));
     }
 
-    public function testItCanGetNumberOfBooksUserCurrentlyHasOverdue()
+    public function testItCanGetBooksUserCurrentlyHasOverdue()
     {
         $user = factory(User::class)->create();
 
-        factory(Tracker::class)->states(['withBook'])->create([
+        $tracker1 = factory(Tracker::class)->states(['withBook'])->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null
         ]);
 
-        factory(Tracker::class)->states(['withBook'])->create([
+        $tracker2 = factory(Tracker::class)->states(['withBook'])->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => Carbon::createFromDate(2017, 01, 11)
         ]);
 
-        $this->assertEquals(1, $user->getOverdue());
+        $this->assertTrue($user->getCheckedOut()->contains($tracker1));
+        $this->assertFalse($user->getCheckedOut()->contains($tracker2));
     }
 }

@@ -80,19 +80,19 @@ class User extends Authenticatable
     }
 
     /**
-     * Determines how many books this user currently has checked out.
+     * Determines what books this user currently has checked out.
      */
     public function getCheckedOut()
     {
-        return $this->trackers->where('return_date', null)->count();
+        return $this->trackers->where('return_date', null);
     }
 
     /**
-     * Determines how many books this user currently has overdue.
+     * Determines what books this user currently has overdue.
      */
     public function getOverDue()
     {
         return $this->trackers->where('due_date', '<', Carbon::now()->toDateTimeString())
-            ->where('return_date', null)->count();
+            ->where('return_date', null);
     }
 }
