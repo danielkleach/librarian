@@ -179,3 +179,31 @@ $factory->state(App\UserReview::class, 'withRandomBook', function ($faker) {
         'book_id' => Book::all()->random()->id
     ];
 });
+
+$factory->define(App\FavoriteBook::class, function (Faker $faker) {
+    return [];
+});
+
+$factory->state(App\FavoriteBook::class, 'withUser', function ($faker) {
+    return [
+        'user_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\FavoriteBook::class, 'withBook', function ($faker) {
+    return [
+        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
+    ];
+});
+
+$factory->state(App\FavoriteBook::class, 'withRandomUser', function ($faker) {
+    return [
+        'user_id' => User::all()->random()->id
+    ];
+});
+
+$factory->state(App\FavoriteBook::class, 'withRandomBook', function ($faker) {
+    return [
+        'book_id' => Book::all()->random()->id
+    ];
+});

@@ -86,6 +86,16 @@ class Book extends Model implements HasMedia
         return $this->hasMany(UserReview::class, 'book_id');
     }
 
+    /**
+     * A Book has many FavoriteBooks.
+     *
+     * @return mixed
+     */
+    public function favoriteBooks()
+    {
+        return $this->hasMany(FavoriteBook::class, 'book_id');
+    }
+
     /***********************************************/
     /******************* Scopes ********************/
     /***********************************************/

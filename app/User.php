@@ -57,6 +57,16 @@ class User extends Authenticatable
         return $this->hasMany(UserReview::class, 'user_id');
     }
 
+    /**
+     * A User has many FavoriteBooks.
+     *
+     * @return mixed
+     */
+    public function favoriteBooks()
+    {
+        return $this->hasMany(FavoriteBook::class, 'user_id');
+    }
+
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/
