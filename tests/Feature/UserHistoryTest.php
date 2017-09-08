@@ -2,18 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Tracker;
 use App\User;
+use App\Tracker;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserTrackerTest extends TestCase
+class UserHistoryTest extends TestCase
 {
     use DatabaseTransactions, WithoutMiddleware;
 
-    public function testIndexEndpointReturnsTrackersForAUser()
+    public function testIndexEndpointReturnsCheckoutHistoryForAUser()
     {
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
@@ -22,7 +22,7 @@ class UserTrackerTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $response = $this->actingAs($user)->getJson("/users/{$user->id}/trackers");
+        $response = $this->actingAs($user)->getJson("/users/{$user->id}/history");
 
         $response->assertStatus(200);
         foreach ($trackers as $tracker) {

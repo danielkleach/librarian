@@ -56,7 +56,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::patch('/', 'UserController@update');
                 Route::delete('/', 'UserController@destroy');
 
-                Route::get('/trackers', 'UserTrackerController@index');
+                Route::get('/history', 'UserTrackerController@index');
 
                 Route::prefix('favorites')->group(function () {
                     Route::get('/', 'FavoriteBookController@index');
