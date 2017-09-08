@@ -28,7 +28,7 @@ class UserReviewPolicy
      * @param User $user
      * @param UserReview $userReview
      * @return bool
-     * @internal param UserReview $job
+     * @internal param UserReview $userReview
      */
     public function update(User $user, UserReview $userReview)
     {
@@ -45,7 +45,7 @@ class UserReviewPolicy
      * @param User $user
      * @param UserReview $userReview
      * @return bool
-     * @internal param UserReview $job
+     * @internal param UserReview $userReview
      */
     public function destroy(User $user, UserReview $userReview)
     {
