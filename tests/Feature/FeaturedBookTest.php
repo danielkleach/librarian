@@ -14,11 +14,11 @@ class FeaturedBookTest extends TestCase
     public function testIndexEndpointReturnsOnlyFeaturedBooks()
     {
         $book1 = factory(Book::class)
-            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->states(['withCategory', 'withAuthor'])
             ->create(['featured' => true]);
 
         $book2 = factory(Book::class)
-            ->states(['withCategory', 'withAuthor', 'withUser'])
+            ->states(['withCategory', 'withAuthor'])
             ->create(['featured' => false]);
 
         $response = $this->getJson("/featured/books");

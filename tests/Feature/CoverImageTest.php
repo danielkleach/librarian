@@ -15,7 +15,7 @@ class CoverImageTest extends TestCase
 
     public function testStoreEndpointUploadsANewCoverImage()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $data = [
             'cover_image' => UploadedFile::fake()->image('test.jpg', $width = 100, $height = 100)
@@ -33,7 +33,7 @@ class CoverImageTest extends TestCase
 
     public function testStoreEndpointReplacesCoverImage()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
         $oldCoverImage = $book->coverImage->save(UploadedFile::fake()->image('old.jpg'));
 
         $data = [
@@ -53,7 +53,7 @@ class CoverImageTest extends TestCase
 
     public function testDestroyEndpointRemovesACoverImage()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
         $coverImage = $book->coverImage->save(UploadedFile::fake()->image('test.jpg'));
 
         $response = $this->deleteJson("/books/{$book->id}/cover-image");

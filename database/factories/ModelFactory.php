@@ -50,6 +50,7 @@ $factory->define(App\Author::class, function (Faker $faker) {
 $factory->define(App\Book::class, function (Faker $faker) {
 
     return [
+        'owner_id' => null,
         'title' => $faker->sentence,
         'description' => $faker->text(200),
         'isbn' => $faker->isbn10,

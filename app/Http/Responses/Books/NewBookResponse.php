@@ -28,8 +28,10 @@ class NewBookResponse implements Responsable
                 'category_name' => $book->category->name,
                 'author_id' => (int) $book->author_id,
                 'author_name' => $book->author->name,
-                'owner_id' => (int) $book->owner_id,
-                'owner_name' => $book->owner->full_name,
+                'owner_id' => (int) $book->owner_id ?? null,
+                'owner_name' => $book->owner
+                    ? $book->owner->full_name
+                    : null,
                 'title' => $book->title,
                 'description' => $book->description,
                 'isbn' => $book->isbn,

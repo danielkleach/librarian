@@ -16,7 +16,7 @@ class BookTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $response = $this->getJson("/books/{$book->id}");
 
@@ -27,8 +27,10 @@ class BookTest extends TestCase
             'category_name' => $book->category->name,
             'author_id' => (int) $book->author_id,
             'author_name' => $book->author->name,
-            'owner_id' => (int) $book->owner_id,
-            'owner_name' => $book->owner->full_name,
+            'owner_id' => (int) $book->owner_id ?? null,
+            'owner_name' => $book->owner
+                ? $book->owner->full_name
+                : null,
             'title' => $book->title,
             'description' => $book->description,
             'isbn' => $book->isbn,
@@ -77,7 +79,7 @@ class BookTest extends TestCase
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $data = [
             'title' => 'New test title',
@@ -95,7 +97,7 @@ class BookTest extends TestCase
 
     public function testDestroyEndpointRemovesABook()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $response = $this->deleteJson("/books/{$book->id}");
 

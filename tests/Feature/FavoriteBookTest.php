@@ -52,7 +52,7 @@ class FavoriteBookTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
 
         $data = [
             'book_id' => (int) $book->id

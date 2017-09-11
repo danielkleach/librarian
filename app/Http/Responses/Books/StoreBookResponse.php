@@ -24,7 +24,7 @@ class StoreBookResponse implements Responsable
             'id' => (int) $this->book->id,
             'category_id' => (int) $this->book->category_id,
             'author_id' => (int) $this->book->author_id,
-            'owner_id' => (int) $this->book->owner_id,
+            'owner_id' => (int) $this->book->owner_id ?? null,
             'title' => $this->book->title,
             'description' => $this->book->description,
             'isbn' => $this->book->isbn,
