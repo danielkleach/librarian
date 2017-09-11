@@ -23,30 +23,30 @@ class UserTest extends TestCase
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
-            'checked_out' => $user->getCheckedOut()->map(function ($tracker) {
+            'checked_out' => $user->getCheckedOut()->map(function ($rental) {
                 return [
-                    'id' => (int) $tracker->id,
-                    'book_id' => (int) $tracker->book_id,
-                    'category_id' => (int) $tracker->book->category_id,
-                    'category_name' => $tracker->book->category->name,
-                    'author_id' => (int) $tracker->book->author_id,
-                    'author_name' => $tracker->book->author->name,
-                    'book_title' => $tracker->book->title,
-                    'checkout_date' => $tracker->checkout_date->toDateTimeString(),
-                    'due_date' => $tracker->due_date->toDateTimeString()
+                    'id' => (int) $rental->id,
+                    'book_id' => (int) $rental->book_id,
+                    'category_id' => (int) $rental->book->category_id,
+                    'category_name' => $rental->book->category->name,
+                    'author_id' => (int) $rental->book->author_id,
+                    'author_name' => $rental->book->author->name,
+                    'book_title' => $rental->book->title,
+                    'checkout_date' => $rental->checkout_date->toDateTimeString(),
+                    'due_date' => $rental->due_date->toDateTimeString()
                 ];
             }),
-            'overdue' => $user->getOverdue()->map(function ($tracker) {
+            'overdue' => $user->getOverdue()->map(function ($rental) {
                 return [
-                    'id' => (int) $tracker->id,
-                    'book_id' => (int) $tracker->book_id,
-                    'category_id' => (int) $tracker->book->category_id,
-                    'category_name' => $tracker->book->category->name,
-                    'author_id' => (int) $tracker->book->author_id,
-                    'author_name' => $tracker->book->author->name,
-                    'book_title' => $tracker->book->title,
-                    'checkout_date' => $tracker->checkout_date->toDateTimeString(),
-                    'due_date' => $tracker->due_date->toDateTimeString()
+                    'id' => (int) $rental->id,
+                    'book_id' => (int) $rental->book_id,
+                    'category_id' => (int) $rental->book->category_id,
+                    'category_name' => $rental->book->category->name,
+                    'author_id' => (int) $rental->book->author_id,
+                    'author_name' => $rental->book->author->name,
+                    'book_title' => $rental->book->title,
+                    'checkout_date' => $rental->checkout_date->toDateTimeString(),
+                    'due_date' => $rental->due_date->toDateTimeString()
                 ];
             }),
             'user_reviews' => $user->userReviews->map(function ($review) {

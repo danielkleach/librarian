@@ -2,29 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Tracker;
+use App\Rental;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BookCheckoutController extends Controller
 {
-    protected $trackerModel;
+    protected $rentalModel;
 
-    public function __construct(Tracker $trackerModel)
+    public function __construct(Rental $rentalModel)
     {
-        $this->trackerModel = $trackerModel;
+        $this->rentalModel = $rentalModel;
     }
 
     public function store(Request $request, $bookId)
     {
-        $tracker = $this->trackerModel->create([
+        $rental = $this->rentalModel->create([
             'user_id' => Auth::user()->id,
             'book_id' => $bookId,
             'checkout_date' => Carbon::now()->toDateTimeString(),
             'due_date' => Carbon::now()->addWeeks(2)->toDateTimeString()
         ]);
 
-        return new StoreTrackerResponse($tracker);
+        return new StoreRentalResponse($rental);
     }
 }

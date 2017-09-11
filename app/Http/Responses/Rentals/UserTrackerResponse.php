@@ -1,32 +1,28 @@
 <?php
 
-namespace Tests\Feature;
+namespace App\Http\Controllers;
 
-use App\User;
-use App\Rental;
 use Carbon\Carbon;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Contracts\Support\Responsable;
 
-class UserHistoryTest extends TestCase
+class UserRentalResponse implements Responsable
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    protected $rentals;
 
-    public function testIndexEndpointReturnsCheckoutHistoryForAUser()
+    public function __construct($rentals)
     {
-        $user = factory(User::class)->create();
-        $user->api_token = $user->generateToken();
+        $this->rentals = $rentals;
+    }
 
-        $rentals = factory(Rental::class, 5)->states(['withBook'])->create([
-            'user_id' => $user->id
-        ]);
+    public function toResponse($request)
+    {
+        return response()->json($this->transformRental(), 200);
+    }
 
-        $response = $this->actingAs($user)->getJson("/users/{$user->id}/history");
-
-        $response->assertStatus(200);
-        foreach ($rentals as $rental) {
-            $response->assertJsonFragment([
+    protected function transformRental()
+    {
+        return $this->rentals->map(function ($rental) {
+            return [
                 'id' => (int) $rental->id,
                 'user_id' => (int) $rental->user_id,
                 'book_id' => (int) $rental->book_id,
@@ -44,7 +40,7 @@ class UserHistoryTest extends TestCase
                     ? Carbon::createFromFormat('Y-m-d H:i:s', $rental->return_date)
                         ->toDateTimeString()
                     : null
-            ]);
-        }
+            ];
+        });
     }
 }

@@ -38,13 +38,13 @@ class User extends Authenticatable
     }
 
     /**
-     * A User has many Trackers.
+     * A User has many Rentals.
      *
      * @return mixed
      */
-    public function trackers()
+    public function rentals()
     {
-        return $this->hasMany(Tracker::class, 'user_id');
+        return $this->hasMany(Rental::class, 'user_id');
     }
 
     /**
@@ -94,7 +94,7 @@ class User extends Authenticatable
      */
     public function getCheckedOut()
     {
-        return $this->trackers->where('return_date', null);
+        return $this->rentals->where('return_date', null);
     }
 
     /**
@@ -102,7 +102,7 @@ class User extends Authenticatable
      */
     public function getOverDue()
     {
-        return $this->trackers->where('due_date', '<', Carbon::now()->toDateTimeString())
+        return $this->rentals->where('due_date', '<', Carbon::now()->toDateTimeString())
             ->where('return_date', null);
     }
 }

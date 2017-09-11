@@ -99,7 +99,7 @@ $factory->state(App\Book::class, 'withRandomUser', function ($faker) {
     ];
 });
 
-$factory->define(App\Tracker::class, function (Faker $faker) {
+$factory->define(App\Rental::class, function (Faker $faker) {
 
     $checkoutDate = $faker->dateTimeBetween(
         $startDate = '-3 years',
@@ -125,25 +125,25 @@ $factory->define(App\Tracker::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Tracker::class, 'withUser', function ($faker) {
+$factory->state(App\Rental::class, 'withUser', function ($faker) {
     return [
         'user_id' => factory(User::class)->lazy()
     ];
 });
 
-$factory->state(App\Tracker::class, 'withBook', function ($faker) {
+$factory->state(App\Rental::class, 'withBook', function ($faker) {
     return [
         'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
     ];
 });
 
-$factory->state(App\Tracker::class, 'withRandomUser', function ($faker) {
+$factory->state(App\Rental::class, 'withRandomUser', function ($faker) {
     return [
         'user_id' => User::all()->random()->id
     ];
 });
 
-$factory->state(App\Tracker::class, 'withRandomBook', function ($faker) {
+$factory->state(App\Rental::class, 'withRandomBook', function ($faker) {
     return [
         'book_id' => Book::all()->random()->id
     ];

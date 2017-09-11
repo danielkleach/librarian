@@ -56,7 +56,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::patch('/', 'UserController@update');
                 Route::delete('/', 'UserController@destroy');
 
-                Route::get('/history', 'UserTrackerController@index');
+                Route::get('/history', 'UserRentalController@index');
 
                 Route::prefix('favorites')->group(function () {
                     Route::get('/', 'FavoriteBookController@index');
@@ -107,8 +107,8 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             });
         });
 
-        Route::prefix('trackers')->group(function () {
-            Route::delete('{trackerId}', 'TrackerController@destroy');
+        Route::prefix('rentals')->group(function () {
+            Route::delete('{rentalId}', 'RentalController@destroy');
         });
 
         Route::prefix('user-reviews')->group(function () {

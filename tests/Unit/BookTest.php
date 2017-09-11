@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Book;
-use App\Tracker;
+use App\Rental;
 use Carbon\Carbon;
 use App\UserReview;
 use Tests\TestCase;
@@ -104,14 +104,14 @@ class BookTest extends TestCase
             ->states(['withCategory', 'withAuthor'])
             ->create(['status' => 'unavailable']);
 
-        factory(Tracker::class)->states(['withUser'])->create([
+        factory(Rental::class)->states(['withUser'])->create([
             'book_id' => $book1->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => Carbon::createFromDate(2017, 01, 11)
         ]);
 
-        factory(Tracker::class)->states(['withUser'])->create([
+        factory(Rental::class)->states(['withUser'])->create([
             'book_id' => $book2->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),

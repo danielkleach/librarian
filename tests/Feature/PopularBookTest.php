@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Tracker;
 use App\Book;
+use App\Rental;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,10 +15,10 @@ class PopularBookTest extends TestCase
     public function testIndexEndpointReturnsTheMostPopularBooks()
     {
         $book1 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
-        $book1->trackers()->saveMany(factory(Tracker::class, 80)->states(['withUser'])->make());
+        $book1->rentals()->saveMany(factory(Rental::class, 80)->states(['withUser'])->make());
 
         $book2 = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
-        $book2->trackers()->saveMany(factory(Tracker::class, 100)->states(['withUser'])->make());
+        $book2->rentals()->saveMany(factory(Rental::class, 100)->states(['withUser'])->make());
 
         $response = $this->getJson("/popular/books");
 

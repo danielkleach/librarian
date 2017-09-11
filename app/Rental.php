@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tracker extends Model
+class Rental extends Model
 {
     protected $guarded = [];
 
@@ -19,7 +19,7 @@ class Tracker extends Model
     /***********************************************/
 
     /**
-     * A Tracker belongs to a User.
+     * A Rental belongs to a User.
      *
      * @return mixed
      */
@@ -29,7 +29,7 @@ class Tracker extends Model
     }
 
     /**
-     * A Tracker belongs to a Book.
+     * A Rental belongs to a Book.
      *
      * @return mixed
      */

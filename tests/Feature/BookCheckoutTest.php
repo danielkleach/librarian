@@ -12,7 +12,7 @@ class BookCheckoutTest extends TestCase
 {
     use DatabaseTransactions, WithoutMiddleware;
 
-    public function testStoreEndpointCreatesATrackerInTheDatabase()
+    public function testStoreEndpointCreatesARentalInTheDatabase()
     {
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
@@ -22,7 +22,7 @@ class BookCheckoutTest extends TestCase
         $response = $this->actingAs($user)->postJson("/books/{$book->id}/checkout");
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('trackers', [
+        $this->assertDatabaseHas('rentals', [
             'user_id' => $user->id,
             'book_id' => $book->id
         ]);

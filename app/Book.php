@@ -67,13 +67,13 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * A Book has many Trackers.
+     * A Book has many Rentals.
      *
      * @return mixed
      */
-    public function trackers()
+    public function rentals()
     {
-        return $this->hasMany(Tracker::class, 'book_id');
+        return $this->hasMany(Rental::class, 'book_id');
     }
 
     /**
@@ -153,7 +153,7 @@ class Book extends Model implements HasMedia
     public function scopeOverdue($query)
     {
         return $query->where('status', '!=', 'available')
-            ->whereHas('trackers', function ($query) {
+            ->whereHas('rentals', function ($query) {
                 $query->where('due_date', '<', Carbon::now()->toDateTimeString())
                     ->whereNull('return_date');
             });

@@ -1,12 +1,9 @@
 <?php
 
-use App\User;
-use App\Book;
-use App\Tracker;
-use App\UserReview;
+use App\Rental;
 use Illuminate\Database\Seeder;
 
-class TrackerSeeder extends Seeder
+class RentalSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +12,7 @@ class TrackerSeeder extends Seeder
      */
     public function run()
     {
-        factory(Tracker::class, 100)
+        factory(Rental::class, 100)
             ->states(['withRandomUser', 'withRandomBook'])
             ->create();
     }

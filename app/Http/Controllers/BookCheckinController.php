@@ -2,32 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Tracker;
+use App\Rental;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BookCheckinController extends Controller
 {
-    protected $trackerModel;
+    protected $rentalModel;
 
-    public function __construct(Tracker $trackerModel)
+    public function __construct(Rental $rentalModel)
     {
-        $this->trackerModel = $trackerModel;
+        $this->rentalModel = $rentalModel;
     }
 
     public function store(Request $request, $bookId)
     {
-        $tracker = $this->trackerModel
+        $rental = $this->rentalModel
             ->where('user_id', '=', Auth::user()->id)
             ->where('book_id', '=', $bookId)
             ->whereNull('return_date')
             ->firstOrFail();
 
-        $tracker->update([
+        $rental->update([
             'return_date' => Carbon::now()->toDateTimeString(),
         ]);
 
-        return new UpdateTrackerResponse($tracker);
+        return new UpdateRentalResponse($rental);
     }
 }

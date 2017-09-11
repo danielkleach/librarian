@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-use App\Tracker;
+use App\Rental;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class PopularBooksController extends Controller
 {
-    protected $trackerModel;
+    protected $rentalModel;
 
     /**
      * PopularBooksController Constructor
      *
-     * @param Tracker $trackerModel
+     * @param Rental $rentalModel
      */
-    public function __construct(Tracker $trackerModel)
+    public function __construct(Rental $rentalModel)
     {
-        $this->trackerModel = $trackerModel;
+        $this->rentalModel = $rentalModel;
     }
 
     /**
@@ -31,7 +31,7 @@ class PopularBooksController extends Controller
     {
         $books = new Collection();
 
-        $this->trackerModel
+        $this->rentalModel
             ->select(DB::raw('count(*) as count, book_id'))
             ->groupBy('book_id')
             ->orderBy('count', 'desc')
