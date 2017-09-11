@@ -75,7 +75,7 @@ class BookTest extends TestCase
         $this->assertDatabaseHas('books', $data);
     }
 
-    public function testUpdateEndpointUpdatesAPostInTheDatabase()
+    public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
         $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
 
