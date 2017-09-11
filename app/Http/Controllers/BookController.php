@@ -43,13 +43,4 @@ class BookController extends Controller
 
         return new UpdateBookResponse($book);
     }
-
-    public function destroy($bookId)
-    {
-        $book = $this->bookModel->findOrFail($bookId);
-
-        $book->delete();
-
-        return new DestroyBookResponse($book);
-    }
 }

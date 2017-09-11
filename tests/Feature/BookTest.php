@@ -94,14 +94,4 @@ class BookTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseHas('books', $data);
     }
-
-    public function testDestroyEndpointRemovesABook()
-    {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
-
-        $response = $this->deleteJson("/books/{$book->id}");
-
-        $response->assertStatus(204);
-        $this->assertDatabaseMissing('books', ['id' => $book->id, 'deleted_at' => null]);
-    }
 }
