@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Rental extends Model
 {
@@ -36,5 +38,41 @@ class Rental extends Model
     public function book()
     {
         return $this->belongsTo(Book::class, 'book_id');
+    }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
+
+    /**
+     * Checkout a book.
+     *
+     * @param $bookId
+     * @return $this|Model
+     */
+    public function checkout($bookId)
+    {
+        $rental = $this->create([
+            'user_id' => Auth::user()->id,
+            'book_id' => $bookId,
+            'checkout_date' => Carbon::now()->toDateTimeString(),
+            'due_date' => Carbon::now()->addWeeks(2)->toDateTimeString()
+        ]);
+
+        return $rental;
+    }
+
+    /**
+     * Checkin a book.
+     *
+     * @return $this|Model
+     */
+    public function checkin()
+    {
+        $this->update([
+            'return_date' => Carbon::now()->toDateTimeString()
+        ]);
+
+        return $this;
     }
 }

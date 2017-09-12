@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Rental;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class BookCheckoutController extends Controller
 {
@@ -18,12 +16,7 @@ class BookCheckoutController extends Controller
 
     public function store(Request $request, $bookId)
     {
-        $rental = $this->rentalModel->create([
-            'user_id' => Auth::user()->id,
-            'book_id' => $bookId,
-            'checkout_date' => Carbon::now()->toDateTimeString(),
-            'due_date' => Carbon::now()->addWeeks(2)->toDateTimeString()
-        ]);
+        $rental = $this->rentalModel->checkout($bookId);
 
         return new StoreRentalResponse($rental);
     }
