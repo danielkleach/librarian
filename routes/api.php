@@ -94,7 +94,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::patch('/', 'BookController@update');
                 Route::delete('/', 'BookController@destroy');
                 Route::post('/checkout', 'BookCheckoutController@store');
-                Route::post('/checkin', 'BookCheckinController@store');
+                Route::post('/checkin/{rentalId}', 'BookCheckinController@store');
 
                 Route::prefix('authors')->group(function () {
                     Route::post('/', 'BookAuthorController@store');
