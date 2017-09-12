@@ -13,7 +13,7 @@ class BookCheckinTest extends TestCase
 {
     use DatabaseTransactions, WithoutMiddleware;
 
-    public function testUpdateEndpointUpdatesARentalInTheDatabase()
+    public function testStoreEndpointChecksInARentalInTheDatabase()
     {
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
@@ -23,14 +23,12 @@ class BookCheckinTest extends TestCase
             'return_date' => null
         ]);
 
-        $data = ['return_date' => Carbon::now()->toDateTimeString()];
-
-        $response = $this->actingAs($user)->postJson("/books/{$rental->book_id}/checkin", $data);
+        $response = $this->actingAs($user)->postJson("/books/{$rental->book_id}/checkin/{$rental->id}");
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('rentals', [
             'id' => $rental->id,
-            'return_date' => $data['return_date']
+            'return_date' => Carbon::now()->toDateTimeString()
         ]);
     }
 }

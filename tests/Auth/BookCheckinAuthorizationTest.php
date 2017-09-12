@@ -18,7 +18,7 @@ class BookCheckinAuthorizationTest extends TestCase
         ]);
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->postJson("/books/{$rental->book_id}/checkin");
+            ->postJson("/books/{$rental->book_id}/checkin/{$rental->id}");
 
         $response->assertStatus(401);
     }
