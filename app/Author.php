@@ -21,7 +21,7 @@ class Author extends Model
     {
         return $this->belongsToMany(
             Book::class,
-            'book_author',
+            'book_authors',
             'author_id',
             'book_id'
         )->withTimestamps();
