@@ -16,7 +16,7 @@ class BookTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $response = $this->getJson("/books/{$book->id}");
 
@@ -25,8 +25,12 @@ class BookTest extends TestCase
             'id' => (int) $book->id,
             'category_id' => (int) $book->category_id,
             'category_name' => $book->category->name,
-            'author_id' => (int) $book->author_id,
-            'author_name' => $book->author->name,
+            'authors' => $book->authors->map(function ($author) {
+                return [
+                    'id' => (int) $author->id,
+                    'name' => $author->name,
+                ];
+            }),
             'owner_id' => (int) $book->owner_id ?? null,
             'owner_name' => $book->owner
                 ? $book->owner->full_name
@@ -38,7 +42,7 @@ class BookTest extends TestCase
             'location' => $book->location,
             'status' => $book->status,
             'featured' => $book->featured,
-            'average_rating' => $book->averageRating,
+            'average_rating' => number_format($book->averageRating, 1),
             'cover_image_url' => $book->getFirstMedia('cover_image')
                 ? $book->getFirstMedia('cover_image')->getUrl()
                 : null,
@@ -57,12 +61,10 @@ class BookTest extends TestCase
     public function testStoreEndpointCreatesABookInTheDatabase()
     {
         $category = factory(Category::class)->create();
-        $author = factory(Author::class)->create();
         $user = factory(User::class)->create();
 
         $data = [
             'category_id' => $category->id,
-            'author_id' => $author->id,
             'owner_id' => $user->id,
             'title' => 'Test title',
             'description' => 'Test description.',
@@ -79,7 +81,7 @@ class BookTest extends TestCase
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $data = [
             'title' => 'New test title',

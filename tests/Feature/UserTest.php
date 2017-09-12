@@ -29,8 +29,12 @@ class UserTest extends TestCase
                     'book_id' => (int) $rental->book_id,
                     'category_id' => (int) $rental->book->category_id,
                     'category_name' => $rental->book->category->name,
-                    'author_id' => (int) $rental->book->author_id,
-                    'author_name' => $rental->book->author->name,
+                    'authors' => $rental->book->authors->map(function ($author) {
+                        return [
+                            'id' => (int) $author->id,
+                            'name' => $author->name,
+                        ];
+                    }),
                     'book_title' => $rental->book->title,
                     'checkout_date' => $rental->checkout_date->toDateTimeString(),
                     'due_date' => $rental->due_date->toDateTimeString()
@@ -98,7 +102,7 @@ class UserTest extends TestCase
 
         $response = $this->deleteJson("/users/{$user->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('users', ['id' => $user->id, 'deleted_at' => null]);
     }
 }

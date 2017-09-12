@@ -14,7 +14,7 @@ class CoverImageAuthorizationTest extends TestCase
 
     public function testStoreRejectsAnUnauthorizedUser()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $data = [
             'cover_image' => UploadedFile::fake()->image('test.jpg', $width = 100, $height = 100)

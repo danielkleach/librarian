@@ -15,11 +15,11 @@ class CategoryTest extends TestCase
     {
         $category = factory(Category::class)->create();
 
-        factory(Book::class)->states(['withAuthor', 'withUser'])->create([
+        factory(Book::class)->create([
             'category_id' => $category->id
         ]);
 
-        factory(Book::class)->states(['withAuthor', 'withUser'])->create([
+        factory(Book::class)->create([
             'category_id' => $category->id
         ]);
 

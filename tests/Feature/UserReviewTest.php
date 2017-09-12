@@ -18,7 +18,7 @@ class UserReviewTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $data = [
             'book_id' => (int) $book->id,
@@ -63,7 +63,7 @@ class UserReviewTest extends TestCase
 
         $response = $this->actingAs($user)->deleteJson("/user-reviews/{$userReview->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('user_reviews', ['id' => $userReview->id, 'deleted_at' => null]);
     }
 }

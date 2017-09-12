@@ -17,7 +17,7 @@ class RentalTest extends TestCase
 
         $response = $this->deleteJson("/rentals/{$rental->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('rentals', ['id' => $rental->id, 'deleted_at' => null]);
     }
 }

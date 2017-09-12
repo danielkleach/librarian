@@ -30,8 +30,16 @@ class FavoriteBookTest extends TestCase
                 'book_id' => (int) $favorite->book_id,
                 'category_id' => (int) $favorite->book->category_id,
                 'category_name' => $favorite->book->category->name,
-                'author_id' => (int) $favorite->book->author_id,
-                'author_name' => $favorite->book->author->name,
+                'authors' => $favorite->book->authors->map(function ($author) {
+                    return [
+                        'id' => (int) $author->id,
+                        'name' => $author->name,
+                    ];
+                }),
+                'owner_id' => (int) $favorite->book->owner_id ?? null,
+                'owner_name' => $favorite->book->owner
+                    ? $favorite->book->owner->full_name
+                    : null,
                 'title' => $favorite->book->title,
                 'description' => $favorite->book->description,
                 'isbn' => $favorite->book->isbn,
@@ -39,7 +47,7 @@ class FavoriteBookTest extends TestCase
                 'location' => $favorite->book->location,
                 'status' => $favorite->book->status,
                 'featured' => $favorite->book->featured,
-                'average_rating' => $favorite->book->getAverageRating(),
+                'average_rating' => number_format($favorite->book->getAverageRating(), 1),
                 'cover_image_url' => $favorite->book->getFirstMedia('cover_image')
                     ? $favorite->book->getFirstMedia('cover_image')->getUrl()
                     : null
@@ -52,7 +60,7 @@ class FavoriteBookTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $data = [
             'book_id' => (int) $book->id
@@ -75,7 +83,7 @@ class FavoriteBookTest extends TestCase
 
         $response = $this->actingAs($user)->deleteJson("/users/{$user->id}/favorites/{$favorite->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('favorite_books', ['id' => $favorite->id, 'deleted_at' => null]);
     }
 }

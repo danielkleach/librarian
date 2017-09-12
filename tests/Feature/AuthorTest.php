@@ -56,7 +56,7 @@ class AuthorTest extends TestCase
 
         $response = $this->deleteJson("/authors/{$author->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('authors', ['id' => $author->id, 'deleted_at' => null]);
     }
 }

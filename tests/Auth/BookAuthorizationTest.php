@@ -23,7 +23,7 @@ class BookAuthorizationTest extends TestCase
 
     public function testUpdateRejectsAnUnauthorizedUser()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $data = ['name' => 'New Book Name'];
 
@@ -35,7 +35,7 @@ class BookAuthorizationTest extends TestCase
 
     public function testDestroyRejectsAnUnauthorizedUser()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $response = $this->actingAs(factory(User::class)->create())
             ->deleteJson("/books/{$book->id}");
