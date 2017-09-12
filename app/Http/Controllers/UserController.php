@@ -23,7 +23,8 @@ class UserController extends Controller
 
     public function show($userId)
     {
-        $user = $this->userModel->with(['userReviews.book', 'rentals.book.category', 'rentals.book.author'])->findOrFail($userId);
+        $user = $this->userModel->with(['userReviews.book', 'rentals.book.category', 'rentals.book.authors'])
+            ->findOrFail($userId);
 
         return new ShowUserResponse($user);
     }
