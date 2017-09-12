@@ -48,6 +48,8 @@ class AuthorController extends Controller
     {
         $author = $this->authorModel->findOrFail($authorId);
 
+        $author->books()->detach();
+
         $author->delete();
 
         return new DestroyAuthorResponse($author);
