@@ -15,7 +15,7 @@ class NewBooksController extends Controller
 
     public function index()
     {
-        $books = $this->bookModel->with(['author', 'category', 'owner'])
+        $books = $this->bookModel->with(['authors', 'category', 'owner'])
             ->orderBy('created_at', 'desc')
             ->limit(20)
             ->get();

@@ -38,16 +38,8 @@ class RecommendedBooksController extends Controller
             ->limit(20)
             ->get('book_id', 'avg_rating')
             ->each(function ($topBook) use ($bookModel, $books) {
-                $book = $bookModel->find($topBook->book_id);
-                $books->push((object) [
-                    'id' => $topBook->book_id,
-                    'title' => $book->title,
-                    'description' => $book->description,
-                    'cover_image_url' => $book->getFirstMedia('cover_image')
-                        ? $book->getFirstMedia('cover_image')->getUrl()
-                        : null,
-                    'avg_rating' => $topBook->avg_rating
-                ]);
+                $book = $bookModel->with(['authors', 'category', 'owner'])->where('id', $topBook->book_id)->first();
+                $books->push($book);
             });
 
         return new RecommendedBookResponse($books);

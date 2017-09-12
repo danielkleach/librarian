@@ -17,7 +17,7 @@ class FavoriteBookController extends Controller
 
     public function index()
     {
-        $books = $this->favoriteBookModel->with(['user', 'book.category', 'book.author'])
+        $books = $this->favoriteBookModel->with(['user', 'book.category', 'book.authors'])
             ->where('user_id', '=', Auth::user()->id)->paginate(20);
 
         return new IndexFavoriteBookResponse($books);

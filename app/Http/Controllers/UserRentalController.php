@@ -15,7 +15,7 @@ class UserRentalController extends Controller
 
     public function index($userId)
     {
-        $rental = $this->rentalModel->with(['book.category', 'book.author'])
+        $rental = $this->rentalModel->with(['book.category'])
             ->where('user_id', '=', $userId)->paginate(20);
 
         return new UserRentalResponse($rental);
