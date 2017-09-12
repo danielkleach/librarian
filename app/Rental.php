@@ -56,7 +56,8 @@ class Rental extends Model
             'user_id' => Auth::user()->id,
             'book_id' => $bookId,
             'checkout_date' => Carbon::now()->toDateTimeString(),
-            'due_date' => Carbon::now()->addWeeks(2)->toDateTimeString()
+            'due_date' => Carbon::now()->addDays(config('settings.rental_period'))
+                ->toDateTimeString()
         ]);
 
         return $rental;
