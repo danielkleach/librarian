@@ -43,13 +43,4 @@ class CategoryController extends Controller
 
         return new UpdateCategoryResponse($category);
     }
-
-    public function destroy($categoryId)
-    {
-        $category = $this->categoryModel->findOrFail($categoryId);
-
-        $category->delete();
-
-        return new DestroyCategoryResponse($category);
-    }
 }

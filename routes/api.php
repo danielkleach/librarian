@@ -74,7 +74,6 @@ Route::group(['middleware' => ['respondWithJson']], function() {
 
             Route::prefix('{categoryId}')->group(function () {
                 Route::patch('/', 'CategoryController@update');
-                Route::delete('/', 'CategoryController@destroy');
             });
         });
 

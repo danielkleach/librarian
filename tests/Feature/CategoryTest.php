@@ -49,14 +49,4 @@ class CategoryTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseHas('categories', $data);
     }
-
-    public function testDestroyEndpointRemovesACategory()
-    {
-        $category = factory(Category::class)->create();
-
-        $response = $this->deleteJson("/categories/{$category->id}");
-
-        $response->assertStatus(200);
-        $this->assertDatabaseMissing('categories', ['id' => $category->id, 'deleted_at' => null]);
-    }
 }
