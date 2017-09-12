@@ -32,14 +32,4 @@ class CategoryAuthorizationTest extends TestCase
 
         $response->assertStatus(401);
     }
-
-    public function testDestroyRejectsAnUnauthorizedUser()
-    {
-        $category = factory(Category::class)->create();
-
-        $response = $this->actingAs(factory(User::class)->create())
-            ->deleteJson("/categories/{$category->id}");
-
-        $response->assertStatus(401);
-    }
 }
