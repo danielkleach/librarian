@@ -24,11 +24,6 @@ class BookRequest extends Request
                         'integer',
                         'exists:categories,id',
                     ],
-                    'author_id' => [
-                        'required',
-                        'integer',
-                        'exists:authors,id',
-                    ],
                     'owner_id' => [
                         'required',
                         'integer',
@@ -62,12 +57,6 @@ class BookRequest extends Request
                         'required',
                         'integer',
                         'exists:categories,id',
-                    ],
-                    'author_id' => [
-                        'sometimes',
-                        'required',
-                        'integer',
-                        'exists:authors,id',
                     ],
                     'owner_id' => [
                         'sometimes',
