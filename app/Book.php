@@ -15,7 +15,6 @@ class Book extends Model implements HasMedia
 
     protected $fillable = [
         'category_id',
-        'author_id',
         'owner_id',
         'title',
         'description',
@@ -41,9 +40,14 @@ class Book extends Model implements HasMedia
      *
      * @return mixed
      */
-    public function author()
+    public function authors()
     {
-        return $this->belongsTo(Author::class, 'author_id');
+        return $this->belongsToMany(
+            Author::class,
+            'book_authors',
+            'book_id',
+            'author_id'
+        )->withTimestamps();
     }
 
     /**

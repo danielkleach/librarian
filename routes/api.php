@@ -96,6 +96,11 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::post('/checkout', 'BookCheckoutController@store');
                 Route::post('/checkin', 'BookCheckinController@store');
 
+                Route::prefix('authors')->group(function () {
+                    Route::post('/', 'BookAuthorController@store');
+                    Route::delete('/{authorId}', 'BookAuthorController@destroy');
+                });
+
                 Route::prefix('cover-image')->group(function () {
                     Route::post('/', 'CoverImageController@store');
                     Route::delete('/', 'CoverImageController@destroy');
