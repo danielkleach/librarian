@@ -15,6 +15,6 @@ class DestroyRentalResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json(['message' => 'This rental has been deleted.'], 204);
+        return response()->json(['message' => 'This rental has been deleted.'], 200);
     }
 }

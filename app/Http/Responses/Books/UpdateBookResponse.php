@@ -23,7 +23,12 @@ class UpdateBookResponse implements Responsable
         return [
             'id' => (int) $this->book->id,
             'category_id' => (int) $this->book->category_id,
-            'author_id' => (int) $this->book->author_id,
+            'authors' => $this->book->authors->map(function ($author) {
+                return [
+                    'id' => (int) $author->id,
+                    'name' => $author->name,
+                ];
+            }),
             'owner_id' => (int) $this->book->owner_id,
             'title' => $this->book->title,
             'description' => $this->book->description,

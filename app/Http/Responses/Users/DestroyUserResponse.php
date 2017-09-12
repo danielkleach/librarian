@@ -15,6 +15,6 @@ class DestroyUserResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json(['message' => 'This user has been deleted.'], 204);
+        return response()->json(['message' => 'This user has been deleted.'], 200);
     }
 }

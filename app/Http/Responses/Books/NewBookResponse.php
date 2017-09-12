@@ -26,8 +26,12 @@ class NewBookResponse implements Responsable
                 'id' => (int) $book->id,
                 'category_id' => (int) $book->category_id,
                 'category_name' => $book->category->name,
-                'author_id' => (int) $book->author_id,
-                'author_name' => $book->author->name,
+                'authors' => $book->authors->map(function ($author) {
+                    return [
+                        'id' => (int) $author->id,
+                        'name' => $author->name,
+                    ];
+                }),
                 'owner_id' => (int) $book->owner_id ?? null,
                 'owner_name' => $book->owner
                     ? $book->owner->full_name
@@ -38,7 +42,7 @@ class NewBookResponse implements Responsable
                 'publication_year' => $book->publication_year,
                 'location' => $book->location,
                 'status' => $book->status,
-                'average_rating' => $book->getAverageRating(),
+                'average_rating' => number_format($book->getAverageRating(), 1),
                 'cover_image_url' => $book->getFirstMedia('cover_image')
                     ? $book->getFirstMedia('cover_image')->getUrl()
                     : null,

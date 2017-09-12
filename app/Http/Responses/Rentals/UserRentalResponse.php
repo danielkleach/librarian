@@ -30,8 +30,6 @@ class UserRentalResponse implements Responsable
                 'book_description' => $rental->book->description,
                 'category_id' => (int) $rental->book->category_id,
                 'category_name' => $rental->book->category->name,
-                'author_id' => (int) $rental->book->author_id,
-                'author_name' => $rental->book->author->name,
                 'checkout_date' => Carbon::createFromFormat('Y-m-d H:i:s', $rental->checkout_date)
                     ->toDateTimeString(),
                 'due_date' => Carbon::createFromFormat('Y-m-d H:i:s', $rental->due_date)

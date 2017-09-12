@@ -24,8 +24,12 @@ class ShowBookResponse implements Responsable
             'id' => (int) $this->book->id,
             'category_id' => (int) $this->book->category_id,
             'category_name' => $this->book->category->name,
-            'author_id' => (int) $this->book->author_id,
-            'author_name' => $this->book->author->name,
+            'authors' => $this->book->authors->map(function ($author) {
+                return [
+                    'id' => (int) $author->id,
+                    'name' => $author->name,
+                ];
+            }),
             'owner_id' => (int) $this->book->owner_id ?? null,
             'owner_name' => $this->book->owner
                 ? $this->book->owner->full_name
@@ -37,7 +41,7 @@ class ShowBookResponse implements Responsable
             'location' => $this->book->location,
             'status' => $this->book->status,
             'featured' => $this->book->featured,
-            'average_rating' => $this->book->getAverageRating(),
+            'average_rating' => number_format($this->book->getAverageRating(), 1),
             'cover_image_url' => $this->book->getFirstMedia('cover_image')
                 ? $this->book->getFirstMedia('cover_image')->getUrl()
                 : null,

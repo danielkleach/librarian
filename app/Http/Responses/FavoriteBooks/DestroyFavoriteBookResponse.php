@@ -15,6 +15,6 @@ class DestroyFavoriteBookResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json(['message' => 'This favorite has been deleted.'], 204);
+        return response()->json(['message' => 'This favorite has been deleted.'], 200);
     }
 }
