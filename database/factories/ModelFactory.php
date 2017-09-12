@@ -69,12 +69,6 @@ $factory->state(App\Book::class, 'withCategory', function ($faker) {
     ];
 });
 
-$factory->state(App\Book::class, 'withAuthor', function ($faker) {
-    return [
-        'author_id' => factory(Author::class)->lazy()
-    ];
-});
-
 $factory->state(App\Book::class, 'withUser', function ($faker) {
     return [
         'owner_id' => factory(User::class)->lazy()
@@ -84,12 +78,6 @@ $factory->state(App\Book::class, 'withUser', function ($faker) {
 $factory->state(App\Book::class, 'withRandomCategory', function ($faker) {
     return [
         'category_id' => Category::all()->random()->id
-    ];
-});
-
-$factory->state(App\Book::class, 'withRandomAuthor', function ($faker) {
-    return [
-        'author_id' => Author::all()->random()->id
     ];
 });
 
@@ -133,7 +121,7 @@ $factory->state(App\Rental::class, 'withUser', function ($faker) {
 
 $factory->state(App\Rental::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
+        'book_id' => factory(Book::class)->states(['withCategory'])->lazy()
     ];
 });
 
@@ -165,7 +153,7 @@ $factory->state(App\UserReview::class, 'withUser', function ($faker) {
 
 $factory->state(App\UserReview::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
+        'book_id' => factory(Book::class)->states(['withCategory'])->lazy()
     ];
 });
 
@@ -193,7 +181,7 @@ $factory->state(App\FavoriteBook::class, 'withUser', function ($faker) {
 
 $factory->state(App\FavoriteBook::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
+        'book_id' => factory(Book::class)->states(['withCategory'])->lazy()
     ];
 });
 
