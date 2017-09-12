@@ -16,7 +16,7 @@ class FavoriteBook extends Model
     /***********************************************/
 
     /**
-     * A UserReview belongs to a User.
+     * A FavoriteBook belongs to a User.
      *
      * @return mixed
      */
@@ -26,7 +26,7 @@ class FavoriteBook extends Model
     }
 
     /**
-     * A UserReview belongs to a Book.
+     * A FavoriteBook belongs to a Book.
      *
      * @return mixed
      */
