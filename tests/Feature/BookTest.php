@@ -33,7 +33,10 @@ class BookTest extends TestCase
             'location' => $book->location,
             'status' => $book->status,
             'featured' => $book->featured,
-            'average_rating' => number_format($book->getAverageRating(), 1),
+            'total_rentals' => $book->total_rentals ?? null,
+            'rating' => $book->rating
+                ? number_format($book->rating, 1)
+                : null,
             'cover_image_url' => $book->getFirstMedia('cover_image')
                 ? $book->getFirstMedia('cover_image')->getUrl()
                 : null,
