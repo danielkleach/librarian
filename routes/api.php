@@ -54,9 +54,6 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             Route::prefix('{userId}')->group(function () {
                 Route::get('/', 'UserController@show');
                 Route::patch('/', 'UserController@update');
-                Route::delete('/', 'UserController@destroy');
-
-                Route::get('/history', 'UserRentalController@index');
 
                 Route::prefix('favorites')->group(function () {
                     Route::get('/', 'FavoriteBookController@index');
