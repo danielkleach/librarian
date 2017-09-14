@@ -24,7 +24,7 @@ class BookController extends Controller
     public function show($bookId)
     {
         return new BookResource($this->bookModel
-            ->with(['authors', 'category', 'owner', 'rentals', 'userReviews.user'])->findOrFail($bookId));
+            ->with(['authors', 'category', 'owner'])->findOrFail($bookId));
     }
 
     public function store(BookRequest $request)
