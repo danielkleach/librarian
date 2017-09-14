@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Rental;
 use Illuminate\Http\Request;
+use App\Http\Resources\Rental as RentalResource;
 
 class BookCheckinController extends Controller
 {
@@ -16,9 +17,6 @@ class BookCheckinController extends Controller
 
     public function store(Request $request, $bookId, $rentalId)
     {
-        $rental = $this->rentalModel->findOrFail($rentalId);
-        $rental->checkin();
-
-        return new UpdateRentalResponse($rental);
+        return new RentalResource($this->rentalModel->findOrFail($rentalId)->checkin());
     }
 }

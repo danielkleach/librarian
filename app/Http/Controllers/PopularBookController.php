@@ -7,7 +7,7 @@ use App\Rental;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class PopularBooksController extends Controller
+class PopularBookController extends Controller
 {
     protected $rentalModel;
 

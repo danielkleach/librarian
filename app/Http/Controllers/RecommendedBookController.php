@@ -7,7 +7,7 @@ use App\UserReview;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
-class RecommendedBooksController extends Controller
+class RecommendedBookController extends Controller
 {
     protected $userReviewModel;
 

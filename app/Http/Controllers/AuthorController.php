@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Author;
 use App\Http\Requests\AuthorRequest;
+use App\Http\Resources\Author as AuthorResource;
 
 class AuthorController extends Controller
 {
@@ -16,32 +17,25 @@ class AuthorController extends Controller
 
     public function index()
     {
-        $authors = $this->authorModel->paginate(25);
-
-        return new IndexAuthorResponse($authors);
+        return AuthorResource::collection($this->authorModel->paginate(25));
     }
 
     public function show($authorId)
     {
-        $author = $this->authorModel->findOrFail($authorId);
-
-        return new ShowAuthorResponse($author);
+        return new AuthorResource($this->authorModel->with('books.category')->findOrFail($authorId));
     }
 
     public function store(AuthorRequest $request)
     {
-        $author = $this->authorModel->create($request->all());
-
-        return new StoreAuthorResponse($author);
+        return new AuthorResource($this->authorModel->create($request->all()));
     }
 
     public function update(AuthorRequest $request, $authorId)
     {
         $author = $this->authorModel->findOrFail($authorId);
-
         $author->update($request->all());
 
-        return new UpdateAuthorResponse($author);
+        return new AuthorResource($author);
     }
 
     public function destroy($authorId)
@@ -49,7 +43,6 @@ class AuthorController extends Controller
         $author = $this->authorModel->findOrFail($authorId);
 
         $author->books()->detach();
-
         $author->delete();
 
         return new DestroyAuthorResponse($author);

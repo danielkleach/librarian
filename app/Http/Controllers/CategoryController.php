@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\Category as CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -16,31 +17,24 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = $this->categoryModel->paginate(25);
-
-        return new IndexCategoryResponse($categories);
+        return new CategoryResource($this->categoryModel->paginate(25));
     }
 
     public function show($categoryId)
     {
-        $category = $this->categoryModel->findOrFail($categoryId);
-
-        return new ShowCategoryResponse($category);
+        return new CategoryResource($this->categoryModel->with('books.category')->findOrFail($categoryId));
     }
 
     public function store(CategoryRequest $request)
     {
-        $category = $this->categoryModel->create($request->all());
-
-        return new StoreCategoryResponse($category);
+        return new CategoryResource($this->categoryModel->create($request->all()));
     }
 
     public function update(CategoryRequest $request, $categoryId)
     {
-        $category = $this->categoryModel->findOrFail($categoryId);
-
+        $category = $this->categoryModel->find($categoryId);
         $category->update($request->all());
 
-        return new UpdateCategoryResponse($category);
+        return new CategoryResource($category);
     }
 }

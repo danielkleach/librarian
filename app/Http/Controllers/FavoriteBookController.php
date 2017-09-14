@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\FavoriteBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\FavoriteBook as FavoriteBookResource;
 
 class FavoriteBookController extends Controller
 {
@@ -17,20 +18,17 @@ class FavoriteBookController extends Controller
 
     public function index()
     {
-        $books = $this->favoriteBookModel->with(['user', 'book.category', 'book.authors'])
-            ->where('user_id', '=', Auth::user()->id)->paginate(20);
-
-        return new IndexFavoriteBookResponse($books);
+        return FavoriteBookResource::collection($this->favoriteBookModel
+            ->with(['user', 'book.category', 'book.authors'])
+            ->where('user_id', '=', Auth::user()->id)->paginate(25));
     }
 
     public function store(Request $request)
     {
-        $book = $this->favoriteBookModel->create([
+        return new FavoriteBookResource($this->favoriteBookModel->create([
             'user_id' => Auth::user()->id,
             'book_id' => $request->book_id
-        ]);
-
-        return new StoreFavoriteBookResponse($book);
+        ]));
     }
 
     public function destroy($userId, $favoriteBookId)

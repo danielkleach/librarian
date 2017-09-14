@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Http\Requests\BookRequest;
+use App\Http\Resources\Book as BookResource;
 
 class BookController extends Controller
 {
@@ -16,31 +17,26 @@ class BookController extends Controller
 
     public function index()
     {
-        $books = $this->bookModel->with(['authors', 'category', 'owner'])->paginate(25);
-
-        return new IndexBookResponse($books);
+        return BookResource::collection($this->bookModel
+            ->with(['authors', 'category'])->paginate(25));
     }
 
     public function show($bookId)
     {
-        $book = $this->bookModel->with(['authors', 'category', 'owner', 'userReviews.user'])->findOrFail($bookId);
-
-        return new ShowBookResponse($book);
+        return new BookResource($this->bookModel
+            ->with(['authors', 'category', 'owner', 'rentals', 'userReviews.user'])->findOrFail($bookId));
     }
 
     public function store(BookRequest $request)
     {
-        $book = $this->bookModel->create($request->all());
-
-        return new StoreBookResponse($book);
+        return new BookResource($this->bookModel->create($request->all()));
     }
 
     public function update(BookRequest $request, $bookId)
     {
-        $book = $this->bookModel->findOrFail($bookId);
-
+        $book = $this->bookModel->find($bookId);
         $book->update($request->all());
 
-        return new UpdateBookResponse($book);
+        return new BookResource($book);
     }
 }
