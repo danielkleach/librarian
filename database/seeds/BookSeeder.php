@@ -12,7 +12,7 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
-        factory(Book::class, 100)
+        factory(Book::class, 50)
             ->states(['withRandomCategory', 'withRandomUser'])
             ->create();
     }

@@ -12,7 +12,7 @@ class RentalSeeder extends Seeder
      */
     public function run()
     {
-        factory(Rental::class, 100)
+        factory(Rental::class, 5000)
             ->states(['withRandomUser', 'withRandomBook'])
             ->create();
     }
