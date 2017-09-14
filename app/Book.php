@@ -178,6 +178,16 @@ class Book extends Model implements HasMedia
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/
+    /**
+     * Scope a query to include books, newest first.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNew($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
 
     /**
      * Get the average rating for this book.

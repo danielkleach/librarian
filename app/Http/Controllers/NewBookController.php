@@ -17,6 +17,6 @@ class NewBookController extends Controller
     public function index()
     {
         return BookResource::collection($this->bookModel->with(['authors', 'category', 'owner'])
-            ->orderBy('created_at', 'desc')->paginate(25));
+            ->new()->paginate(25));
     }
 }
