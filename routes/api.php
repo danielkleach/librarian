@@ -16,10 +16,10 @@ Route::group(['middleware' => ['respondWithJson']], function() {
     Route::post('/login', 'Auth\LoginController@login');
     Route::post('/logout', 'Auth\LoginController@logout');
 
-    Route::get('/featured/books', 'FeaturedBooksController@index');
-    Route::get('/popular/books', 'PopularBooksController@index');
-    Route::get('/new/books', 'NewBooksController@index');
-    Route::get('/recommended/books', 'RecommendedBooksController@index');
+    Route::get('/featured/books', 'FeaturedBookController@index');
+    Route::get('/popular/books', 'PopularBookController@index');
+    Route::get('/new/books', 'NewBookController@index');
+    Route::get('/recommended/books', 'RecommendedBookController@index');
 
     Route::prefix('categories')->group(function () {
         Route::get('/', 'CategoryController@index');
@@ -112,9 +112,10 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             Route::delete('{rentalId}', 'RentalController@destroy');
         });
 
-        Route::prefix('user-reviews')->group(function () {
-            Route::patch('{reviewId}', 'UserReviewController@update');
-            Route::delete('{reviewId}', 'UserReviewController@destroy');
+        Route::prefix('user-reviews/{reviewId}')->group(function () {
+            Route::get('/', 'UserReviewController@show');
+            Route::patch('/', 'UserReviewController@update');
+            Route::delete('/', 'UserReviewController@destroy');
         });
     });
 });
