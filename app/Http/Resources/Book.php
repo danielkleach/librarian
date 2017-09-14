@@ -27,7 +27,12 @@ class Book extends Resource
             'location' => $this->location,
             'status' => $this->status,
             'featured' => $this->featured,
-            'average_rating' => number_format($this->getAverageRating(), 1),
+            'total_rentals' => $this->total_rentals
+                ? (int) $this->total_rentals
+                : null,
+            'rating' => $this->rating
+                ? number_format($this->rating, 2)
+                : null,
             'cover_image_url' => $this->getFirstMedia('cover_image')
                 ? $this->getFirstMedia('cover_image')->getUrl()
                 : null,

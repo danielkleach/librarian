@@ -24,6 +24,8 @@ class CreateBooksTable extends Migration
             $table->string('location');
             $table->string('status')->default('available');
             $table->boolean('featured')->default(0);
+            $table->integer('total_rentals')->default(0);
+            $table->decimal('rating', 3, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
 

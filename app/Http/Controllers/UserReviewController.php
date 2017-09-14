@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
+use App\Events\BookRated;
 use App\UserReview;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserReviewRequest;
@@ -9,10 +11,11 @@ use App\Http\Resources\UserReview as UserReviewResource;
 
 class UserReviewController extends Controller
 {
-    protected $userReviewModel;
+    protected $bookModel, $userReviewModel;
 
-    public function __construct(UserReview $userReviewModel)
+    public function __construct(Book $bookModel, UserReview $userReviewModel)
     {
+        $this->bookModel = $bookModel;
         $this->userReviewModel = $userReviewModel;
     }
 
@@ -24,12 +27,18 @@ class UserReviewController extends Controller
 
     public function store(UserReviewRequest $request, $bookId)
     {
-        return new UserReviewResource($this->userReviewModel->create([
+        $book = $this->bookModel->findOrFail($bookId);
+
+        $review = $this->userReviewModel->create([
             'user_id' => Auth::user()->id,
-            'book_id' => $bookId,
+            'book_id' => $book->id,
             'rating' => $request->rating,
             'comments' => $request->comments
-        ]));
+        ]);
+
+        event(new BookRated($review));
+
+        return new UserReviewResource($review);
     }
 
     public function update(UserReviewRequest $request, $userReviewId)

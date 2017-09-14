@@ -3,9 +3,9 @@
 namespace App;
 
 use Carbon\Carbon;
+use App\Events\BookRented;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 
 class Rental extends Model
 {
@@ -50,18 +50,22 @@ class Rental extends Model
     /**
      * Checkout a book.
      *
-     * @param $bookId
+     * @param $user
+     * @param $book
      * @return $this|Model
+     * @internal param $bookId
      */
-    public function checkout($bookId)
+    public function checkout($user, $book)
     {
         $rental = $this->create([
-            'user_id' => Auth::user()->id,
-            'book_id' => $bookId,
+            'user_id' => $user->id,
+            'book_id' => $book->id,
             'checkout_date' => Carbon::now()->toDateTimeString(),
             'due_date' => Carbon::now()->addDays(config('settings.rental_period'))
                 ->toDateTimeString()
         ]);
+
+        event(new BookRented($rental));
 
         return $rental;
     }

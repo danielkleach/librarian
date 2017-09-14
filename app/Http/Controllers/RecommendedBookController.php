@@ -3,45 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-use App\UserReview;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use App\Http\Resources\Book as BookResource;
 
 class RecommendedBookController extends Controller
 {
-    protected $userReviewModel;
+    protected $bookModel;
 
-    /**
-     * RecommendedBooksController Constructor
-     *
-     * @param UserReview $userReviewModel
-     */
-    public function __construct(UserReview $userReviewModel)
+    public function __construct(Book $bookModel)
     {
-        $this->userReviewModel = $userReviewModel;
+        $this->bookModel = $bookModel;
     }
 
-    /**
-     * List the highest rated Books.
-     *
-     * @param Book $bookModel
-     * @return RecommendedBookResponse
-     */
-    public function index(Book $bookModel)
+    public function index()
     {
-        $books = new Collection();
-
-        $this->userReviewModel
-            ->select(DB::raw('avg(rating) as avg_rating, book_id'))
-            ->groupBy('book_id')
-            ->orderBy('avg_rating', 'desc')
-            ->limit(20)
-            ->get('book_id', 'avg_rating')
-            ->each(function ($topBook) use ($bookModel, $books) {
-                $book = $bookModel->with(['authors', 'category', 'owner'])->where('id', $topBook->book_id)->first();
-                $books->push($book);
-            });
-
-        return new RecommendedBookResponse($books);
+        return BookResource::collection($this->bookModel->with(['authors', 'category', 'owner'])
+            ->recommended()->paginate(25));
     }
 }

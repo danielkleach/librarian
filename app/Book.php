@@ -175,11 +175,8 @@ class Book extends Model implements HasMedia
         return $query->where('featured', true);
     }
 
-    /***********************************************/
-    /******************* Methods *******************/
-    /***********************************************/
     /**
-     * Scope a query to include books, newest first.
+     * Scope a query to newest books first.
      *
      * @param $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -190,14 +187,30 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * Get the average rating for this book.
+     * Scope a query to most popular books first.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function getAverageRating()
+    public function scopePopular($query)
     {
-        return $this->userReviews
-            ? $this->userReviews->avg('rating')
-            : null;
+        return $query->orderBy('total_rentals', 'desc');
     }
+
+    /**
+     * Scope a query to best rated books first.
+     *
+     * @param $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeRecommended($query)
+    {
+        return $query->orderBy('rating', 'desc');
+    }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
 
     /**
      * Get the cover image.
