@@ -13,23 +13,6 @@ class BookTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testItCanGetAverageBookRating()
-    {
-        $book = factory(Book::class)->states(['withCategory'])->create();
-
-        factory(UserReview::class)->states(['withUser'])->create([
-            'book_id' => $book->id,
-            'rating' => 1
-        ]);
-
-        factory(UserReview::class)->states(['withUser'])->create([
-            'book_id' => $book->id,
-            'rating' => 5
-        ]);
-
-        $this->assertEquals(3, $book->getAverageRating());
-    }
-
     public function testItCanGetOnlyAvailableBooks()
     {
         $book1 = factory(Book::class)
