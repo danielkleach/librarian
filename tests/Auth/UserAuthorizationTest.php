@@ -56,14 +56,4 @@ class UserAuthorizationTest extends TestCase
 
         $response->assertStatus(401);
     }
-
-    public function testDestroyRejectsAnUnauthorizedUser()
-    {
-        $user = factory(User::class)->create();
-
-        $response = $this->actingAs(factory(User::class)->create())
-            ->deleteJson("/users/{$user->id}");
-
-        $response->assertStatus(401);
-    }
 }

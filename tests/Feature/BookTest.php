@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Book;
-use App\Author;
 use App\Category;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -24,16 +23,8 @@ class BookTest extends TestCase
         $response->assertJsonFragment([
             'id' => (int) $book->id,
             'category_id' => (int) $book->category_id,
-            'category_name' => $book->category->name,
-            'authors' => $book->authors->map(function ($author) {
-                return [
-                    'id' => (int) $author->id,
-                    'name' => $author->name,
-                ];
-            }),
-            'owner_id' => (int) $book->owner_id ?? null,
-            'owner_name' => $book->owner
-                ? $book->owner->full_name
+            'owner_id' => $book->owner_id
+                ? (int) $book->owner_id
                 : null,
             'title' => $book->title,
             'description' => $book->description,
@@ -42,19 +33,12 @@ class BookTest extends TestCase
             'location' => $book->location,
             'status' => $book->status,
             'featured' => $book->featured,
-            'average_rating' => number_format($book->averageRating, 1),
+            'average_rating' => number_format($book->getAverageRating(), 1),
             'cover_image_url' => $book->getFirstMedia('cover_image')
                 ? $book->getFirstMedia('cover_image')->getUrl()
                 : null,
-            'user_reviews' => $book->userReviews->map(function ($review) {
-                return [
-                    'id' => (int) $review->id,
-                    'user_id' => (int) $review->user_id,
-                    'user_name' => $review->user->first_name,
-                    'rating' => $review->rating,
-                    'comments' => $review->comments
-                ];
-            })
+            'created_at' => $book->created_at->format('F j, Y'),
+            'updated_at' => $book->updated_at->format('F j, Y')
         ]);
     }
 

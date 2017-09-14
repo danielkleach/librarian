@@ -36,7 +36,7 @@ class AuthorTest extends TestCase
         $this->assertDatabaseHas('authors', $data);
     }
 
-    public function testUpdateEndpointUpdatesAAuthorInTheDatabase()
+    public function testUpdateEndpointUpdatesAnAuthorInTheDatabase()
     {
         $author = factory(Author::class)->create();
 

@@ -25,7 +25,7 @@ class NewBookTest extends TestCase
         $response->assertStatus(200);
         $responseData = $response->json();
 
-        $this->assertEquals($book2->id, $responseData[0]['id']);
-        $this->assertEquals($book1->id, $responseData[1]['id']);
+        $this->assertEquals($book2->id, $responseData['data'][0]['id']);
+        $this->assertEquals($book1->id, $responseData['data'][1]['id']);
     }
 }
