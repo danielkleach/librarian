@@ -26,6 +26,8 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         AuthenticationException::class,
         AuthorizationException::class,
+        BookUnavailableException::class,
+        BookAlreadyCheckedInException::class,
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class
@@ -71,6 +73,8 @@ class Handler extends ExceptionHandler
         $response = collect([
             AuthenticationException::class => $this->errorUnauthorized(),
             AuthorizationException::class => $this->errorForbidden(),
+            BookUnavailableException::class => $this->errorCustomType("This book is not available for checkout."),
+            BookAlreadyCheckedInException::class => $this->errorCustomType("This book is already checked in."),
             Exception::class => $this->errorInternalError(),
             HttpException::class => $this->errorForbidden(),
             MaintenanceModeException::class => $this->errorServiceUnavailable(),
