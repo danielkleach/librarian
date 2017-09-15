@@ -80,7 +80,8 @@ class Handler extends ExceptionHandler
             MaintenanceModeException::class => $this->errorServiceUnavailable(),
             ModelNotFoundException::class => $this->errorNotFound(),
             NotFoundHttpException::class => $this->errorNotFound(),
-            ServiceUnavailableHttpException::class => $this->errorServiceUnavailable()
+            ServiceUnavailableHttpException::class => $this->errorServiceUnavailable(),
+            UserAlreadyReviewedException::class => $this->errorCustomType("You have already left a review for this book.")
         ])->get(get_class($e), $response);
 
         return $response;
