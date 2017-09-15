@@ -3,30 +3,27 @@
 namespace Tests\Feature;
 
 use App\Book;
-use App\UserReview;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RecommendedBookTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use RefreshDatabase, WithoutMiddleware;
 
     public function testIndexEndpointReturnsTheBestRatedBooks()
     {
-        $book1 = factory(Book::class)->states(['withCategory'])->create();
-        $book1->userReviews()->saveMany(factory(UserReview::class, 8)->states(['withUser'])->make(['rating' => 5]));
-        $book1->userReviews()->saveMany(factory(UserReview::class, 2)->states(['withUser'])->make(['rating' => 4]));
-
-        $book2 = factory(Book::class)->states(['withCategory'])->create();
-        $book2->userReviews()->saveMany(factory(UserReview::class, 10)->states(['withUser'])->make(['rating' => 5]));
+        $book1 = factory(Book::class)->states(['withCategory'])->create(['rating' => 4.35]);
+        $book2 = factory(Book::class)->states(['withCategory'])->create(['rating' => 4.22]);
+        $book3 = factory(Book::class)->states(['withCategory'])->create(['rating' => 4.95]);
 
         $response = $this->getJson("/recommended/books");
 
         $response->assertStatus(200);
         $responseData = $response->json();
 
-        $this->assertEquals($book2->id, $responseData[0]['id']);
-        $this->assertEquals($book1->id, $responseData[1]['id']);
+        $this->assertEquals($book3->id, $responseData['data'][0]['id']);
+        $this->assertEquals($book1->id, $responseData['data'][1]['id']);
+        $this->assertEquals($book2->id, $responseData['data'][2]['id']);
     }
 }
