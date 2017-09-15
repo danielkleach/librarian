@@ -15,6 +15,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\BookRented' => [
             'App\Listeners\IncrementTotalRentals',
+            'App\Listeners\CheckoutBook',
+        ],
+        'App\Events\BookReturned' => [
+            'App\Listeners\CheckinBook',
         ],
         'App\Events\BookRated' => [
             'App\Listeners\RecalculateBookRating',

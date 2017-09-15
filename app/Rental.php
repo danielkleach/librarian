@@ -81,6 +81,8 @@ class Rental extends Model
             'return_date' => Carbon::now()->toDateTimeString()
         ]);
 
+        event(new BookReturned($this));
+
         return $this;
     }
 }

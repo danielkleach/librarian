@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Book;
 use App\User;
 use App\Rental;
 use Carbon\Carbon;
@@ -18,8 +19,11 @@ class BookCheckinTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $rental = factory(Rental::class)->states(['withBook'])->create([
+        $book = factory(Book::class)->states(['withCategory'])->create(['status' => 'unavailable']);
+
+        $rental = factory(Rental::class)->create([
             'user_id' => $user->id,
+            'book_id' => $book->id,
             'return_date' => null
         ]);
 
