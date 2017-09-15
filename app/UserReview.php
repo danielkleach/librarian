@@ -69,4 +69,23 @@ class UserReview extends Model
 
         return $review;
     }
+
+    /**
+     * Update a user review.
+     *
+     * @param $request
+     * @param $review
+     * @return $this|Model
+     * @internal param $user
+     * @internal param $book
+     * @internal param $bookId
+     */
+    public function updateReview($request, $review)
+    {
+        $review->update($request->all());
+
+        event(new BookRated($review));
+
+        return $review;
+    }
 }

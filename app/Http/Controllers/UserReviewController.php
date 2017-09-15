@@ -36,9 +36,8 @@ class UserReviewController extends Controller
     {
         $userReview = $this->userReviewModel->findOrFail($userReviewId);
         $this->authorize('update', $userReview);
-        $userReview->update($request->all());
 
-        return new UserReviewResource($userReview);
+        return new UserReviewResource($this->userReviewModel->updateReview($request, $userReview));
     }
 
     public function destroy($userReviewId)
