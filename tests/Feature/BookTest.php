@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Role;
 use App\User;
 use App\Book;
 use App\Category;
@@ -49,6 +50,9 @@ class BookTest extends TestCase
     {
         $category = factory(Category::class)->create();
         $user = factory(User::class)->create();
+        $role = factory(Role::class)->create(['name' => 'Admin', 'slug' => 'admin']);
+        $user->roles()->attach($role->id);
+        $user->save();
 
         $data = [
             'category_id' => $category->id,
@@ -60,7 +64,7 @@ class BookTest extends TestCase
             'location' => 'Software office'
         ];
 
-        $response = $this->postJson("/books", $data);
+        $response = $this->actingAs($user)->postJson("/books", $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('books', $data);
@@ -69,6 +73,10 @@ class BookTest extends TestCase
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
         $book = factory(Book::class)->states(['withCategory'])->create();
+        $user = factory(User::class)->create();
+        $role = factory(Role::class)->create(['name' => 'Admin', 'slug' => 'admin']);
+        $user->roles()->attach($role->id);
+        $user->save();
 
         $data = [
             'title' => 'New test title',
@@ -78,7 +86,7 @@ class BookTest extends TestCase
             'location' => 'Software office'
         ];
 
-        $response = $this->patchJson("/books/{$book->id}", $data);
+        $response = $this->actingAs($user)->patchJson("/books/{$book->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('books', $data);

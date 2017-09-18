@@ -29,12 +29,14 @@ class BookController extends Controller
 
     public function store(BookRequest $request)
     {
+        $this->authorize('store', $this->bookModel);
         return new BookResource($this->bookModel->create($request->all()));
     }
 
     public function update(BookRequest $request, $bookId)
     {
         $book = $this->bookModel->find($bookId);
+        $this->authorize('update', $book);
         $book->update($request->all());
 
         return new BookResource($book);

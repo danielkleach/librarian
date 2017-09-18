@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Book;
 use App\UserReview;
 use App\FavoriteBook;
+use App\Policies\BookPolicy;
 use App\Policies\UserReviewPolicy;
 use App\Policies\FavoriteBookPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -16,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        Book::class => BookPolicy::class,
         FavoriteBook::class => FavoriteBookPolicy::class,
         UserReview::class => UserReviewPolicy::class,
     ];

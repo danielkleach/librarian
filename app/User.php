@@ -39,6 +39,21 @@ class User extends Authenticatable
     }
 
     /**
+     * A User belongs to many roles.
+     *
+     * @return mixed
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(
+            Role::class,
+            'role_users',
+            'user_id',
+            'role_id'
+        )->withTimestamps();
+    }
+
+    /**
      * A User has many Rentals.
      *
      * @return mixed
@@ -71,6 +86,13 @@ class User extends Authenticatable
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/
+
+    /**
+     * Check if user has a role of admin.
+     */
+    public function isAdmin() {
+        return $this->roles->where('slug', 'admin')->isNotEmpty();
+    }
 
     /**
      * Generate an api token for the user.
