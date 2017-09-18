@@ -1,9 +1,7 @@
 <?php
 
+use App\Role;
 use App\User;
-use App\Book;
-use App\Tracker;
-use App\UserReview;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -15,6 +13,18 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $user = factory(User::class)->create([
+            'first_name' => 'System',
+            'last_name' => 'Admin',
+            'email' => 'admin@test.com',
+            'password' => bcrypt('Tester12')
+        ]);
+
+        $role = Role::where('slug', 'admin')->first();
+
+        $user->roles()->attach($role->id);
+        $user->save();
+
         factory(User::class, 50)->create();
     }
 }
