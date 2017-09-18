@@ -21,18 +21,6 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
-    static $password;
-
-    return [
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('Tester12'),
-        'remember_token' => str_random(10),
-    ];
-});
-
 $factory->define(App\Category::class, function (Faker $faker) {
 
     return [
@@ -44,6 +32,26 @@ $factory->define(App\Author::class, function (Faker $faker) {
 
     return [
         'name' => $faker->name,
+    ];
+});
+
+$factory->define(App\Role::class, function (Faker $faker) {
+
+    return [
+        'name' => $faker->name,
+        'slug' => $faker->name
+    ];
+});
+
+$factory->define(App\User::class, function (Faker $faker) {
+    static $password;
+
+    return [
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = bcrypt('Tester12'),
+        'remember_token' => str_random(10),
     ];
 });
 
