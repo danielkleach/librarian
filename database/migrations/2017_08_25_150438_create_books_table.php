@@ -22,6 +22,7 @@ class CreateBooksTable extends Migration
             $table->string('isbn');
             $table->smallInteger('publication_year')->unsigned();
             $table->string('location');
+            $table->string('cover_image_url')->nullable();
             $table->string('status')->default('available');
             $table->boolean('featured')->default(0);
             $table->integer('total_rentals')->default(0);

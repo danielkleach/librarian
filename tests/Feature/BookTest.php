@@ -7,12 +7,13 @@ use App\User;
 use App\Book;
 use App\Category;
 use Tests\TestCase;
+use App\Traits\MockABookLookup;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BookTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use MockABookLookup, DatabaseTransactions, WithoutMiddleware;
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
@@ -38,9 +39,7 @@ class BookTest extends TestCase
             'rating' => $book->rating
                 ? number_format($book->rating, 1)
                 : null,
-            'cover_image_url' => $book->getFirstMedia('cover_image')
-                ? $book->getFirstMedia('cover_image')->getUrl()
-                : null,
+            'cover_image_url' => $book->cover_image_url ?? null,
             'created_at' => $book->created_at->format('F j, Y'),
             'updated_at' => $book->updated_at->format('F j, Y')
         ]);
@@ -48,6 +47,8 @@ class BookTest extends TestCase
 
     public function testStoreEndpointCreatesABookInTheDatabase()
     {
+        $this->mockBookLookup();
+
         $category = factory(Category::class)->create();
         $user = factory(User::class)->create();
         $role = factory(Role::class)->create(['name' => 'Admin', 'slug' => 'admin']);
@@ -57,10 +58,6 @@ class BookTest extends TestCase
         $data = [
             'category_id' => $category->id,
             'owner_id' => $user->id,
-            'title' => 'Test title',
-            'description' => 'Test description.',
-            'isbn' => 'abcde12345',
-            'publication_year' => 2017,
             'location' => 'Software office'
         ];
 

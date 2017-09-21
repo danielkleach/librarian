@@ -21,7 +21,8 @@ class Book extends Model implements HasMedia
         'description',
         'isbn',
         'publication_year',
-        'location'
+        'location',
+        'cover_image_url'
     ];
 
     protected $attributes = [

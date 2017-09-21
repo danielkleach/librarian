@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Author;
+use App\Lookup;
 use App\Http\Requests\BookRequest;
 use App\Http\Resources\Book as BookResource;
 
 class BookController extends Controller
 {
-    protected $bookModel;
+    protected $bookModel, $authorModel;
 
-    public function __construct(Book $bookModel)
+    public function __construct(Book $bookModel, Author $authorModel)
     {
         $this->bookModel = $bookModel;
+        $this->authorModel = $authorModel;
     }
 
     public function index()
@@ -30,7 +33,34 @@ class BookController extends Controller
     public function store(BookRequest $request)
     {
         $this->authorize('store', $this->bookModel);
-        return new BookResource($this->bookModel->create($request->all()));
+
+        $lookup = app(Lookup::class);
+        $response = $lookup->handle($request);
+
+        $book = $this->bookModel->create([
+            'category_id' => $request->category_id,
+            'owner_id' => $request->owner_id ?? null,
+            'title' => $response->title,
+            'description' => $response->description,
+            'isbn' => $response->isbn,
+            'publication_year' => $response->publication_year,
+            'location' => $request->location,
+            'cover_image_url' => $response->cover_image_url ?? null
+        ]);
+
+        if ($response->authors) {
+            collect($response->authors)->each(function($authorName) use ($book) {
+                $author = $this->authorModel->where('name', $authorName)->first();
+
+                if (!$author) {
+                    $author = $this->authorModel->create(['name' => $authorName]);
+                }
+
+                $book->authors()->attach($author);
+            });
+        }
+
+        return new BookResource($book);
     }
 
     public function update(BookRequest $request, $bookId)

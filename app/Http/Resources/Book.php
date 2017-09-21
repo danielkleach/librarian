@@ -33,9 +33,7 @@ class Book extends Resource
             'rating' => $this->rating
                 ? number_format($this->rating, 2)
                 : null,
-            'cover_image_url' => $this->getFirstMedia('cover_image')
-                ? $this->getFirstMedia('cover_image')->getUrl()
-                : null,
+            'cover_image_url' => $this->cover_image_url,
             'created_at' => $this->created_at->format('F j, Y'),
             'updated_at' => $this->updated_at->format('F j, Y'),
 

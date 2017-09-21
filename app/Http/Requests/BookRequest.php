@@ -25,29 +25,15 @@ class BookRequest extends Request
                         'exists:categories,id',
                     ],
                     'owner_id' => [
-                        'required',
                         'integer',
                         'exists:users,id',
-                    ],
-                    'title' => [
-                        'required',
-                        'string',
-                    ],
-                    'description' => [
-                        'required',
-                        'string',
-                    ],
-                    'isbn' => [
-                        'required',
-                        'string',
-                    ],
-                    'publication_year' => [
-                        'required',
-                        'integer',
                     ],
                     'location' => [
                         'required',
                         'string',
+                    ],
+                    'cover_image_url' => [
+                        'string'
                     ]
                 ];
             case 'PATCH':
@@ -88,6 +74,9 @@ class BookRequest extends Request
                         'sometimes',
                         'required',
                         'string',
+                    ],
+                    'cover_image_url' => [
+                        'string'
                     ]
                 ];
             default:

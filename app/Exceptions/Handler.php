@@ -76,6 +76,7 @@ class Handler extends ExceptionHandler
             BookUnavailableException::class => $this->errorCustomType("This book is not available for checkout."),
             BookAlreadyCheckedInException::class => $this->errorCustomType("This book is already checked in."),
             Exception::class => $this->errorInternalError(),
+            GuzzleException::class => $this->errorCustomType("No books were found matching this ISBN."),
             HttpException::class => $this->errorForbidden(),
             MaintenanceModeException::class => $this->errorServiceUnavailable(),
             ModelNotFoundException::class => $this->errorNotFound(),
