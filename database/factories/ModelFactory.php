@@ -96,6 +96,30 @@ $factory->state(App\Book::class, 'withRandomUser', function ($faker) {
     ];
 });
 
+$factory->define(App\DigitalBook::class, function (Faker $faker) {
+
+    return [
+        'title' => $faker->sentence,
+        'description' => $faker->text(200),
+        'isbn' => $faker->isbn10,
+        'publication_year' => $faker->year,
+        'cover_image_url' => $faker->imageUrl(),
+        'featured' => $faker->boolean(10)
+    ];
+});
+
+$factory->state(App\DigitalBook::class, 'withCategory', function ($faker) {
+    return [
+        'category_id' => factory(Category::class)->lazy()
+    ];
+});
+
+$factory->state(App\DigitalBook::class, 'withRandomCategory', function ($faker) {
+    return [
+        'category_id' => Category::all()->random()->id
+    ];
+});
+
 $factory->define(App\Rental::class, function (Faker $faker) {
 
     $checkoutDate = $faker->dateTimeBetween(
@@ -141,6 +165,34 @@ $factory->state(App\Rental::class, 'withRandomUser', function ($faker) {
 });
 
 $factory->state(App\Rental::class, 'withRandomBook', function ($faker) {
+    return [
+        'book_id' => Book::all()->random()->id
+    ];
+});
+
+$factory->define(App\Download::class, function (Faker $faker) {
+    return [];
+});
+
+$factory->state(App\Download::class, 'withUser', function ($faker) {
+    return [
+        'user_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\Download::class, 'withBook', function ($faker) {
+    return [
+        'book_id' => factory(Book::class)->states(['withCategory'])->lazy()
+    ];
+});
+
+$factory->state(App\Download::class, 'withRandomUser', function ($faker) {
+    return [
+        'user_id' => User::all()->random()->id
+    ];
+});
+
+$factory->state(App\Download::class, 'withRandomBook', function ($faker) {
     return [
         'book_id' => Book::all()->random()->id
     ];

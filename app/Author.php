@@ -29,4 +29,19 @@ class Author extends Model
             'book_id'
         )->withTimestamps();
     }
+
+    /**
+     * An Author has many Books.
+     *
+     * @return mixed
+     */
+    public function digitalBooks()
+    {
+        return $this->belongsToMany(
+            DigitalBook::class,
+            'digital_book_authors',
+            'author_id',
+            'book_id'
+        )->withTimestamps();
+    }
 }

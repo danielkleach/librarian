@@ -45,6 +45,14 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
     });
 
+    Route::prefix('digital-books')->group(function () {
+        Route::get('/', 'DigitalBookController@index');
+
+        Route::prefix('{bookId}')->group(function () {
+            Route::get('/', 'DigitalBookController@show');
+        });
+    });
+
     Route::group(['middleware' => ['auth:api']], function() {
 
         Route::prefix('users')->group(function () {
@@ -95,6 +103,30 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::prefix('authors')->group(function () {
                     Route::post('/', 'BookAuthorController@store');
                     Route::delete('/{authorId}', 'BookAuthorController@destroy');
+                });
+
+                Route::prefix('cover-image')->group(function () {
+                    Route::post('/', 'CoverImageController@store');
+                    Route::delete('/', 'CoverImageController@destroy');
+                });
+
+                Route::prefix('user-reviews')->group(function () {
+                    Route::post('/', 'UserReviewController@store');
+                });
+            });
+        });
+
+        Route::prefix('digital-books')->group(function () {
+            Route::post('/', 'DigitalBookController@store');
+
+            Route::prefix('{bookId}')->group(function () {
+                Route::patch('/', 'DigitalBookController@update');
+                Route::delete('/', 'DigitalBookController@destroy');
+                Route::post('/download', 'BookDownloadController@store');
+
+                Route::prefix('authors')->group(function () {
+                    Route::post('/', 'DigitalBookAuthorController@store');
+                    Route::delete('/{authorId}', 'DigitalBookAuthorController@destroy');
                 });
 
                 Route::prefix('cover-image')->group(function () {
