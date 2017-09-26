@@ -25,18 +25,22 @@ class DigitalBookRequest extends Request
                         'exists:categories,id',
                     ],
                     'title' => [
+                        'sometimes',
                         'required',
                         'string',
                     ],
                     'description' => [
+                        'sometimes',
                         'required',
                         'string',
                     ],
                     'isbn' => [
+                        'sometimes',
                         'required',
                         'string',
                     ],
                     'publication_year' => [
+                        'sometimes',
                         'required',
                         'numeric',
                     ],
