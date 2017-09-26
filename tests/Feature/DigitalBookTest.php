@@ -53,10 +53,10 @@ class DigitalBookTest extends TestCase
 
         $data = [
             'category_id' => $category->id,
-            'title' => 'Book Title',
-            'description' => 'Book description.',
-            'isbn' => '1111111111',
-            'publication_year' => 2017,
+            'title' => 'New test title',
+            'description' => 'New test description.',
+            'isbn' => 'abcde12345',
+            'publication_year' => 2017
         ];
 
         $response = $this->actingAs($user)->postJson("/digital-books", $data);
@@ -67,7 +67,7 @@ class DigitalBookTest extends TestCase
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
-        $book = factory(Book::class)->states(['withCategory'])->create();
+        $book = factory(DigitalBook::class)->states(['withCategory'])->create();
         $user = factory(User::class)->create();
         $role = factory(Role::class)->create(['name' => 'Admin', 'slug' => 'admin']);
         $user->roles()->attach($role->id);
