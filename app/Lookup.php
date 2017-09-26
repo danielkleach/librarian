@@ -23,7 +23,20 @@ class Lookup
             throw new BookLookupFailureException;
         }
 
-        $data = json_decode($response->getBody()->getContents())->items[0]->volumeInfo;
+        $decoded = json_decode($response->getBody()->getContents());
+
+        if ($decoded->totalItems == 0) {
+            return (object) [
+                'title' => null,
+                'description' => null,
+                'isbn' => null,
+                'publication_year' => null,
+                'authors' => null,
+                'cover_image_url' => null
+            ];
+        }
+
+        $data = $decoded->items[0]->volumeInfo;
 
         return (object) [
             'title' => $data->title,
