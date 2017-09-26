@@ -53,10 +53,6 @@ class DigitalBookTest extends TestCase
 
         $data = [
             'category_id' => $category->id,
-            'title' => 'New test title',
-            'description' => 'New test description.',
-            'isbn' => 'abcde12345',
-            'publication_year' => 2017
         ];
 
         $response = $this->actingAs($user)->postJson("/digital-books", $data);
