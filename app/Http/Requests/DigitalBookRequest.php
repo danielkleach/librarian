@@ -24,6 +24,22 @@ class DigitalBookRequest extends Request
                         'integer',
                         'exists:categories,id',
                     ],
+                    'title' => [
+                        'required',
+                        'string',
+                    ],
+                    'description' => [
+                        'required',
+                        'string',
+                    ],
+                    'isbn' => [
+                        'required',
+                        'string',
+                    ],
+                    'publication_year' => [
+                        'required',
+                        'numeric',
+                    ],
                     'cover_image_url' => [
                         'string'
                     ]

@@ -28,6 +28,22 @@ class BookRequest extends Request
                         'integer',
                         'exists:users,id',
                     ],
+                    'title' => [
+                        'required',
+                        'string',
+                    ],
+                    'description' => [
+                        'required',
+                        'string',
+                    ],
+                    'isbn' => [
+                        'required',
+                        'string',
+                    ],
+                    'publication_year' => [
+                        'required',
+                        'numeric',
+                    ],
                     'location' => [
                         'required',
                         'string',
