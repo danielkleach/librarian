@@ -73,10 +73,10 @@ class Handler extends ExceptionHandler
         $response = collect([
             AuthenticationException::class => $this->errorUnauthorized(),
             AuthorizationException::class => $this->errorForbidden(),
-            BookUnavailableException::class => $this->errorCustomType("This book is not available for checkout."),
             BookAlreadyCheckedInException::class => $this->errorCustomType("This book is already checked in."),
+            BookLookupFailureException::class => $this->errorCustomType("There was a problem connecting to Google Books."),
+            BookUnavailableException::class => $this->errorCustomType("This book is not available for checkout."),
             Exception::class => $this->errorInternalError(),
-            GuzzleException::class => $this->errorCustomType("No books were found matching this ISBN."),
             HttpException::class => $this->errorForbidden(),
             MaintenanceModeException::class => $this->errorServiceUnavailable(),
             ModelNotFoundException::class => $this->errorNotFound(),
