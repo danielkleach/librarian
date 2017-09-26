@@ -18,7 +18,7 @@ class DigitalBookRequest extends Request
     {
         switch ($this->method()) {
             case 'POST':
-                return [
+                $rules =  [
                     'category_id' => [
                         'required',
                         'integer',
@@ -48,6 +48,13 @@ class DigitalBookRequest extends Request
                         'string'
                     ]
                 ];
+
+                $files = count($this->input('files'));
+                foreach(range(0, $files) as $index) {
+                    $rules['files.' . $index] = 'file:mimes:pdf,epub,mobi';
+                }
+
+                return $rules;
             case 'PATCH':
                 return [
                     'category_id' => [

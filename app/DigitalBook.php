@@ -56,13 +56,23 @@ class DigitalBook extends Model implements HasMedia
     }
 
     /**
-     * A Book has many Rentals.
+     * A Book has many Downloads.
      *
      * @return mixed
      */
     public function downloads()
     {
         return $this->hasMany(Download::class, 'book_id');
+    }
+
+    /**
+     * A Book has many Rentals.
+     *
+     * @return mixed
+     */
+    public function files()
+    {
+        return $this->hasMany(File::class, 'book_id');
     }
 
     /**

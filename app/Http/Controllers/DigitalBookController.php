@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
 use App\Author;
 use App\Lookup;
 use App\DigitalBook;
@@ -10,12 +11,13 @@ use App\Http\Resources\DigitalBook as DigitalBookResource;
 
 class DigitalBookController extends Controller
 {
-    protected $bookModel, $authorModel;
+    protected $bookModel, $authorModel, $fileModel;
 
-    public function __construct(DigitalBook $bookModel, Author $authorModel)
+    public function __construct(DigitalBook $bookModel, Author $authorModel, File $fileModel)
     {
         $this->bookModel = $bookModel;
         $this->authorModel = $authorModel;
+        $this->fileModel = $fileModel;
     }
 
     public function index()
@@ -46,14 +48,18 @@ class DigitalBookController extends Controller
             'cover_image_url' => $response->cover_image_url ?? null
         ]);
 
+        foreach ($request->files as $file) {
+            $path = $file->move('media', $book->id . '-' . $file->getClientOriginalName());
+            $this->fileModel->create([
+                'book_id' => $book->id,
+                'format' => $file->getClientOriginalExtension(),
+                'path' => $path
+            ]);
+        }
+
         if ($response->authors) {
             collect($response->authors)->each(function($authorName) use ($book) {
-                $author = $this->authorModel->where('name', $authorName)->first();
-
-                if (!$author) {
-                    $author = $this->authorModel->create(['name' => $authorName]);
-                }
-
+                $author = $this->authorModel->firstOrCreate(['name' => $authorName]);
                 $book->authors()->attach($author);
             });
         }
