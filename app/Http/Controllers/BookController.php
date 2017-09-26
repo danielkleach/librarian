@@ -40,10 +40,10 @@ class BookController extends Controller
         $book = $this->bookModel->create([
             'category_id' => $request->category_id,
             'owner_id' => $request->owner_id ?? null,
-            'title' => $response->title,
-            'description' => $response->description,
-            'isbn' => $response->isbn,
-            'publication_year' => $response->publication_year,
+            'title' => $response->title ?? $request->title,
+            'description' => $response->description ?? $request->description,
+            'isbn' => $response->isbn ?? $request->isbn,
+            'publication_year' => $response->publication_year ?? $request->publication_year,
             'location' => $request->location,
             'cover_image_url' => $response->cover_image_url ?? null
         ]);
