@@ -12,7 +12,8 @@ class File extends Model
     protected $fillable = [
         'book_id',
         'format',
-        'path'
+        'path',
+        'filename'
     ];
 
     /***********************************************/
