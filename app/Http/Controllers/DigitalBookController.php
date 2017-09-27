@@ -49,11 +49,12 @@ class DigitalBookController extends Controller
         ]);
 
         foreach ($request->files as $file) {
-            $path = $file->move('media', $book->id . '-' . $file->getClientOriginalName());
+            $path = $file->move(storage_path() . '/files/' . $book->id, $book->id . '-' . $file->getClientOriginalName());
             $this->fileModel->create([
                 'book_id' => $book->id,
                 'format' => $file->getClientOriginalExtension(),
-                'path' => $path
+                'path' => $path,
+                'filename' => $file->getClientOriginalName()
             ]);
         }
 
