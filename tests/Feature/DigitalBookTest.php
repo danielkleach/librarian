@@ -3,11 +3,12 @@
 namespace Tests\Feature;
 
 use App\User;
-use App\Book;
 use App\Category;
 use Tests\TestCase;
 use App\DigitalBook;
 use App\Traits\MockABookLookup;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -43,18 +44,31 @@ class DigitalBookTest extends TestCase
     public function testStoreEndpointCreatesABookInTheDatabase()
     {
         $this->mockBookLookup();
+        Storage::fake('media');
 
         $category = factory(Category::class)->create();
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [
             'category_id' => $category->id,
+            'files[0]' => UploadedFile::fake()->create('book.pdf')
         ];
 
         $response = $this->actingAs($user)->postJson("/digital-books", $data);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('digital_books', $data);
+        $this->assertDatabaseHas('digital_books', [
+            'category_id' => $category->id,
+            'title' => 'New test title',
+            'description' => 'New test description.',
+            'isbn' => 'abcde12345',
+            'publication_year' => 2017
+        ]);
+        $this->assertDatabaseHas('files', [
+            'book_id' => $response->json()['data']['id'],
+            'format' => 'pdf',
+            'path' => 'media/' . $response->json()['data']['id'] . '-book.pdf'
+        ]);
     }
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
