@@ -118,6 +118,26 @@ $factory->state(App\DigitalBook::class, 'withRandomCategory', function ($faker) 
     ];
 });
 
+$factory->define(App\File::class, function (Faker $faker) {
+
+    return [
+        'format' => $faker->randomElement(['pdf', 'epub', 'mobi']),
+        'path' => $faker->url
+    ];
+});
+
+$factory->state(App\File::class, 'withBook', function ($faker) {
+    return [
+        'book_id' => factory(Book::class)->lazy()
+    ];
+});
+
+$factory->state(App\File::class, 'withRandomBook', function ($faker) {
+    return [
+        'book_id' => Book::all()->random()->id
+    ];
+});
+
 $factory->define(App\Rental::class, function (Faker $faker) {
 
     $checkoutDate = $faker->dateTimeBetween(
