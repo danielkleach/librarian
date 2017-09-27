@@ -29,7 +29,7 @@ class DigitalBookController extends Controller
     public function show($bookId)
     {
         return new DigitalBookResource($this->bookModel
-            ->with(['authors', 'category'])->findOrFail($bookId));
+            ->with(['authors', 'category', 'files'])->findOrFail($bookId));
     }
 
     public function store(DigitalBookRequest $request)
