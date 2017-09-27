@@ -21,7 +21,7 @@ class CreateDownloadsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('book_id')->references('id')->on('books');
+            $table->foreign('book_id')->references('id')->on('digital_books');
         });
     }
 
