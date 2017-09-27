@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Role;
 use App\User;
 use App\Book;
 use App\Category;
@@ -46,10 +45,7 @@ class DigitalBookTest extends TestCase
         $this->mockBookLookup();
 
         $category = factory(Category::class)->create();
-        $user = factory(User::class)->create();
-        $role = factory(Role::class)->create(['name' => 'Admin', 'slug' => 'admin']);
-        $user->roles()->attach($role->id);
-        $user->save();
+        $user = factory(User::class)->states(['admin'])->create();
 
         $data = [
             'category_id' => $category->id,
@@ -64,10 +60,7 @@ class DigitalBookTest extends TestCase
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
         $book = factory(DigitalBook::class)->states(['withCategory'])->create();
-        $user = factory(User::class)->create();
-        $role = factory(Role::class)->create(['name' => 'Admin', 'slug' => 'admin']);
-        $user->roles()->attach($role->id);
-        $user->save();
+        $user = factory(User::class)->states(['admin'])->create();
 
         $data = [
             'title' => 'New test title',

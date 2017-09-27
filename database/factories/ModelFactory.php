@@ -35,14 +35,6 @@ $factory->define(App\Author::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Role::class, function (Faker $faker) {
-
-    return [
-        'name' => $faker->name,
-        'slug' => $faker->name
-    ];
-});
-
 $factory->define(App\User::class, function (Faker $faker) {
     static $password;
 
@@ -52,6 +44,12 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('Tester12'),
         'remember_token' => str_random(10),
+    ];
+});
+
+$factory->state(App\User::class, 'admin', function ($faker) {
+    return [
+        'is_admin' => true
     ];
 });
 

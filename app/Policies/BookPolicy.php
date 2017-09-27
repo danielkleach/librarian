@@ -22,7 +22,7 @@ class BookPolicy
      */
     public function store(User $user, Book $book)
     {
-        return $user->isAdmin();
+        return $user->is_admin;
     }
 
     /**
@@ -35,6 +35,6 @@ class BookPolicy
      */
     public function update(User $user, Book $book)
     {
-        return $user->isAdmin();
+        return $user->is_admin;
     }
 }

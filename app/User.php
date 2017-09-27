@@ -39,21 +39,6 @@ class User extends Authenticatable
     }
 
     /**
-     * A User belongs to many roles.
-     *
-     * @return mixed
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(
-            Role::class,
-            'role_users',
-            'user_id',
-            'role_id'
-        )->withTimestamps();
-    }
-
-    /**
      * A User has many Rentals.
      *
      * @return mixed
