@@ -20,6 +20,7 @@ class File extends Resource
             'book_id' => (int) $this->book_id,
             'format' => $this->format,
             'path' => $this->path,
+            'filename' => $this->filename,
             'created_at' => $this->created_at->format('F j, Y'),
             'updated_at' => $this->updated_at->format('F j, Y'),
 
