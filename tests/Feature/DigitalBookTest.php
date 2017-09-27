@@ -44,7 +44,6 @@ class DigitalBookTest extends TestCase
     public function testStoreEndpointCreatesABookInTheDatabase()
     {
         $this->mockBookLookup();
-        Storage::fake('media');
 
         $category = factory(Category::class)->create();
         $user = factory(User::class)->states(['admin'])->create();
@@ -67,7 +66,8 @@ class DigitalBookTest extends TestCase
         $this->assertDatabaseHas('files', [
             'book_id' => $response->json()['data']['id'],
             'format' => 'pdf',
-            'path' => 'media/' . $response->json()['data']['id'] . '-book.pdf'
+            'path' => storage_path() . '/files/' . $response->json()['data']['id'] .
+                '/' . $response->json()['data']['id'] . '-book.pdf'
         ]);
     }
 
