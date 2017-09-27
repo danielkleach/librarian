@@ -122,7 +122,8 @@ $factory->define(App\File::class, function (Faker $faker) {
 
     return [
         'format' => $faker->randomElement(['pdf', 'epub', 'mobi']),
-        'path' => $faker->url
+        'path' => $faker->url,
+        'filename' => $faker->file()
     ];
 });
 
