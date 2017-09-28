@@ -2,14 +2,33 @@
 
 namespace App;
 
+use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Author extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Searchable;
 
     protected $guarded = [];
+    protected $indexConfigurator = BookIndexConfigurator::class;
+
+    protected $searchRules = [
+        BookSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'id' => [
+                'type' => 'integer',
+                'index' => 'not_analyzed'
+            ],
+            'name' => [
+                'type' => 'string',
+                'analyzer' => 'english'
+            ],
+        ]
+    ];
 
     /***********************************************/
     /**************** Relationships ****************/

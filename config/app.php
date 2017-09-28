@@ -167,6 +167,12 @@ return [
          * Package Service Providers...
          */
 
+        //  Scout
+        Laravel\Scout\ScoutServiceProvider::class,
+
+        // Driver for Elasticsearch
+        ScoutElastic\ScoutElasticServiceProvider::class,
+
         /*
          * Application Service Providers...
          */

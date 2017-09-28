@@ -16,6 +16,8 @@ Route::group(['middleware' => ['respondWithJson']], function() {
     Route::post('/login', 'Auth\LoginController@login');
     Route::post('/logout', 'Auth\LoginController@logout');
 
+    Route::post('/search', 'SearchController@index');
+
     Route::get('/featured/books', 'FeaturedBookController@index');
     Route::get('/popular/books', 'PopularBookController@index');
     Route::get('/new/books', 'NewBookController@index');

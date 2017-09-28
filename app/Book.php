@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Spatie\Tags\HasTags;
+use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -11,9 +12,10 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class Book extends Model implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait, HasTags;
+    use SoftDeletes, HasMediaTrait, HasTags, Searchable;
 
     private $cacheCoverImage;
+    protected $indexConfigurator = BookIndexConfigurator::class;
 
     protected $fillable = [
         'owner_id',
@@ -31,6 +33,43 @@ class Book extends Model implements HasMedia
 
     protected $casts = [
         'featured' => 'boolean'
+    ];
+
+    protected $searchRules = [
+        BookSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'id' => [
+                'type' => 'integer',
+                'index' => 'not_analyzed'
+            ],
+            'title' => [
+                'type' => 'string',
+                'analyzer' => 'english'
+            ],
+            'description' => [
+                'type' => 'string',
+                'analyzer' => 'english'
+            ],
+            'isbn' => [
+                'type' => 'string',
+                'analyzer' => 'english'
+            ],
+            'publication_year' => [
+                'type' => 'integer',
+                'index' => 'not_analyzed'
+            ],
+            'author_id' => [
+                'type' => 'integer',
+                'index' => 'not_analyzed'
+            ],
+            'author_name' => [
+                'type' => 'string',
+                'analyzer' => 'english'
+            ]
+        ]
     ];
 
     /***********************************************/
