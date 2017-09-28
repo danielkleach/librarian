@@ -47,6 +47,8 @@ class BookController extends Controller
             'cover_image_url' => $response->cover_image_url ?? null
         ]);
 
+        $book->attachTags($request->tags);
+
         if ($response->authors) {
             collect($response->authors)->each(function($authorName) use ($book) {
                 $author = $this->authorModel->where('name', $authorName)->first();

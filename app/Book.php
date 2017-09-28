@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Spatie\Tags\HasTags;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -10,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class Book extends Model implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait;
+    use SoftDeletes, HasMediaTrait, HasTags;
 
     private $cacheCoverImage;
 

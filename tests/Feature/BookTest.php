@@ -29,6 +29,7 @@ class BookTest extends TestCase
             'description' => $book->description,
             'isbn' => $book->isbn,
             'publication_year' => (int) $book->publication_year,
+            'tags' => $book->tags,
             'location' => $book->location,
             'status' => $book->status,
             'featured' => $book->featured,
@@ -50,13 +51,26 @@ class BookTest extends TestCase
 
         $data = [
             'owner_id' => $user->id,
-            'location' => 'Software office'
+            'location' => 'Software office',
+            'tags' => [
+                'tag1',
+                'tag2'
+            ]
         ];
 
         $response = $this->actingAs($user)->postJson("/books", $data);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('books', $data);
+        $this->assertDatabaseHas('books', [
+            'title' => 'New test title',
+            'description' => 'New test description.',
+            'isbn' => 'abcde12345',
+            'publication_year' => 2017
+        ]);
+        $this->assertDatabaseHas('taggables', [
+            'taggable_id' => $response->json()['data']['id'],
+            'taggable_type' => 'App\Book'
+        ]);
     }
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
@@ -69,7 +83,7 @@ class BookTest extends TestCase
             'description' => 'New test description.',
             'isbn' => 'abcde12345',
             'publication_year' => 2017,
-            'location' => 'Software office'
+            'location' => 'Software office',
         ];
 
         $response = $this->actingAs($user)->patchJson("/books/{$book->id}", $data);

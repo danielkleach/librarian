@@ -20,6 +20,7 @@ class DigitalBook extends Resource
             'description' => $this->description,
             'isbn' => $this->isbn,
             'publication_year' => (int) $this->publication_year,
+            'tags' => $this->tags,
             'featured' => $this->featured,
             'download_count' => $this->download_count
                 ? (int) $this->download_count

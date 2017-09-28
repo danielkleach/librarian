@@ -47,6 +47,8 @@ class DigitalBookController extends Controller
             'cover_image_url' => $response->cover_image_url ?? null
         ]);
 
+        $book->attachTags($request->tags);
+
         foreach ($request->files as $file) {
             $path = $file->move(storage_path() . '/files/' . $book->id, $book->id . '-' . $file->getClientOriginalName());
             $this->fileModel->create([

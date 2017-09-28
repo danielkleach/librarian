@@ -23,6 +23,7 @@ class Book extends Resource
             'description' => $this->description,
             'isbn' => $this->isbn,
             'publication_year' => (int) $this->publication_year,
+            'tags' => $this->tags,
             'location' => $this->location,
             'status' => $this->status,
             'featured' => $this->featured,
