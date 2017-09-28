@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
-use App\Category;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use App\DigitalBook;
 use App\Traits\MockABookLookup;
@@ -64,6 +64,7 @@ class DigitalBookTest extends TestCase
             'path' => storage_path() . '/files/' . $response->json()['data']['id'] .
                 '/' . $response->json()['data']['id'] . '-book.pdf'
         ]);
+        Storage::disk('files')->deleteDirectory($response->json()['data']['id']);
     }
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
