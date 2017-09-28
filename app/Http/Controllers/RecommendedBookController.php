@@ -16,7 +16,7 @@ class RecommendedBookController extends Controller
 
     public function index()
     {
-        return BookResource::collection($this->bookModel->with(['authors', 'category', 'owner'])
+        return BookResource::collection($this->bookModel->with(['authors', 'owner'])
             ->recommended()->paginate(25));
     }
 }

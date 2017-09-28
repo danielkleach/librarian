@@ -15,7 +15,7 @@ class BookAuthorTest extends TestCase
     public function testStoreEndpointAddsAnAuthorToABook()
     {
         $author = factory(Author::class)->create();
-        $book = factory(Book::class)->states(['withCategory'])->create();
+        $book = factory(Book::class)->create();
 
         $data = [
             'author_id' => $author->id
@@ -33,7 +33,7 @@ class BookAuthorTest extends TestCase
     public function testDestroyEndpointRemovesAnAuthorFromABook()
     {
         $author = factory(Author::class)->create();
-        $book = factory(Book::class)->states(['withCategory'])->create();
+        $book = factory(Book::class)->create();
         $book->authors()->attach($author->id);
 
         $response = $this->deleteJson("/books/{$book->id}/authors/{$author->id}");

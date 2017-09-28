@@ -14,7 +14,7 @@ class BookCheckoutAuthorizationTest extends TestCase
     public function testStoreRejectsAnUnauthorizedUser()
     {
         $user = factory(User::class)->create();
-        $book = factory(Book::class)->states(['withCategory'])->create();
+        $book = factory(Book::class)->create();
 
         $data = [
             'user_id' => (int) $user->id

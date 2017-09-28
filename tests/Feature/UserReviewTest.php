@@ -18,7 +18,7 @@ class UserReviewTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $book = factory(Book::class)->states(['withCategory'])->create();
+        $book = factory(Book::class)->create();
 
         $data = [
             'book_id' => (int) $book->id,

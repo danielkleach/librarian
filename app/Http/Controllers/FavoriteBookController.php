@@ -19,7 +19,7 @@ class FavoriteBookController extends Controller
     public function index()
     {
         return FavoriteBookResource::collection($this->favoriteBookModel
-            ->with(['user', 'book.category', 'book.authors'])
+            ->with(['user', 'book.authors'])
             ->where('user_id', '=', Auth::user()->id)->paginate(25));
     }
 

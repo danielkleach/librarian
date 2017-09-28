@@ -12,6 +12,6 @@ class DigitalBookSeeder extends Seeder
      */
     public function run()
     {
-        factory(DigitalBook::class, 50)->states(['withRandomCategory'])->create();
+        factory(DigitalBook::class, 50)->create();
     }
 }

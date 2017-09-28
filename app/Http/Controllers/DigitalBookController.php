@@ -23,13 +23,13 @@ class DigitalBookController extends Controller
     public function index()
     {
         return DigitalBookResource::collection($this->bookModel
-            ->with(['authors', 'category'])->paginate(25));
+            ->with(['authors'])->paginate(25));
     }
 
     public function show($bookId)
     {
         return new DigitalBookResource($this->bookModel
-            ->with(['authors', 'category', 'files'])->findOrFail($bookId));
+            ->with(['authors', 'files'])->findOrFail($bookId));
     }
 
     public function store(DigitalBookRequest $request)
@@ -40,7 +40,6 @@ class DigitalBookController extends Controller
         $response = $lookup->handle($request);
 
         $book = $this->bookModel->create([
-            'category_id' => $request->category_id,
             'title' => $response->title ?? $request->title,
             'description' => $response->description ?? $request->description,
             'isbn' => $response->isbn ?? $request->isbn,

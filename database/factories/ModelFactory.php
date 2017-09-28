@@ -3,7 +3,6 @@
 use App\User;
 use App\Book;
 use App\Author;
-use App\Category;
 use Carbon\Carbon;
 use App\UserReview;
 use App\DigitalBook;
@@ -19,13 +18,6 @@ use Faker\Generator as Faker;
 | model instances for testing / seeding your application's database.
 |
 */
-
-$factory->define(App\Category::class, function (Faker $faker) {
-
-    return [
-        'name' => $faker->name,
-    ];
-});
 
 $factory->define(App\Author::class, function (Faker $faker) {
 
@@ -69,21 +61,9 @@ $factory->define(App\Book::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Book::class, 'withCategory', function ($faker) {
-    return [
-        'category_id' => factory(Category::class)->lazy()
-    ];
-});
-
 $factory->state(App\Book::class, 'withUser', function ($faker) {
     return [
         'owner_id' => factory(User::class)->lazy()
-    ];
-});
-
-$factory->state(App\Book::class, 'withRandomCategory', function ($faker) {
-    return [
-        'category_id' => Category::all()->random()->id
     ];
 });
 
@@ -105,18 +85,6 @@ $factory->define(App\DigitalBook::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\DigitalBook::class, 'withCategory', function ($faker) {
-    return [
-        'category_id' => factory(Category::class)->lazy()
-    ];
-});
-
-$factory->state(App\DigitalBook::class, 'withRandomCategory', function ($faker) {
-    return [
-        'category_id' => Category::all()->random()->id
-    ];
-});
-
 $factory->define(App\File::class, function (Faker $faker) {
     $format = $faker->randomElement(['pdf', 'epub', 'mobi']);
 
@@ -129,7 +97,7 @@ $factory->define(App\File::class, function (Faker $faker) {
 
 $factory->state(App\File::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(DigitalBook::class)->states(['withCategory'])->lazy()
+        'book_id' => factory(DigitalBook::class)->lazy()
     ];
 });
 
@@ -173,7 +141,7 @@ $factory->state(App\Rental::class, 'withUser', function ($faker) {
 
 $factory->state(App\Rental::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory'])->lazy()
+        'book_id' => factory(Book::class)->lazy()
     ];
 });
 
@@ -201,7 +169,7 @@ $factory->state(App\Download::class, 'withUser', function ($faker) {
 
 $factory->state(App\Download::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory'])->lazy()
+        'book_id' => factory(Book::class)->lazy()
     ];
 });
 
@@ -233,7 +201,7 @@ $factory->state(App\UserReview::class, 'withUser', function ($faker) {
 
 $factory->state(App\UserReview::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory'])->lazy()
+        'book_id' => factory(Book::class)->lazy()
     ];
 });
 
@@ -261,7 +229,7 @@ $factory->state(App\FavoriteBook::class, 'withUser', function ($faker) {
 
 $factory->state(App\FavoriteBook::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->states(['withCategory'])->lazy()
+        'book_id' => factory(Book::class)->lazy()
     ];
 });
 

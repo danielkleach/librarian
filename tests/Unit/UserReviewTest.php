@@ -17,7 +17,7 @@ class UserReviewTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $book = factory(Book::class)->states(['withCategory'])->create();
+        $book = factory(Book::class)->create();
 
         factory(UserReview::class)->create([
             'user_id' => $user->id,

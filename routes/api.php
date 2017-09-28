@@ -21,14 +21,6 @@ Route::group(['middleware' => ['respondWithJson']], function() {
     Route::get('/new/books', 'NewBookController@index');
     Route::get('/recommended/books', 'RecommendedBookController@index');
 
-    Route::prefix('categories')->group(function () {
-        Route::get('/', 'CategoryController@index');
-
-        Route::prefix('{categoryId}')->group(function () {
-            Route::get('/', 'CategoryController@show');
-        });
-    });
-
     Route::prefix('authors')->group(function () {
         Route::get('/', 'AuthorController@index');
 
@@ -71,14 +63,6 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                         Route::delete('/', 'FavoriteBookController@destroy');
                     });
                 });
-            });
-        });
-
-        Route::prefix('categories')->group(function () {
-            Route::post('/', 'CategoryController@store');
-
-            Route::prefix('{categoryId}')->group(function () {
-                Route::patch('/', 'CategoryController@update');
             });
         });
 

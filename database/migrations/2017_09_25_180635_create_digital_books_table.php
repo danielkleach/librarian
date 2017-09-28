@@ -15,7 +15,6 @@ class CreateDigitalBooksTable extends Migration
     {
         Schema::create('digital_books', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id')->unsigned();
             $table->string('title');
             $table->text('description');
             $table->string('isbn')->nullable();
@@ -26,8 +25,6 @@ class CreateDigitalBooksTable extends Migration
             $table->decimal('rating', 3, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

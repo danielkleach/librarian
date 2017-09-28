@@ -23,7 +23,7 @@ class UserController extends Controller
     public function show($userId)
     {
         return new UserResource($this->userModel
-            ->with(['userReviews.book', 'rentals.book.category', 'rentals.book.authors'])
+            ->with(['userReviews.book', 'rentals.book.authors'])
             ->findOrFail($userId));
     }
 

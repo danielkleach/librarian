@@ -21,13 +21,13 @@ class BookController extends Controller
     public function index()
     {
         return BookResource::collection($this->bookModel
-            ->with(['authors', 'category'])->paginate(25));
+            ->with(['authors'])->paginate(25));
     }
 
     public function show($bookId)
     {
         return new BookResource($this->bookModel
-            ->with(['authors', 'category', 'owner'])->findOrFail($bookId));
+            ->with(['authors', 'owner'])->findOrFail($bookId));
     }
 
     public function store(BookRequest $request)
@@ -38,7 +38,6 @@ class BookController extends Controller
         $response = $lookup->handle($request);
 
         $book = $this->bookModel->create([
-            'category_id' => $request->category_id,
             'owner_id' => $request->owner_id ?? null,
             'title' => $response->title ?? $request->title,
             'description' => $response->description ?? $request->description,

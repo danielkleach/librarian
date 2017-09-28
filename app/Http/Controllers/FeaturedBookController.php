@@ -16,7 +16,7 @@ class FeaturedBookController extends Controller
 
     public function index()
     {
-        return BookResource::collection($this->bookModel->with(['authors', 'category', 'owner'])
+        return BookResource::collection($this->bookModel->with(['authors', 'owner'])
             ->featured()->paginate(25));
     }
 }

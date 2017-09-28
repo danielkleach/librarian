@@ -16,7 +16,6 @@ class DigitalBook extends Resource
     {
         return [
             'id' => (int) $this->id,
-            'category_id' => (int) $this->category_id,
             'title' => $this->title,
             'description' => $this->description,
             'isbn' => $this->isbn,
@@ -33,7 +32,6 @@ class DigitalBook extends Resource
             'updated_at' => $this->updated_at->format('F j, Y'),
 
             'authors' => Author::collection($this->whenLoaded('authors')),
-            'category' => Category::make($this->whenLoaded('category')),
             'files' => File::collection($this->whenLoaded('files')),
             'downloads' => Download::collection($this->whenLoaded('downloads')),
             'user_reviews' => UserReview::collection($this->whenLoaded('userReviews'))

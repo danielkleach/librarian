@@ -8,7 +8,6 @@ use Tests\TestCase;
 use App\DigitalBook;
 use App\Traits\MockABookLookup;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -18,14 +17,13 @@ class DigitalBookTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
-        $book = factory(DigitalBook::class)->states(['withCategory'])->create();
+        $book = factory(DigitalBook::class)->create();
 
         $response = $this->getJson("/digital-books/{$book->id}");
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'id' => (int) $book->id,
-            'category_id' => (int) $book->category_id,
             'title' => $book->title,
             'description' => $book->description,
             'isbn' => $book->isbn,
@@ -45,11 +43,9 @@ class DigitalBookTest extends TestCase
     {
         $this->mockBookLookup();
 
-        $category = factory(Category::class)->create();
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [
-            'category_id' => $category->id,
             'files[0]' => UploadedFile::fake()->create('book.pdf')
         ];
 
@@ -57,7 +53,6 @@ class DigitalBookTest extends TestCase
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('digital_books', [
-            'category_id' => $category->id,
             'title' => 'New test title',
             'description' => 'New test description.',
             'isbn' => 'abcde12345',
@@ -73,7 +68,7 @@ class DigitalBookTest extends TestCase
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
-        $book = factory(DigitalBook::class)->states(['withCategory'])->create();
+        $book = factory(DigitalBook::class)->create();
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [

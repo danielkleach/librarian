@@ -14,11 +14,9 @@ class NewBookTest extends TestCase
 
     public function testIndexEndpointReturnsTheNewestBooks()
     {
-        $book1 = factory(Book::class)->states(['withCategory'])
-            ->create(['created_at' => Carbon::now()->addDay()->toDateTimeString()]);
+        $book1 = factory(Book::class)->create(['created_at' => Carbon::now()->addDay()->toDateTimeString()]);
 
-        $book2 = factory(Book::class)->states(['withCategory'])
-            ->create(['created_at' => Carbon::now()->addDays(2)->toDateTimeString()]);
+        $book2 = factory(Book::class)->create(['created_at' => Carbon::now()->addDays(2)->toDateTimeString()]);
 
         $response = $this->getJson("/new/books");
 

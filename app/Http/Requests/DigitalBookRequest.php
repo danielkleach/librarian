@@ -19,11 +19,6 @@ class DigitalBookRequest extends Request
         switch ($this->method()) {
             case 'POST':
                 $rules =  [
-                    'category_id' => [
-                        'required',
-                        'integer',
-                        'exists:categories,id',
-                    ],
                     'title' => [
                         'sometimes',
                         'required',
@@ -57,12 +52,6 @@ class DigitalBookRequest extends Request
                 return $rules;
             case 'PATCH':
                 return [
-                    'category_id' => [
-                        'sometimes',
-                        'required',
-                        'integer',
-                        'exists:categories,id',
-                    ],
                     'title' => [
                         'sometimes',
                         'required',

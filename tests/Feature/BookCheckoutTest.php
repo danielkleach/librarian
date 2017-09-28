@@ -17,7 +17,7 @@ class BookCheckoutTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $book = factory(Book::class)->states(['withCategory'])->create(['status' => 'available']);
+        $book = factory(Book::class)->create(['status' => 'available']);
 
         $response = $this->actingAs($user)->postJson("/books/{$book->id}/checkout");
 
