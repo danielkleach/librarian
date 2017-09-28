@@ -14,7 +14,6 @@ class DigitalBook extends Model implements HasMedia
     private $cacheCoverImage;
 
     protected $fillable = [
-        'category_id',
         'title',
         'description',
         'isbn',
@@ -43,16 +42,6 @@ class DigitalBook extends Model implements HasMedia
             'book_id',
             'author_id'
         )->withTimestamps();
-    }
-
-    /**
-     * A Book belongs to a Category.
-     *
-     * @return mixed
-     */
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
     }
 
     /**

@@ -22,7 +22,7 @@ class AuthorController extends Controller
 
     public function show($authorId)
     {
-        return new AuthorResource($this->authorModel->with('books.category')->findOrFail($authorId));
+        return new AuthorResource($this->authorModel->with('books')->findOrFail($authorId));
     }
 
     public function store(AuthorRequest $request)
