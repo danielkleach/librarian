@@ -23,8 +23,6 @@ class PopularBookResponse implements Responsable
         return $this->books->map(function ($book) {
             return [
                 'id' => (int) $book->id,
-                'category_id' => (int) $book->category_id,
-                'category_name' => $book->category->name,
                 'authors' => $book->authors->map(function ($author) {
                     return [
                         'id' => (int) $author->id,
