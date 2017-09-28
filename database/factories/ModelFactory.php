@@ -1,13 +1,12 @@
 <?php
 
-use App\Type;
 use App\User;
 use App\Book;
 use App\Author;
-use App\Tracker;
 use App\Category;
 use Carbon\Carbon;
 use App\UserReview;
+use App\DigitalBook;
 use Faker\Generator as Faker;
 
 /*
@@ -119,23 +118,24 @@ $factory->state(App\DigitalBook::class, 'withRandomCategory', function ($faker) 
 });
 
 $factory->define(App\File::class, function (Faker $faker) {
+    $format = $faker->randomElement(['pdf', 'epub', 'mobi']);
 
     return [
-        'format' => $faker->randomElement(['pdf', 'epub', 'mobi']),
+        'format' => $format,
         'path' => $faker->url,
-        'filename' => $faker->file()
+        'filename' => $faker->word . '.' . $format
     ];
 });
 
 $factory->state(App\File::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(Book::class)->lazy()
+        'book_id' => factory(DigitalBook::class)->states(['withCategory'])->lazy()
     ];
 });
 
 $factory->state(App\File::class, 'withRandomBook', function ($faker) {
     return [
-        'book_id' => Book::all()->random()->id
+        'book_id' => DigitalBook::all()->random()->id
     ];
 });
 
