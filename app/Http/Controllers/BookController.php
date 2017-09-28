@@ -51,12 +51,7 @@ class BookController extends Controller
 
         if ($response->authors) {
             collect($response->authors)->each(function($authorName) use ($book) {
-                $author = $this->authorModel->where('name', $authorName)->first();
-
-                if (!$author) {
-                    $author = $this->authorModel->create(['name' => $authorName]);
-                }
-
+                $author = $this->authorModel->firstOrCreate(['name' => $authorName]);
                 $book->authors()->attach($author);
             });
         }
