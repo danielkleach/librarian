@@ -25,6 +25,9 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $books = $this->bookModel->search($request->search)->get();
+        $digitalBooks = $this->digitalBookModel->search($request->search)->get();
+
+        $books->merge($digitalBooks);
 
         return $books;
     }
