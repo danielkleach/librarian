@@ -27,7 +27,8 @@ class BookCheckinController extends Controller
     public function store(Request $request, $bookId, $rentalId)
     {
         $book = $this->bookModel->findOrFail($bookId);
+        $rental = $this->rentalModel->findOrFail($rentalId)->checkin($book);
 
-        return new RentalResource($this->rentalModel->findOrFail($rentalId)->checkin($book));
+        return new RentalResource($rental);
     }
 }
