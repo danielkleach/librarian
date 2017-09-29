@@ -44,7 +44,6 @@ class BookRequest extends Request
                         'numeric',
                     ],
                     'location' => [
-                        'required',
                         'string',
                     ],
                     'cover_image_url' => [
@@ -80,8 +79,6 @@ class BookRequest extends Request
                         'numeric',
                     ],
                     'location' => [
-                        'sometimes',
-                        'required',
                         'string',
                     ],
                     'cover_image_url' => [

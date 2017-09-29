@@ -79,6 +79,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
 
         Route::prefix('books')->group(function () {
             Route::post('/', 'BookController@store');
+            Route::post('/lookup', 'BookLookupController@store');
 
             Route::prefix('{bookId}')->group(function () {
                 Route::patch('/', 'BookController@update');

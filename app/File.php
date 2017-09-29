@@ -29,4 +29,27 @@ class File extends Model
     {
         return $this->belongsTo(DigitalBook::class, 'book_id');
     }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
+
+    /**
+     * Add Files to a Book.
+     *
+     * @param $files
+     * @param $book
+     */
+    public function addFiles($files, $book)
+    {
+        collect($files)->each(function ($file) use ($book) {
+            $path = $file->move(storage_path() . '/files/' . $book->id, $book->id . '-' . $file->getClientOriginalName());
+            $this->create([
+                'book_id' => $book->id,
+                'format' => $file->getClientOriginalExtension(),
+                'path' => $path,
+                'filename' => $file->getClientOriginalName()
+            ]);
+        });
+    }
 }

@@ -63,4 +63,22 @@ class Author extends Model
             'book_id'
         )->withTimestamps();
     }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
+
+    /**
+     * Add Authors to a Book.
+     *
+     * @param $authors
+     * @param $book
+     */
+    public function addAuthors($authors, $book)
+    {
+        collect($authors)->each(function($authorName) use ($book) {
+            $author = $this->firstOrCreate(['name' => $authorName]);
+            $book->authors()->attach($author);
+        });
+    }
 }

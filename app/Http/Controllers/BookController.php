@@ -4,24 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Author;
-use App\Lookup;
+use App\CreateBook;
 use App\Http\Requests\BookRequest;
 use App\Http\Resources\Book as BookResource;
 
 class BookController extends Controller
 {
-    protected $bookModel, $authorModel;
+    protected $bookModel, $authorModel, $createBook;
 
     /**
      * BookController constructor.
      *
      * @param Book $bookModel
      * @param Author $authorModel
+     * @param CreateBook $createBook
      */
-    public function __construct(Book $bookModel, Author $authorModel)
+    public function __construct(Book $bookModel, Author $authorModel, CreateBook $createBook)
     {
         $this->bookModel = $bookModel;
         $this->authorModel = $authorModel;
+        $this->createBook = $createBook;
     }
 
     public function index()
@@ -40,27 +42,8 @@ class BookController extends Controller
     {
         $this->authorize('store', $this->bookModel);
 
-        $lookup = app(Lookup::class);
-        $response = $lookup->handle($request);
-
-        $book = $this->bookModel->create([
-            'owner_id' => $request->owner_id ?? null,
-            'title' => $response->title ?? $request->title,
-            'description' => $response->description ?? $request->description,
-            'isbn' => $response->isbn ?? $request->isbn,
-            'publication_year' => $response->publication_year ?? $request->publication_year,
-            'location' => $request->location,
-            'cover_image_url' => $response->cover_image_url ?? null
-        ]);
-
-        $book->attachTags($request->tags);
-
-        if ($response->authors) {
-            collect($response->authors)->each(function($authorName) use ($book) {
-                $author = $this->authorModel->firstOrCreate(['name' => $authorName]);
-                $book->authors()->attach($author);
-            });
-        }
+        $request = $request->all();
+        $book = $this->createBook->handle($request);
 
         return new BookResource($book);
     }

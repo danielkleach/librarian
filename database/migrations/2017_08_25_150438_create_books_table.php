@@ -20,7 +20,7 @@ class CreateBooksTable extends Migration
             $table->text('description');
             $table->string('isbn');
             $table->smallInteger('publication_year')->unsigned();
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->string('cover_image_url')->nullable();
             $table->string('status')->default('available');
             $table->boolean('featured')->default(0);

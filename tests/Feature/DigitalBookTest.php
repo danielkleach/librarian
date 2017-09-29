@@ -41,12 +41,24 @@ class DigitalBookTest extends TestCase
 
     public function testStoreEndpointCreatesABookInTheDatabase()
     {
-        $this->mockBookLookup();
-
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [
-            'files[0]' => UploadedFile::fake()->create('book.pdf')
+            'title' => 'New test title',
+            'description' => 'New test description.',
+            'isbn' => 'abcde12345',
+            'publication_year' => 2017,
+            'tags' => [
+                'tag1',
+                'tag2'
+            ],
+            'authors' => [
+                'Author One',
+                'Author Two'
+            ],
+            'files' => [
+                0 => UploadedFile::fake()->create('book.pdf')
+            ]
         ];
 
         $response = $this->actingAs($user)->postJson("/digital-books", $data);

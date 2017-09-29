@@ -15,10 +15,10 @@ class Lookup
         $this->client = $client;
     }
 
-    public function handle($data)
+    public function handle($isbn)
     {
         try {
-            $response = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes?q=isbn:' . $data->isbn);
+            $response = $this->client->request('GET', 'https://www.googleapis.com/books/v1/volumes?q=isbn:' . $isbn);
         } catch (Exception $e) {
             throw new BookLookupFailureException;
         }
@@ -38,7 +38,7 @@ class Lookup
 
         $data = $decoded->items[0]->volumeInfo;
 
-        return (object) [
+        return [
             'title' => $data->title,
             'description' => $data->description,
             'isbn' => $data->industryIdentifiers[0]->identifier,

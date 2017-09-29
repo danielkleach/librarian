@@ -28,16 +28,16 @@ class MockLookup extends Lookup
         'title' => 'New test title',
         'description' => 'New test description.',
         'isbn' => 'abcde12345',
+        'publication_year' => 2017,
         'authors' => [
             'author one',
             'author two'
-        ],
-        'publication_year' => 2017
+        ]
     ];
 
     public function handle($data)
     {
-        return (object) $this->response;
+        return $this->response;
     }
 }
 

@@ -5,13 +5,12 @@ namespace Tests\Feature;
 use App\User;
 use App\Book;
 use Tests\TestCase;
-use App\Traits\MockABookLookup;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BookTest extends TestCase
 {
-    use MockABookLookup, DatabaseTransactions, WithoutMiddleware;
+    use DatabaseTransactions, WithoutMiddleware;
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
@@ -45,16 +44,22 @@ class BookTest extends TestCase
 
     public function testStoreEndpointCreatesABookInTheDatabase()
     {
-        $this->mockBookLookup();
-
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [
             'owner_id' => $user->id,
+            'title' => 'New test title',
+            'description' => 'New test description.',
+            'isbn' => 'abcde12345',
+            'publication_year' => 2017,
             'location' => 'Software office',
             'tags' => [
                 'tag1',
                 'tag2'
+            ],
+            'authors' => [
+                'Author One',
+                'Author Two'
             ]
         ];
 

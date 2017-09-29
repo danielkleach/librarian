@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
 use App\Author;
-use App\Lookup;
+use App\CreateDigitalBook;
 use App\DigitalBook;
 use App\Http\Requests\DigitalBookRequest;
 use App\Http\Resources\DigitalBook as DigitalBookResource;
 
 class DigitalBookController extends Controller
 {
-    protected $bookModel, $authorModel, $fileModel;
+    protected $bookModel, $authorModel, $createDigitalBook;
 
     /**
      * DigitalBookController constructor.
      *
      * @param DigitalBook $bookModel
      * @param Author $authorModel
-     * @param File $fileModel
+     * @param CreateDigitalBook $createDigitalBook
      */
-    public function __construct(DigitalBook $bookModel, Author $authorModel, File $fileModel)
-    {
+    public function __construct(
+        DigitalBook $bookModel,
+        Author $authorModel,
+        CreateDigitalBook $createDigitalBook
+    ){
         $this->bookModel = $bookModel;
         $this->authorModel = $authorModel;
-        $this->fileModel = $fileModel;
+        $this->createDigitalBook = $createDigitalBook;
     }
 
     public function index()
@@ -42,36 +44,9 @@ class DigitalBookController extends Controller
     public function store(DigitalBookRequest $request)
     {
         $this->authorize('store', $this->bookModel);
+        $request = $request->all();
 
-        $lookup = app(Lookup::class);
-        $response = $lookup->handle($request);
-
-        $book = $this->bookModel->create([
-            'title' => $response->title ?? $request->title,
-            'description' => $response->description ?? $request->description,
-            'isbn' => $response->isbn ?? $request->isbn,
-            'publication_year' => $response->publication_year ?? $request->publication_year,
-            'cover_image_url' => $response->cover_image_url ?? null
-        ]);
-
-        $book->attachTags($request->tags);
-
-        foreach ($request->files as $file) {
-            $path = $file->move(storage_path() . '/files/' . $book->id, $book->id . '-' . $file->getClientOriginalName());
-            $this->fileModel->create([
-                'book_id' => $book->id,
-                'format' => $file->getClientOriginalExtension(),
-                'path' => $path,
-                'filename' => $file->getClientOriginalName()
-            ]);
-        }
-
-        if ($response->authors) {
-            collect($response->authors)->each(function($authorName) use ($book) {
-                $author = $this->authorModel->firstOrCreate(['name' => $authorName]);
-                $book->authors()->attach($author);
-            });
-        }
+        $book = $this->createDigitalBook->handle($request);
 
         return new DigitalBookResource($book);
     }
