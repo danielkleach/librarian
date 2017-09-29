@@ -10,6 +10,11 @@ class UserController extends Controller
 {
     protected $userModel;
 
+    /**
+     * UserController constructor.
+     *
+     * @param User $userModel
+     */
     public function __construct(User $userModel)
     {
         $this->userModel = $userModel;

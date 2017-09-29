@@ -11,6 +11,11 @@ class FavoriteBookController extends Controller
 {
     protected $favoriteBookModel;
 
+    /**
+     * FavoriteBookController constructor.
+     *
+     * @param FavoriteBook $favoriteBookModel
+     */
     public function __construct(FavoriteBook $favoriteBookModel)
     {
         $this->favoriteBookModel = $favoriteBookModel;

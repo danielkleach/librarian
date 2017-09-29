@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\DigitalBook;
-use Illuminate\Http\Request;
+use App\Http\Requests\SearchRequest;
 
 class SearchController extends Controller
 {
@@ -22,7 +22,7 @@ class SearchController extends Controller
         $this->digitalBookModel = $digitalBookModel;
     }
 
-    public function index(Request $request)
+    public function index(SearchRequest $request)
     {
         $books = $this->bookModel->search($request->search)->get();
         $digitalBooks = $this->digitalBookModel->search($request->search)->get();

@@ -14,6 +14,7 @@ class BookCheckoutController extends Controller
 
     /**
      * BookCheckoutController constructor.
+     *
      * @param Book $bookModel
      * @param Rental $rentalModel
      */

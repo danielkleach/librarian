@@ -2,8 +2,8 @@
 
 namespace App;
 
-use ScoutElastic\IndexConfigurator;
 use ScoutElastic\Migratable;
+use ScoutElastic\IndexConfigurator;
 
 class BookIndexConfigurator extends IndexConfigurator
 {

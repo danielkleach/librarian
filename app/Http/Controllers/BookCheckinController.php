@@ -12,6 +12,12 @@ class BookCheckinController extends Controller
     protected $bookModel;
     protected $rentalModel;
 
+    /**
+     * BookCheckinController constructor.
+     *
+     * @param Book $bookModel
+     * @param Rental $rentalModel
+     */
     public function __construct(Book $bookModel, Rental $rentalModel)
     {
         $this->bookModel = $bookModel;

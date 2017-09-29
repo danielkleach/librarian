@@ -13,6 +13,13 @@ class DigitalBookController extends Controller
 {
     protected $bookModel, $authorModel, $fileModel;
 
+    /**
+     * DigitalBookController constructor.
+     *
+     * @param DigitalBook $bookModel
+     * @param Author $authorModel
+     * @param File $fileModel
+     */
     public function __construct(DigitalBook $bookModel, Author $authorModel, File $fileModel)
     {
         $this->bookModel = $bookModel;

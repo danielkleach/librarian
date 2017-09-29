@@ -8,6 +8,11 @@ class RentalController extends Controller
 {
     protected $rentalModel;
 
+    /**
+     * RentalController constructor.
+     *
+     * @param Rental $rentalModel
+     */
     public function __construct(Rental $rentalModel)
     {
         $this->rentalModel = $rentalModel;

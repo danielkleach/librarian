@@ -12,6 +12,12 @@ class UserReviewController extends Controller
 {
     protected $bookModel, $userReviewModel;
 
+    /**
+     * UserReviewController constructor.
+     *
+     * @param Book $bookModel
+     * @param UserReview $userReviewModel
+     */
     public function __construct(Book $bookModel, UserReview $userReviewModel)
     {
         $this->bookModel = $bookModel;

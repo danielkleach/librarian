@@ -9,6 +9,11 @@ class BookAuthorController extends Controller
 {
     protected $bookModel;
 
+    /**
+     * BookAuthorController constructor.
+     *
+     * @param Book $bookModel
+     */
     public function __construct(Book $bookModel)
     {
         $this->bookModel = $bookModel;

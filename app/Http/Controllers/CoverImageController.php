@@ -9,6 +9,11 @@ class CoverImageController extends Controller
 {
     protected $bookModel;
 
+    /**
+     * CoverImageController constructor.
+     *
+     * @param Book $bookModel
+     */
     public function __construct(Book $bookModel)
     {
         $this->bookModel = $bookModel;
