@@ -17,17 +17,23 @@ class SearchTest extends TestCase
             'title' => 'Title for Search',
             'description' => 'A good book.',
             'isbn' => '9999999999',
-            'publication_year' => 2017
+            'publication_year' => 2200
         ]);
 
         sleep(1);
 
-        $data = ['search' => 2017];
+        $data = ['search' => 2200];
 
         $response = $this->postJson("/search", $data);
 
         $response->assertStatus(200);
-        $this->assertEquals($book->title, $response->json()[0]['title']);
+        $response->assertJsonFragment([
+            'id' => (int) $book->id,
+            'title' => $book->title,
+            'description' => $book->description,
+            'isbn' => $book->isbn,
+            'publication_year' => (int) $book->publication_year,
+        ]);
         $book->delete();
     }
 }
