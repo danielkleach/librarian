@@ -41,32 +41,19 @@ class Book extends Model implements HasMedia
 
     protected $mapping = [
         'properties' => [
-            'id' => [
-                'type' => 'integer',
-                'index' => 'not_analyzed'
-            ],
             'title' => [
-                'type' => 'string',
+                'type' => 'text',
                 'analyzer' => 'english'
             ],
             'description' => [
-                'type' => 'string',
+                'type' => 'text',
                 'analyzer' => 'english'
             ],
             'isbn' => [
-                'type' => 'string',
-                'analyzer' => 'english'
+                'type' => 'keyword',
             ],
             'publication_year' => [
-                'type' => 'integer',
-                'index' => 'not_analyzed'
-            ],
-            'author_id' => [
-                'type' => 'integer',
-                'index' => 'not_analyzed'
-            ],
-            'author_name' => [
-                'type' => 'string',
+                'type' => 'text',
                 'analyzer' => 'english'
             ]
         ]

@@ -19,10 +19,6 @@ class Author extends Model
 
     protected $mapping = [
         'properties' => [
-            'id' => [
-                'type' => 'integer',
-                'index' => 'not_analyzed'
-            ],
             'name' => [
                 'type' => 'string',
                 'analyzer' => 'english'
