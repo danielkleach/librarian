@@ -97,6 +97,11 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::delete('/', 'CoverImageController@destroy');
                 });
 
+                Route::prefix('tags')->group(function () {
+                    Route::post('/', 'BookTagController@store');
+                    Route::delete('/{tag}', 'BookTagController@destroy');
+                });
+
                 Route::prefix('user-reviews')->group(function () {
                     Route::post('/', 'UserReviewController@store');
                 });
@@ -120,6 +125,11 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::prefix('cover-image')->group(function () {
                     Route::post('/', 'CoverImageController@store');
                     Route::delete('/', 'CoverImageController@destroy');
+                });
+
+                Route::prefix('tags')->group(function () {
+                    Route::post('/', 'DigitalBookTagController@store');
+                    Route::delete('/{tag}', 'DigitalBookTagController@destroy');
                 });
 
                 Route::prefix('user-reviews')->group(function () {
