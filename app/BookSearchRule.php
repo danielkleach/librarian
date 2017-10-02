@@ -16,14 +16,6 @@ class BookSearchRule extends SearchRule
                     'match' => [
                         'title' => [
                             'query' => $query,
-                            'boost' => 4
-                        ]
-                    ]
-                ],
-                [
-                    'match' => [
-                        'author_name' => [
-                            'query' => $query,
                             'boost' => 3
                         ]
                     ]
