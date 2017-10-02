@@ -27,15 +27,20 @@ class CreateDigitalBook
             'description' => $request['description'],
             'isbn' => $request['isbn'],
             'publication_year' => $request['publication_year'],
+            'cover_image_url' => $request['cover_image_url'] ?? null
         ]);
 
         if (isset($request['tags'])) {
             $book->attachTags($request['tags']);
         }
 
-        $this->authorModel->addAuthors($request['authors'], $book);
+        if (isset($request['authors'])) {
+            $this->authorModel->addAuthors($request['authors'], $book);
+        }
 
-        $this->fileModel->addFiles($request['files'], $book);
+        if (isset($request['files'])) {
+            $this->fileModel->addFiles($request['files'], $book);
+        }
 
         return $book;
     }

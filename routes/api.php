@@ -105,6 +105,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
 
         Route::prefix('digital-books')->group(function () {
             Route::post('/', 'DigitalBookController@store');
+            Route::post('/lookup', 'DigitalBookLookupController@store');
 
             Route::prefix('{bookId}')->group(function () {
                 Route::patch('/', 'DigitalBookController@update');
