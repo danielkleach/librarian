@@ -1,6 +1,7 @@
 <?php
 
 use App\Book;
+use App\Author;
 use Illuminate\Database\Seeder;
 
 class BookSeeder extends Seeder
@@ -12,8 +13,8 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
-        factory(Book::class, 50)
-            ->states(['withRandomUser'])
-            ->create();
+        factory(Book::class, 50)->states(['withRandomUser'])->create()->each(function ($book) {
+            $book->authors()->saveMany(factory(Author::class, 2)->make());
+        });
     }
 }
