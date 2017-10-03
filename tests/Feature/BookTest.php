@@ -30,7 +30,6 @@ class BookTest extends TestCase
             'publication_year' => (int) $book->publication_year,
             'tags' => $book->tags,
             'location' => $book->location,
-            'status' => $book->status,
             'featured' => $book->featured,
             'total_rentals' => $book->total_rentals ?? null,
             'rating' => $book->rating

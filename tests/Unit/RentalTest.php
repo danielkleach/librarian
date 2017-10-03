@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Book;
 use App\User;
 use App\Rental;
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Exceptions\BookUnavailableException;
 use App\Exceptions\BookAlreadyCheckedInException;
@@ -19,7 +20,11 @@ class RentalTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $book = factory(Book::class)->create(['status' => 'unavailable']);
+        $book = factory(Book::class)->create();
+        factory(Rental::class)->states(['withUser'])->create([
+            'book_id' => $book->id,
+            'return_date' => null
+        ]);
 
         $rental = new Rental();
 
@@ -39,9 +44,12 @@ class RentalTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $book = factory(Book::class)->create(['status' => 'available']);
+        $book = factory(Book::class)->create();
 
-        $rental = new Rental();
+        $rental = factory(Rental::class)->states(['withUser'])->create([
+            'book_id' => $book->id,
+            'return_date' => Carbon::now()->toDateTimeString()
+        ]);
 
         try {
             $rental->checkin($book);

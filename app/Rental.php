@@ -61,7 +61,7 @@ class Rental extends Model
      */
     public function checkout($user, $book)
     {
-        if ($book->status != 'available') {
+        if (!$book->isAvailable()) {
             throw new BookUnavailableException;
         }
 
@@ -73,7 +73,7 @@ class Rental extends Model
                 ->toDateTimeString()
         ]);
 
-        event(new BookRented($rental));
+        $book->checkedOut();
 
         return $rental;
     }
@@ -87,15 +87,13 @@ class Rental extends Model
      */
     public function checkin($book)
     {
-        if ($book->status == 'available') {
+        if ($book->isAvailable()) {
             throw new BookAlreadyCheckedInException;
         }
 
         $this->update([
             'return_date' => Carbon::now()->toDateTimeString()
         ]);
-
-        event(new BookReturned($this));
 
         return $this;
     }

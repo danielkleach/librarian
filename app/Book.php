@@ -27,10 +27,6 @@ class Book extends Model implements HasMedia
         'cover_image_url'
     ];
 
-    protected $attributes = [
-        'status' => 'available'
-    ];
-
     protected $casts = [
         'featured' => 'boolean'
     ];
@@ -130,7 +126,9 @@ class Book extends Model implements HasMedia
      */
     public function scopeAvailable($query)
     {
-        return $query->where('status', 'available');
+        return $query->whereDoesntHave('rentals', function ($query) {
+            $query->whereNull('return_date');
+        });
     }
 
     /**
@@ -141,29 +139,9 @@ class Book extends Model implements HasMedia
      */
     public function scopeUnavailable($query)
     {
-        return $query->where('status', 'unavailable');
-    }
-
-    /**
-     * Scope a query to only include lost books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeLost($query)
-    {
-        return $query->where('status', 'lost');
-    }
-
-    /**
-     * Scope a query to only include removed books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeRemoved($query)
-    {
-        return $query->where('status', 'removed');
+        return $query->whereHas('rentals', function ($query) {
+            $query->whereNull('return_date');
+        });
     }
 
     /**
@@ -174,11 +152,10 @@ class Book extends Model implements HasMedia
      */
     public function scopeOverdue($query)
     {
-        return $query->where('status', '!=', 'available')
-            ->whereHas('rentals', function ($query) {
-                $query->where('due_date', '<', Carbon::now()->toDateTimeString())
-                    ->whereNull('return_date');
-            });
+        return $query->whereHas('rentals', function ($query) {
+            $query->where('due_date', '<', Carbon::now()->toDateTimeString())
+                ->whereNull('return_date');
+        });
     }
 
     /**
@@ -241,5 +218,29 @@ class Book extends Model implements HasMedia
         }
 
         return $this->cacheCoverImage = new CoverImage($this);
+    }
+
+    /**
+     * Checks if the Book is available.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        $rented = $this->rentals()->whereNull('return_date')->first();
+
+        return $rented ? false : true;
+    }
+
+    /**
+     * Handle a Book checkout.
+     *
+     * @return bool
+     */
+    public function checkedOut()
+    {
+        $this->increment('total_rentals');
+
+        return true;
     }
 }

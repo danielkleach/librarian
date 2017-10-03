@@ -25,7 +25,6 @@ class Book extends Resource
             'publication_year' => (int) $this->publication_year,
             'tags' => $this->tags,
             'location' => $this->location,
-            'status' => $this->status,
             'featured' => $this->featured,
             'total_rentals' => $this->total_rentals
                 ? (int) $this->total_rentals

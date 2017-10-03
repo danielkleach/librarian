@@ -15,8 +15,22 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyAvailableBooks()
     {
-        $book1 = factory(Book::class)->create(['status' => 'available']);
-        $book2 = factory(Book::class)->create(['status' => 'unavailable']);
+        $book1 = factory(Book::class)->create();
+        $book2 = factory(Book::class)->create();
+
+        factory(Rental::class)->states(['withUser'])->create([
+            'book_id' => $book1->id,
+            'checkout_date' => Carbon::createFromDate(2017, 01, 01),
+            'due_date' => Carbon::createFromDate(2017, 01, 15),
+            'return_date' => Carbon::createFromDate(2017, 01, 11)
+        ]);
+
+        factory(Rental::class)->states(['withUser'])->create([
+            'book_id' => $book2->id,
+            'checkout_date' => Carbon::createFromDate(2017, 01, 01),
+            'due_date' => Carbon::createFromDate(2017, 01, 15),
+            'return_date' => null
+        ]);
 
         $availableBooks = Book::available()->get();
 
@@ -26,8 +40,22 @@ class BookTest extends TestCase
 
     public function testItCanGetOnlyUnavailableBooks()
     {
-        $book1 = factory(Book::class)->create(['status' => 'unavailable']);
-        $book2 = factory(Book::class)->create(['status' => 'available']);
+        $book1 = factory(Book::class)->create();
+        $book2 = factory(Book::class)->create();
+
+        factory(Rental::class)->states(['withUser'])->create([
+            'book_id' => $book1->id,
+            'checkout_date' => Carbon::createFromDate(2017, 01, 01),
+            'due_date' => Carbon::createFromDate(2017, 01, 15),
+            'return_date' => null
+        ]);
+
+        factory(Rental::class)->states(['withUser'])->create([
+            'book_id' => $book2->id,
+            'checkout_date' => Carbon::createFromDate(2017, 01, 01),
+            'due_date' => Carbon::createFromDate(2017, 01, 15),
+            'return_date' => Carbon::createFromDate(2017, 01, 11)
+        ]);
 
         $unavailableBooks = Book::unavailable()->get();
 
@@ -35,32 +63,10 @@ class BookTest extends TestCase
         $this->assertFalse($unavailableBooks->contains($book2));
     }
 
-    public function testItCanGetOnlyLostBooks()
-    {
-        $book1 = factory(Book::class)->create(['status' => 'lost']);
-        $book2 = factory(Book::class)->create(['status' => 'available']);
-
-        $lostBooks = Book::lost()->get();
-
-        $this->assertTrue($lostBooks->contains($book1));
-        $this->assertFalse($lostBooks->contains($book2));
-    }
-
-    public function testItCanGetOnlyRemovedBooks()
-    {
-        $book1 = factory(Book::class)->create(['status' => 'removed']);
-        $book2 = factory(Book::class)->create(['status' => 'available']);
-
-        $removedBooks = Book::removed()->get();
-
-        $this->assertTrue($removedBooks->contains($book1));
-        $this->assertFalse($removedBooks->contains($book2));
-    }
-
     public function testItCanGetOnlyOverdueBooks()
     {
-        $book1 = factory(Book::class)->create(['status' => 'available']);
-        $book2 = factory(Book::class)->create(['status' => 'unavailable']);
+        $book1 = factory(Book::class)->create();
+        $book2 = factory(Book::class)->create();
 
         factory(Rental::class)->states(['withUser'])->create([
             'book_id' => $book1->id,

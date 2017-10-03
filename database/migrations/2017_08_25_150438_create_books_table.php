@@ -22,7 +22,6 @@ class CreateBooksTable extends Migration
             $table->smallInteger('publication_year')->unsigned();
             $table->string('location')->nullable();
             $table->string('cover_image_url')->nullable();
-            $table->string('status')->default('available');
             $table->boolean('featured')->default(0);
             $table->integer('total_rentals')->default(0);
             $table->decimal('rating', 3, 2)->nullable();
