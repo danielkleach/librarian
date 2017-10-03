@@ -44,16 +44,16 @@ class Download extends Model
      * Download a digital book.
      *
      * @param $user
-     * @param $bookId
+     * @param $book
      * @return $this|Model
      */
-    public function download($user, $bookId)
+    public function download($user, $book)
     {
-        $download = $this->create([
+        $this->create([
             'user_id' => $user->id,
-            'book_id' => $bookId
+            'book_id' => $book->id
         ]);
 
-        event(new BookDownloaded($download));
+        $book->downloaded();
     }
 }

@@ -176,4 +176,11 @@ class DigitalBook extends Model implements HasMedia
 
         return $this->cacheCoverImage = new CoverImage($this);
     }
+
+    public function downloaded()
+    {
+        $this->increment('download_count');
+
+        return true;
+    }
 }
