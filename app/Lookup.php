@@ -4,6 +4,7 @@ namespace App;
 
 use Exception;
 use GuzzleHttp\Client;
+use App\Exceptions\BookNotFoundException;
 use App\Exceptions\BookLookupFailureException;
 
 class Lookup
@@ -26,14 +27,7 @@ class Lookup
         $decoded = json_decode($response->getBody()->getContents());
 
         if ($decoded->totalItems == 0) {
-            return (object) [
-                'title' => null,
-                'description' => null,
-                'isbn' => null,
-                'publication_year' => null,
-                'authors' => null,
-                'cover_image_url' => null
-            ];
+            throw new BookNotFoundException;
         }
 
         $data = $decoded->items[0]->volumeInfo;

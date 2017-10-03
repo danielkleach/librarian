@@ -75,6 +75,7 @@ class Handler extends ExceptionHandler
             AuthorizationException::class => $this->errorForbidden(),
             BookAlreadyCheckedInException::class => $this->errorCustomType("This book is already checked in."),
             BookLookupFailureException::class => $this->errorCustomType("There was a problem connecting to Google Books."),
+            BookNotFoundException::class => $this->errorCustomType("No books were found matching this ISBN."),
             BookUnavailableException::class => $this->errorCustomType("This book is not available for checkout."),
             Exception::class => $this->errorInternalError(),
             HttpException::class => $this->errorForbidden(),
