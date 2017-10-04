@@ -13,7 +13,8 @@ return [
 
     'rental_period' => 14,
     'tmdb' => [
-        'url' => 'https://api.themoviedb.org/3/search/movie',
+        'search_url' => 'https://api.themoviedb.org/3/search/movie',
+        'get_url' => 'https://api.themoviedb.org/3/movie/',
         'api_key' => env('TMDB_API_KEY', null),
         'images' => [
             'base_url' => 'https://image.tmdb.org/t/p/w154'
