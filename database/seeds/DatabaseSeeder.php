@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(BookSeeder::class);
         $this->call(DigitalBookSeeder::class);
+        $this->call(VideoSeeder::class);
         $this->call(RentalSeeder::class);
         $this->call(DownloadSeeder::class);
         $this->call(UserReviewSeeder::class);

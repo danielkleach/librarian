@@ -15,7 +15,7 @@ class UserReviewSeeder extends Seeder
      */
     public function run()
     {
-        factory(UserReview::class, 5000)
+        factory(UserReview::class, 500)
             ->states(['withRandomUser', 'withRandomBook'])
             ->create();
     }

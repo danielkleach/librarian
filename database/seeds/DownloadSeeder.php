@@ -12,7 +12,7 @@ class DownloadSeeder extends Seeder
      */
     public function run()
     {
-        factory(Download::class, 5000)
+        factory(Download::class, 500)
             ->states(['withRandomUser', 'withRandomBook'])
             ->create();
     }
