@@ -147,5 +147,15 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             Route::patch('/', 'UserReviewController@update');
             Route::delete('/', 'UserReviewController@destroy');
         });
+
+        Route::prefix('videos')->group(function () {
+            Route::post('/', 'VideoController@store');
+            Route::post('/lookup', 'VideoLookupController@store');
+
+            Route::prefix('{videoId}')->group(function () {
+                Route::patch('/', 'VideoController@update');
+                Route::delete('/', 'VideoController@destroy');
+            });
+        });
     });
 });
