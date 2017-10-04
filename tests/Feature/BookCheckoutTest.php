@@ -24,7 +24,8 @@ class BookCheckoutTest extends TestCase
         $response->assertStatus(201);
         $this->assertDatabaseHas('rentals', [
             'user_id' => $user->id,
-            'book_id' => $book->id
+            'rentable_id' => $book->id,
+            'rentable_type' => get_class($book)
         ]);
     }
 }

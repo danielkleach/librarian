@@ -23,11 +23,12 @@ class BookCheckinTest extends TestCase
 
         $rental = factory(Rental::class)->create([
             'user_id' => $user->id,
-            'book_id' => $book->id,
+            'rentable_id' => $book->id,
+            'rentable_type' => get_class($book),
             'return_date' => null
         ]);
 
-        $response = $this->actingAs($user)->postJson("/books/{$rental->book_id}/checkin/{$rental->id}");
+        $response = $this->actingAs($user)->postJson("/books/{$rental->rentable_id}/checkin/{$rental->id}");
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('rentals', [

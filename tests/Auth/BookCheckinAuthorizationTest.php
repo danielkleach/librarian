@@ -13,12 +13,12 @@ class BookCheckinAuthorizationTest extends TestCase
 
     public function testStoreRejectsAnUnauthorizedUser()
     {
-        $rental = factory(Rental::class)->states(['withUser', 'withBook'])->create([
+        $rental = factory(Rental::class)->states(['withUser'])->create([
             'return_date' => null
         ]);
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->postJson("/books/{$rental->book_id}/checkin/{$rental->id}");
+            ->postJson("/books/{$rental->rentable_id}/checkin/{$rental->id}");
 
         $response->assertStatus(401);
     }

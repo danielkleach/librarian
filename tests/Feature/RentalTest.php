@@ -13,7 +13,7 @@ class RentalTest extends TestCase
 
     public function testDestroyEndpointRemovesARental()
     {
-        $rental = factory(Rental::class)->states(['withUser', 'withBook'])->create();
+        $rental = factory(Rental::class)->states(['withUser'])->create();
 
         $response = $this->deleteJson("/rentals/{$rental->id}");
 

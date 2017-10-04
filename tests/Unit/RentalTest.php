@@ -22,7 +22,8 @@ class RentalTest extends TestCase
 
         $book = factory(Book::class)->create();
         factory(Rental::class)->states(['withUser'])->create([
-            'book_id' => $book->id,
+            'rentable_id' => $book->id,
+            'rentable_type' => get_class($book),
             'return_date' => null
         ]);
 
@@ -47,7 +48,8 @@ class RentalTest extends TestCase
         $book = factory(Book::class)->create();
 
         $rental = factory(Rental::class)->states(['withUser'])->create([
-            'book_id' => $book->id,
+            'rentable_id' => $book->id,
+            'rentable_type' => get_class($book),
             'return_date' => Carbon::now()->toDateTimeString()
         ]);
 

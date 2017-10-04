@@ -19,14 +19,16 @@ class BookTest extends TestCase
         $book2 = factory(Book::class)->create();
 
         factory(Rental::class)->states(['withUser'])->create([
-            'book_id' => $book1->id,
+            'rentable_id' => $book1->id,
+            'rentable_type' => get_class($book1),
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => Carbon::createFromDate(2017, 01, 11)
         ]);
 
         factory(Rental::class)->states(['withUser'])->create([
-            'book_id' => $book2->id,
+            'rentable_id' => $book2->id,
+            'rentable_type' => get_class($book2),
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null
@@ -44,14 +46,16 @@ class BookTest extends TestCase
         $book2 = factory(Book::class)->create();
 
         factory(Rental::class)->states(['withUser'])->create([
-            'book_id' => $book1->id,
+            'rentable_id' => $book1->id,
+            'rentable_type' => get_class($book1),
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null
         ]);
 
         factory(Rental::class)->states(['withUser'])->create([
-            'book_id' => $book2->id,
+            'rentable_id' => $book2->id,
+            'rentable_type' => get_class($book2),
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => Carbon::createFromDate(2017, 01, 11)
@@ -69,14 +73,16 @@ class BookTest extends TestCase
         $book2 = factory(Book::class)->create();
 
         factory(Rental::class)->states(['withUser'])->create([
-            'book_id' => $book1->id,
+            'rentable_id' => $book1->id,
+            'rentable_type' => get_class($book1),
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => Carbon::createFromDate(2017, 01, 11)
         ]);
 
         factory(Rental::class)->states(['withUser'])->create([
-            'book_id' => $book2->id,
+            'rentable_id' => $book2->id,
+            'rentable_type' => get_class($book2),
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null

@@ -24,14 +24,14 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $tracker1 = factory(Rental::class)->states(['withBook'])->create([
+        $tracker1 = factory(Rental::class)->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null
         ]);
 
-        $tracker2 = factory(Rental::class)->states(['withBook'])->create([
+        $tracker2 = factory(Rental::class)->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
@@ -46,14 +46,14 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $tracker1 = factory(Rental::class)->states(['withBook'])->create([
+        $tracker1 = factory(Rental::class)->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),
             'return_date' => null
         ]);
 
-        $tracker2 = factory(Rental::class)->states(['withBook'])->create([
+        $tracker2 = factory(Rental::class)->create([
             'user_id' => $user->id,
             'checkout_date' => Carbon::createFromDate(2017, 01, 01),
             'due_date' => Carbon::createFromDate(2017, 01, 15),

@@ -13,7 +13,7 @@ class RentalAuthorizationTest extends TestCase
 
     public function testDestroyRejectsAnUnauthorizedUser()
     {
-        $rental = factory(Rental::class)->states(['withUser', 'withBook'])->create();
+        $rental = factory(Rental::class)->states(['withUser'])->create();
 
         $response = $this->actingAs(factory(User::class)->create())
             ->deleteJson("/rentals/{$rental->id}");
