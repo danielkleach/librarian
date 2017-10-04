@@ -30,7 +30,9 @@ class Handler extends ExceptionHandler
         BookAlreadyCheckedInException::class,
         HttpException::class,
         ModelNotFoundException::class,
-        ValidationException::class
+        ValidationException::class,
+        VideoLookupFailureException::class,
+        VideoNotFoundException::class
     ];
 
     /**
@@ -83,7 +85,9 @@ class Handler extends ExceptionHandler
             ModelNotFoundException::class => $this->errorNotFound(),
             NotFoundHttpException::class => $this->errorNotFound(),
             ServiceUnavailableHttpException::class => $this->errorServiceUnavailable(),
-            UserAlreadyReviewedException::class => $this->errorCustomType("You have already left a review for this book.")
+            UserAlreadyReviewedException::class => $this->errorCustomType("You have already left a review for this book."),
+            VideoLookupFailureException::class => $this->errorCustomType("There was a problem connecting to TMDB."),
+            VideoNotFoundException::class => $this->errorCustomType("No videos were found matching the term(s) given.")
         ])->get(get_class($e), $response);
 
         return $response;
