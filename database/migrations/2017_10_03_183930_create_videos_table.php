@@ -18,11 +18,12 @@ class CreateVideosTable extends Migration
             $table->integer('owner_id')->unsigned()->nullable();
             $table->string('title');
             $table->text('description');
-            $table->smallInteger('release_year')->unsigned();
+            $table->dateTime('release_date');
             $table->smallInteger('runtime')->unsigned();
-            $table->string('content_rating');
+            $table->string('content_rating')->nullable();
             $table->string('location')->nullable();
-            $table->string('poster_url')->nullable();
+            $table->string('thumbnail_path')->nullable();
+            $table->string('header_path')->nullable();
             $table->boolean('featured')->default(0);
             $table->integer('total_rentals')->default(0);
             $table->decimal('rating', 3, 2)->nullable();
