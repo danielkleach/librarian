@@ -250,9 +250,13 @@ $factory->define(App\Video::class, function (Faker $faker) {
         'owner_id' => null,
         'title' => $faker->sentence,
         'description' => $faker->text(200),
-        'release_year' => $faker->year,
+        'release_date' => $faker->dateTimeBetween(
+            $startDate = '-20 years',
+            $endDate = '-2 years'
+        )->format($format = 'Y-m-d'),
         'location' => $faker->word,
-        'poster_url' => $faker->imageUrl(),
+        'thumbnail_path' => $faker->imageUrl(),
+        'header_path' => $faker->imageUrl(),
         'runtime' => $faker->numberBetween(60, 250),
         'content_rating' => $faker->boolean(80)
             ? $faker->randomElement(['G', 'PG', 'PG-13', 'R'])
