@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Lookup;
+use App\BookLookup;
 use App\CreateDigitalBook;
 use Illuminate\Http\Request;
 use App\Http\Resources\Book as BookResource;
@@ -14,10 +14,10 @@ class DigitalBookLookupController extends Controller
     /**
      * DigitalBookLookupController constructor.
      *
-     * @param Lookup $lookup
+     * @param BookLookup $lookup
      * @param CreateDigitalBook $createDigitalBook
      */
-    public function __construct(Lookup $lookup, CreateDigitalBook $createDigitalBook)
+    public function __construct(BookLookup $lookup, CreateDigitalBook $createDigitalBook)
     {
         $this->lookup = $lookup;
         $this->createDigitalBook = $createDigitalBook;

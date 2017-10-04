@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use App\Exceptions\BookNotFoundException;
 use App\Exceptions\BookLookupFailureException;
 
-class Lookup
+class BookLookup
 {
     private $client;
 
