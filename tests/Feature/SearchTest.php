@@ -4,12 +4,20 @@ namespace Tests\Feature;
 
 use App\Book;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SearchTest extends TestCase
 {
     use DatabaseTransactions, WithoutMiddleware;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        Config::set('scout.driver', 'elastic');
+    }
 
     public function testIndexEndpointCanSearchForBooks()
     {
@@ -19,6 +27,7 @@ class SearchTest extends TestCase
             'isbn' => '9999999999',
             'publication_year' => 2200
         ]);
+        $book->searchable();
 
         sleep(1);
 
@@ -34,6 +43,6 @@ class SearchTest extends TestCase
             'isbn' => $book->isbn,
             'publication_year' => (int) $book->publication_year,
         ]);
-        $book->delete();
+        $book->unsearchable();
     }
 }
