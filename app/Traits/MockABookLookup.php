@@ -2,27 +2,27 @@
 
 namespace App\Traits;
 
-use App\Lookup;
+use App\BookLookup;
 use App\Exceptions\BookLookupFailureException;
 
 trait MockABookLookup
 {
     public function mockBookLookup()
     {
-        app()->bind(Lookup::class, function ($app) {
+        app()->bind(BookLookup::class, function ($app) {
             return app(MockLookup::class);
         });
     }
 
     public function mockBookLookupFailure()
     {
-        app()->bind(Lookup::class, function ($app) {
+        app()->bind(BookLookup::class, function ($app) {
             return app(MockLookupFailure::class);
         });
     }
 }
 
-class MockLookup extends Lookup
+class MockLookup extends BookLookup
 {
     public $response = [
         'title' => 'New test title',
@@ -41,7 +41,7 @@ class MockLookup extends Lookup
     }
 }
 
-class MockLookupFailure extends Lookup
+class MockLookupFailure extends BookLookup
 {
     public function handle($data)
     {
