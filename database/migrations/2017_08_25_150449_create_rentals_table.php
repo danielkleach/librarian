@@ -16,15 +16,17 @@ class CreateRentalsTable extends Migration
         Schema::create('rentals', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('book_id')->unsigned();
+            $table->integer('rentable_id')->unsigned();
+            $table->string('rentable_type');
             $table->dateTime('checkout_date');
             $table->dateTime('due_date');
             $table->dateTime('return_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['user_id', 'rentable_id', 'rentable_type']);
+
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('book_id')->references('id')->on('books');
         });
     }
 
