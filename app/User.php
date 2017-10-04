@@ -49,6 +49,16 @@ class User extends Authenticatable
     }
 
     /**
+     * A User has many videos.
+     *
+     * @return mixed
+     */
+    public function videos()
+    {
+        return $this->hasMany(Video::class, 'owner_id');
+    }
+
+    /**
      * A User has many UserReviews.
      *
      * @return mixed

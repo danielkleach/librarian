@@ -36,16 +36,6 @@ class Rental extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    /**
-     * A Rental belongs to a Book.
-     *
-     * @return mixed
-     */
-    public function book()
-    {
-        return $this->belongsTo(Book::class, 'book_id');
-    }
-
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/
@@ -67,7 +57,8 @@ class Rental extends Model
 
         $rental = $this->create([
             'user_id' => $user->id,
-            'book_id' => $book->id,
+            'rentable_id' => $book->id,
+            'rentable_type' => get_class($book),
             'checkout_date' => Carbon::now()->toDateTimeString(),
             'due_date' => Carbon::now()->addDays(config('settings.rental_period'))
                 ->toDateTimeString()
