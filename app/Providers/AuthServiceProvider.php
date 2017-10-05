@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Book;
+use App\Video;
 use App\BookReview;
 use App\DigitalBook;
 use App\VideoReview;
 use App\FavoriteBook;
 use App\Policies\BookPolicy;
+use App\Policies\VideoPolicy;
 use App\Policies\BookReviewPolicy;
 use App\Policies\VideoReviewPolicy;
 use App\Policies\DigitalBookPolicy;
@@ -23,9 +25,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Book::class => BookPolicy::class,
+        BookReview::class => BookReviewPolicy::class,
         DigitalBook::class => DigitalBookPolicy::class,
         FavoriteBook::class => FavoriteBookPolicy::class,
-        BookReview::class => BookReviewPolicy::class,
+        Video::class => VideoPolicy::class,
         VideoReview::class => VideoReviewPolicy::class,
     ];
 

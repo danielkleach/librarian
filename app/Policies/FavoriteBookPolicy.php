@@ -28,7 +28,6 @@ class FavoriteBookPolicy
      * @param User $user
      * @param FavoriteBook $favoriteBookModel
      * @return bool
-     * @internal param FavoriteBook $job
      */
     public function update(User $user, FavoriteBook $favoriteBookModel)
     {
@@ -45,7 +44,6 @@ class FavoriteBookPolicy
      * @param User $user
      * @param FavoriteBook $favoriteBookModel
      * @return bool
-     * @internal param FavoriteBook $job
      */
     public function destroy(User $user, FavoriteBook $favoriteBookModel)
     {

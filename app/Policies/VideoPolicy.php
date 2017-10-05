@@ -3,35 +3,35 @@
 namespace App\Policies;
 
 use App\User;
-use App\DigitalBook;
+use App\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DigitalBookPolicy
+class VideoPolicy
 {
     use HandlesAuthorization;
 
-    protected $bookModel;
+    protected $videoModel;
 
     /**
-     * Policy applying to adding a Book.
+     * Policy applying to adding a Video.
      *
      * @param User $user
-     * @param DigitalBook $book
+     * @param Video $video
      * @return bool
      */
-    public function store(User $user, DigitalBook $book)
+    public function store(User $user, Video $video)
     {
         return $user->is_admin;
     }
 
     /**
-     * Policy applying to updating a Book.
+     * Policy applying to updating a Video.
      *
      * @param User $user
-     * @param DigitalBook $book
+     * @param Video $video
      * @return bool
      */
-    public function update(User $user, DigitalBook $book)
+    public function update(User $user, Video $video)
     {
         return $user->is_admin;
     }

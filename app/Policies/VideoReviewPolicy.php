@@ -28,7 +28,6 @@ class VideoReviewPolicy
      * @param User $user
      * @param VideoReview $videoReview
      * @return bool
-     * @internal param VideoReview $videoReview
      */
     public function update(User $user, VideoReview $videoReview)
     {
@@ -45,7 +44,6 @@ class VideoReviewPolicy
      * @param User $user
      * @param VideoReview $videoReview
      * @return bool
-     * @internal param VideoReview $videoReview
      */
     public function destroy(User $user, VideoReview $videoReview)
     {

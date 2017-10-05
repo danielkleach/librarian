@@ -18,7 +18,6 @@ class BookPolicy
      * @param User $user
      * @param Book $book
      * @return bool
-     * @internal param Book $job
      */
     public function store(User $user, Book $book)
     {
@@ -31,7 +30,6 @@ class BookPolicy
      * @param User $user
      * @param Book $book
      * @return bool
-     * @internal param Book $job
      */
     public function update(User $user, Book $book)
     {
