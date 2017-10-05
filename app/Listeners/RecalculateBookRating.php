@@ -3,23 +3,23 @@
 namespace App\Listeners;
 
 use App\Book;
-use App\UserReview;
+use App\BookReview;
 
 class RecalculateBookRating
 {
     private $bookModel;
-    private $userReviewModel;
+    private $bookReviewModel;
 
     /**
      * Create the event listener.
      *
      * @param Book $bookModel
-     * @param UserReview $userReviewModel
+     * @param BookReview $bookReviewModel
      */
-    public function __construct(Book $bookModel, UserReview $userReviewModel)
+    public function __construct(Book $bookModel, BookReview $bookReviewModel)
     {
         $this->bookModel = $bookModel;
-        $this->userReviewModel = $userReviewModel;
+        $this->bookReviewModel = $bookReviewModel;
     }
 
     /**
@@ -31,7 +31,7 @@ class RecalculateBookRating
     public function handle($event)
     {
         $book = $this->bookModel->find($event->bookId);
-        $rating = $this->userReviewModel->where('book_id', $book->id)->avg('rating');
+        $rating = $this->bookReviewModel->where('book_id', $book->id)->avg('rating');
 
         $book->rating = $rating;
         $book->save();
