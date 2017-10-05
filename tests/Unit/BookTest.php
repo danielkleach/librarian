@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use App\Book;
 use App\Rental;
 use Carbon\Carbon;
-use App\UserReview;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
