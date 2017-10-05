@@ -181,6 +181,8 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             Route::prefix('{videoId}')->group(function () {
                 Route::patch('/', 'VideoController@update');
                 Route::delete('/', 'VideoController@destroy');
+                Route::post('/checkout', 'VideoCheckoutController@store');
+                Route::post('/checkin/{rentalId}', 'VideoCheckinController@store');
 
                 Route::prefix('video-reviews')->group(function () {
                     Route::post('/', 'VideoReviewController@store');
