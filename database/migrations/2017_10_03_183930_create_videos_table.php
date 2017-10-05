@@ -18,7 +18,7 @@ class CreateVideosTable extends Migration
             $table->integer('owner_id')->unsigned()->nullable();
             $table->string('title');
             $table->text('description');
-            $table->dateTime('release_date');
+            $table->date('release_date');
             $table->smallInteger('runtime')->unsigned();
             $table->string('content_rating')->nullable();
             $table->string('location')->nullable();
