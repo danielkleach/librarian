@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Actor extends Model
 {
-    protected $fillable = [];
+    protected $guarded = [];
 
     /***********************************************/
     /**************** Relationships ****************/
@@ -25,5 +25,23 @@ class Actor extends Model
             'actor_id',
             'video_id'
         )->withTimestamps();
+    }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
+
+    /**
+     * Add Actors to a Video.
+     *
+     * @param $actors
+     * @param $video
+     */
+    public function addActors($actors, $video)
+    {
+        collect($actors)->each(function($actorName) use ($video) {
+            $actor = $this->firstOrCreate(['name' => $actorName]);
+            $video->actors()->attach($actor);
+        });
     }
 }
