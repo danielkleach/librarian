@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BookRated' => [
             'App\Listeners\RecalculateBookRating',
         ],
+        'App\Events\VideoRated' => [
+            'App\Listeners\RecalculateVideoRating',
+        ],
     ];
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\UserReview;
+use App\BookReview;
 use Illuminate\Queue\SerializesModels;
 
 class BookRated
@@ -14,11 +14,11 @@ class BookRated
     /**
      * Create a new event instance.
      *
-     * @param UserReview $userReview
-     * @internal param UserReview $userReviewModel
+     * @param BookReview $bookReview
+     * @internal param UserReview $bookReviewModel
      */
-    public function __construct(UserReview $userReview)
+    public function __construct(BookReview $bookReview)
     {
-        $this->bookId = $userReview->book_id;
+        $this->bookId = $bookReview->book_id;
     }
 }
