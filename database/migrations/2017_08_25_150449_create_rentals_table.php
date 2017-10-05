@@ -24,8 +24,6 @@ class CreateRentalsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['user_id', 'rentable_id', 'rentable_type']);
-
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
