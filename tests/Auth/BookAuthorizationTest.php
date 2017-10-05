@@ -13,7 +13,7 @@ class BookAuthorizationTest extends TestCase
 
     public function testStoreRejectsAnUnauthorizedUser()
     {
-        $data = ['name' => 'Book Name'];
+        $data = ['title' => 'Book Title'];
 
         $response = $this->actingAs(factory(User::class)->create())
             ->postJson("/books", $data);
@@ -25,7 +25,7 @@ class BookAuthorizationTest extends TestCase
     {
         $book = factory(Book::class)->create();
 
-        $data = ['name' => 'New Book Name'];
+        $data = ['title' => 'New Book Title'];
 
         $response = $this->actingAs(factory(User::class)->create())
             ->patchJson("/books/{$book->id}", $data);
