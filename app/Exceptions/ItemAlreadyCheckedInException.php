@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class BookUnavailableException extends Exception
+class ItemAlreadyCheckedInException extends Exception
 {
 
 }

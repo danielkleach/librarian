@@ -3,12 +3,10 @@
 namespace App;
 
 use Carbon\Carbon;
-use App\Events\BookRented;
-use App\Events\BookReturned;
 use Illuminate\Database\Eloquent\Model;
-use App\Exceptions\BookUnavailableException;
+use App\Exceptions\ItemUnavailableException;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Exceptions\BookAlreadyCheckedInException;
+use App\Exceptions\ItemAlreadyCheckedInException;
 
 class Rental extends Model
 {
@@ -41,45 +39,45 @@ class Rental extends Model
     /***********************************************/
 
     /**
-     * Checkout a book.
+     * Checkout an item.
      *
      * @param $user
-     * @param $book
+     * @param $item
      * @return $this|Model
-     * @throws BookUnavailableException
-     * @internal param $bookId
+     * @throws ItemUnavailableException
+     * @internal param $itemId
      */
-    public function checkout($user, $book)
+    public function checkout($user, $item)
     {
-        if (!$book->isAvailable()) {
-            throw new BookUnavailableException;
+        if (!$item->isAvailable()) {
+            throw new ItemUnavailableException;
         }
 
         $rental = $this->create([
             'user_id' => $user->id,
-            'rentable_id' => $book->id,
-            'rentable_type' => get_class($book),
+            'rentable_id' => $item->id,
+            'rentable_type' => get_class($item),
             'checkout_date' => Carbon::now()->toDateTimeString(),
             'due_date' => Carbon::now()->addDays(config('settings.rental_period'))
                 ->toDateTimeString()
         ]);
 
-        $book->checkedOut();
+        $item->checkedOut();
 
         return $rental;
     }
 
     /**
-     * Checkin a book.
+     * Checkin a item.
      *
-     * @param $book
+     * @param $item
      * @return $this|Model
-     * @throws BookAlreadyCheckedInException
+     * @throws ItemAlreadyCheckedInException
      */
-    public function checkin($book)
+    public function checkin($item)
     {
-        if ($book->isAvailable()) {
-            throw new BookAlreadyCheckedInException;
+        if ($item->isAvailable()) {
+            throw new ItemAlreadyCheckedInException;
         }
 
         $this->update([

@@ -75,17 +75,17 @@ class Handler extends ExceptionHandler
         $response = collect([
             AuthenticationException::class => $this->errorUnauthorized(),
             AuthorizationException::class => $this->errorForbidden(),
-            BookAlreadyCheckedInException::class => $this->errorCustomType("This book is already checked in."),
+            ItemAlreadyCheckedInException::class => $this->errorCustomType("This item is already checked in."),
             BookLookupFailureException::class => $this->errorCustomType("There was a problem connecting to Google Books."),
             BookNotFoundException::class => $this->errorCustomType("No books were found matching this ISBN."),
-            BookUnavailableException::class => $this->errorCustomType("This book is not available for checkout."),
+            ItemUnavailableException::class => $this->errorCustomType("This item is not available for checkout."),
             Exception::class => $this->errorInternalError(),
             HttpException::class => $this->errorForbidden(),
             MaintenanceModeException::class => $this->errorServiceUnavailable(),
             ModelNotFoundException::class => $this->errorNotFound(),
             NotFoundHttpException::class => $this->errorNotFound(),
             ServiceUnavailableHttpException::class => $this->errorServiceUnavailable(),
-            UserAlreadyReviewedException::class => $this->errorCustomType("You have already left a review for this book."),
+            UserAlreadyReviewedException::class => $this->errorCustomType("You have already left a review for this item."),
             VideoLookupFailureException::class => $this->errorCustomType("There was a problem connecting to TMDB."),
             VideoNotFoundException::class => $this->errorCustomType("No videos were found matching the term(s) given.")
         ])->get(get_class($e), $response);
