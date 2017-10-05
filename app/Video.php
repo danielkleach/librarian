@@ -152,4 +152,32 @@ class Video extends Model
     {
         return $query->orderBy('rating', 'desc');
     }
+
+    /***********************************************/
+    /******************* Methods *******************/
+    /***********************************************/
+
+    /**
+     * Checks if the Book is available.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        $rented = $this->rentals()->whereNull('return_date')->first();
+
+        return $rented ? false : true;
+    }
+
+    /**
+     * Handle a Book checkout.
+     *
+     * @return bool
+     */
+    public function checkedOut()
+    {
+        $this->increment('total_rentals');
+
+        return true;
+    }
 }
