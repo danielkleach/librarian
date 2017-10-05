@@ -47,6 +47,14 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
     });
 
+    Route::prefix('videos')->group(function () {
+        Route::get('/', 'VideoController@index');
+
+        Route::prefix('{videoId}')->group(function () {
+            Route::get('/', 'VideoController@show');
+        });
+    });
+
     Route::group(['middleware' => ['auth:api']], function() {
 
         Route::prefix('users')->group(function () {
@@ -150,7 +158,8 @@ Route::group(['middleware' => ['respondWithJson']], function() {
 
         Route::prefix('videos')->group(function () {
             Route::post('/', 'VideoController@store');
-            Route::post('/lookup', 'VideoLookupController@store');
+            Route::post('/lookup/search', 'VideoLookupController@index');
+            Route::post('/lookup/create', 'VideoLookupController@store');
 
             Route::prefix('{videoId}')->group(function () {
                 Route::patch('/', 'VideoController@update');
