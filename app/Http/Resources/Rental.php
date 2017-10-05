@@ -18,7 +18,8 @@ class Rental extends Resource
         return [
             'id' => (int) $this->id,
             'user_id' => (int) $this->user_id,
-            'book_id' => (int) $this->book_id,
+            'rentable_id' => (int) $this->rentable_id,
+            'rentable_type' => $this->rentable_type,
             'checkout_date' => Carbon::createFromFormat('Y-m-d H:i:s', $this->checkout_date)
                 ->format('F j, Y'),
             'due_date' => Carbon::createFromFormat('Y-m-d H:i:s', $this->due_date)
@@ -31,7 +32,8 @@ class Rental extends Resource
             'updated_at' => $this->updated_at->format('F j, Y'),
 
             'user' => User::make($this->whenLoaded('user')),
-            'book' => Book::make($this->whenLoaded('book'))
+            'book' => Book::make($this->whenLoaded('book')),
+            'video' => Video::make($this->whenLoaded('video'))
         ];
     }
 }
