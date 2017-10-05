@@ -4,11 +4,11 @@ namespace Tests\Feature;
 
 use App\Book;
 use App\User;
-use App\UserReview;
+use App\BookReview;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserReviewAuthorizationTest extends TestCase
+class BookReviewAuthorizationTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -25,14 +25,14 @@ class UserReviewAuthorizationTest extends TestCase
         ];
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->postJson("/books/{$book->id}/user-reviews", $data);
+            ->postJson("/books/{$book->id}/book-reviews", $data);
 
         $response->assertStatus(401);
     }
 
     public function testUpdateRejectsAnUnauthorizedUser()
     {
-        $userReview = factory(UserReview::class)->states(['withUser', 'withBook'])->create();
+        $bookReview = factory(BookReview::class)->states(['withUser', 'withBook'])->create();
 
         $data = [
             'rating' => 4,
@@ -40,17 +40,17 @@ class UserReviewAuthorizationTest extends TestCase
         ];
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->patchJson("/user-reviews/{$userReview->id}", $data);
+            ->patchJson("/book-reviews/{$bookReview->id}", $data);
 
         $response->assertStatus(401);
     }
 
     public function testDestroyRejectsAnUnauthorizedUser()
     {
-        $userReview = factory(UserReview::class)->states(['withUser', 'withBook'])->create();
+        $bookReview = factory(BookReview::class)->states(['withUser', 'withBook'])->create();
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->deleteJson("/user-reviews/{$userReview->id}");
+            ->deleteJson("/book-reviews/{$bookReview->id}");
 
         $response->assertStatus(401);
     }

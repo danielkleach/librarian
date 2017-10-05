@@ -184,7 +184,7 @@ $factory->state(App\Download::class, 'withRandomBook', function ($faker) {
     ];
 });
 
-$factory->define(App\UserReview::class, function (Faker $faker) {
+$factory->define(App\BookReview::class, function (Faker $faker) {
 
     return [
         'rating' => $faker->numberBetween(1, 4),
@@ -192,25 +192,25 @@ $factory->define(App\UserReview::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\UserReview::class, 'withUser', function ($faker) {
+$factory->state(App\BookReview::class, 'withUser', function ($faker) {
     return [
         'user_id' => factory(User::class)->lazy()
     ];
 });
 
-$factory->state(App\UserReview::class, 'withBook', function ($faker) {
+$factory->state(App\BookReview::class, 'withBook', function ($faker) {
     return [
         'book_id' => factory(Book::class)->lazy()
     ];
 });
 
-$factory->state(App\UserReview::class, 'withRandomUser', function ($faker) {
+$factory->state(App\BookReview::class, 'withRandomUser', function ($faker) {
     return [
         'user_id' => User::all()->random()->id
     ];
 });
 
-$factory->state(App\UserReview::class, 'withRandomBook', function ($faker) {
+$factory->state(App\BookReview::class, 'withRandomBook', function ($faker) {
     return [
         'book_id' => Book::all()->random()->id
     ];
@@ -274,5 +274,37 @@ $factory->state(App\Video::class, 'withUser', function ($faker) {
 $factory->state(App\Video::class, 'withRandomUser', function ($faker) {
     return [
         'owner_id' => User::all()->random()->id
+    ];
+});
+
+$factory->define(App\VideoReview::class, function (Faker $faker) {
+
+    return [
+        'rating' => $faker->numberBetween(1, 4),
+        'comments' => $faker->text(200)
+    ];
+});
+
+$factory->state(App\VideoReview::class, 'withUser', function ($faker) {
+    return [
+        'user_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\VideoReview::class, 'withVideo', function ($faker) {
+    return [
+        'video_id' => factory(Video::class)->lazy()
+    ];
+});
+
+$factory->state(App\VideoReview::class, 'withRandomUser', function ($faker) {
+    return [
+        'user_id' => User::all()->random()->id
+    ];
+});
+
+$factory->state(App\VideoReview::class, 'withRandomVideo', function ($faker) {
+    return [
+        'video_id' => Video::all()->random()->id
     ];
 });

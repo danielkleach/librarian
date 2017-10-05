@@ -4,16 +4,16 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Book;
-use App\UserReview;
+use App\BookReview;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserReviewTest extends TestCase
+class BookReviewTest extends TestCase
 {
     use DatabaseTransactions, WithoutMiddleware;
 
-    public function testStoreEndpointCreatesAUserReviewInTheDatabase()
+    public function testStoreEndpointCreatesABookReviewInTheDatabase()
     {
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
@@ -26,18 +26,18 @@ class UserReviewTest extends TestCase
             'comments' => 'This book is decent.'
         ];
 
-        $response = $this->actingAs($user)->postJson("/books/{$book->id}/user-reviews", $data);
+        $response = $this->actingAs($user)->postJson("/books/{$book->id}/book-reviews", $data);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('user_reviews', $data);
+        $this->assertDatabaseHas('book_reviews', $data);
     }
 
-    public function testUpdateEndpointUpdatesAUserReviewInTheDatabase()
+    public function testUpdateEndpointUpdatesABookReviewInTheDatabase()
     {
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $userReview = factory(UserReview::class)->states(['withBook'])->create([
+        $bookReview = factory(BookReview::class)->states(['withBook'])->create([
             'user_id' => $user->id
         ]);
 
@@ -46,24 +46,24 @@ class UserReviewTest extends TestCase
             'comments' => 'This book is pretty good.'
         ];
 
-        $response = $this->actingAs($user)->patchJson("/user-reviews/{$userReview->id}", $data);
+        $response = $this->actingAs($user)->patchJson("/book-reviews/{$bookReview->id}", $data);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('user_reviews', $data);
+        $this->assertDatabaseHas('book_reviews', $data);
     }
 
-    public function testDestroyEndpointRemovesAUserReview()
+    public function testDestroyEndpointRemovesABookReview()
     {
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $userReview = factory(UserReview::class)->states(['withUser', 'withBook'])->create([
+        $bookReview = factory(BookReview::class)->states(['withUser', 'withBook'])->create([
             'user_id' => $user->id
         ]);
 
-        $response = $this->actingAs($user)->deleteJson("/user-reviews/{$userReview->id}");
+        $response = $this->actingAs($user)->deleteJson("/book-reviews/{$bookReview->id}");
 
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('user_reviews', ['id' => $userReview->id, 'deleted_at' => null]);
+        $this->assertDatabaseMissing('book_reviews', ['id' => $bookReview->id, 'deleted_at' => null]);
     }
 }

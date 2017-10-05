@@ -2,12 +2,12 @@
 
 namespace App;
 
-use App\Events\BookRated;
+use App\Events\VideoRated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Exceptions\UserAlreadyReviewedException;
 
-class UserReview extends Model
+class VideoReview extends Model
 {
     use SoftDeletes;
 
@@ -18,7 +18,7 @@ class UserReview extends Model
     /***********************************************/
 
     /**
-     * A UserReview belongs to a User.
+     * A VideoReview belongs to a User.
      *
      * @return mixed
      */
@@ -28,13 +28,13 @@ class UserReview extends Model
     }
 
     /**
-     * A UserReview belongs to a Book.
+     * A VideoReview belongs to a Video.
      *
      * @return mixed
      */
-    public function book()
+    public function video()
     {
-        return $this->belongsTo(Book::class, 'book_id');
+        return $this->belongsTo(Video::class, 'video_id');
     }
 
     /***********************************************/
@@ -42,16 +42,16 @@ class UserReview extends Model
     /***********************************************/
 
     /**
-     * Create a user review.
+     * Create a video review.
      *
      * @param $request
      * @param $user
-     * @param $book
+     * @param $video
      * @return $this|Model
      * @throws UserAlreadyReviewedException
      * @internal param $bookId
      */
-    public function createReview($request, $user, $book)
+    public function createReview($request, $user, $video)
     {
         $review = $this->where('user_id', $user->id)->first();
         if ($review) {
@@ -60,31 +60,28 @@ class UserReview extends Model
 
         $review = $this->create([
             'user_id' => $user->id,
-            'book_id' => $book->id,
+            'video_id' => $video->id,
             'rating' => $request->rating,
             'comments' => $request->comments
         ]);
 
-        event(new BookRated($review));
+        event(new VideoRated($review));
 
         return $review;
     }
 
     /**
-     * Update a user review.
+     * Update a video review.
      *
      * @param $request
      * @param $review
      * @return $this|Model
-     * @internal param $user
-     * @internal param $book
-     * @internal param $bookId
      */
     public function updateReview($request, $review)
     {
         $review->update($request->all());
 
-        event(new BookRated($review));
+        event(new VideoRated($review));
 
         return $review;
     }

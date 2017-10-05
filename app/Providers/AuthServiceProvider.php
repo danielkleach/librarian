@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Book;
-use App\UserReview;
+use App\BookReview;
 use App\DigitalBook;
+use App\VideoReview;
 use App\FavoriteBook;
 use App\Policies\BookPolicy;
-use App\Policies\UserReviewPolicy;
+use App\Policies\BookReviewPolicy;
+use App\Policies\VideoReviewPolicy;
 use App\Policies\DigitalBookPolicy;
 use App\Policies\FavoriteBookPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -23,7 +25,8 @@ class AuthServiceProvider extends ServiceProvider
         Book::class => BookPolicy::class,
         DigitalBook::class => DigitalBookPolicy::class,
         FavoriteBook::class => FavoriteBookPolicy::class,
-        UserReview::class => UserReviewPolicy::class,
+        BookReview::class => BookReviewPolicy::class,
+        VideoReview::class => VideoReviewPolicy::class,
     ];
 
     /**

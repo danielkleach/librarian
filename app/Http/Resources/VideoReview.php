@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class User extends Resource
+class VideoReview extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -16,15 +16,15 @@ class User extends Resource
     {
         return [
             'id' => (int) $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
+            'user_id' => (int) $this->user_id,
+            'video_id' => (int) $this->video_id,
+            'rating' => $this->rating,
+            'comments' => $this->comments,
             'created_at' => $this->created_at->format('F j, Y'),
             'updated_at' => $this->updated_at->format('F j, Y'),
 
-            'rentals' => Rental::collection($this->whenLoaded('rentals')),
-            'book_reviews' => BookReview::collection($this->whenLoaded('bookReviews')),
-            'video_reviews' => VideoReview::collection($this->whenLoaded('videoReviews'))
+            'user' => User::make($this->whenLoaded('user')),
+            'video' => Video::make($this->whenLoaded('video'))
         ];
     }
 }

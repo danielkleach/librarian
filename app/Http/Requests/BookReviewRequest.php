@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class UserReviewRequest extends Request
+class BookReviewRequest extends Request
 {
     public function authorize()
     {

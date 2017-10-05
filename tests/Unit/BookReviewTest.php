@@ -4,12 +4,12 @@ namespace Tests\Unit;
 
 use App\Book;
 use App\User;
-use App\UserReview;
+use App\BookReview;
 use Tests\TestCase;
 use App\Exceptions\UserAlreadyReviewedException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserReviewTest extends TestCase
+class BookReviewTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -19,12 +19,12 @@ class UserReviewTest extends TestCase
 
         $book = factory(Book::class)->create();
 
-        factory(UserReview::class)->create([
+        factory(BookReview::class)->create([
             'user_id' => $user->id,
             'book_id' => $book->id
         ]);
 
-        $review = new UserReview();
+        $review = new BookReview();
 
         $data = (object) [
             'rating' => 3,
@@ -34,7 +34,7 @@ class UserReviewTest extends TestCase
         try {
             $review->createReview($data, $user, $book);
         } catch (UserAlreadyReviewedException $e) {
-            $reviews = $book->userReviews()->where('user_id', $user->id)->get();
+            $reviews = $book->reviews()->where('user_id', $user->id)->get();
             $this->assertEquals(1, $reviews->count());
             return;
         }

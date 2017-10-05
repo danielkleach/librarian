@@ -39,4 +39,14 @@ class Video extends Model
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
+
+    /**
+     * A Video has many Reviews.
+     *
+     * @return mixed
+     */
+    public function reviews()
+    {
+        return $this->hasMany(VideoReview::class, 'video_id');
+    }
 }
