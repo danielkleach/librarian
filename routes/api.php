@@ -102,8 +102,8 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::delete('/{tag}', 'BookTagController@destroy');
                 });
 
-                Route::prefix('user-reviews')->group(function () {
-                    Route::post('/', 'UserReviewController@store');
+                Route::prefix('book-reviews')->group(function () {
+                    Route::post('/', 'BookReviewController@store');
                 });
             });
         });
@@ -132,8 +132,8 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::delete('/{tag}', 'DigitalBookTagController@destroy');
                 });
 
-                Route::prefix('user-reviews')->group(function () {
-                    Route::post('/', 'UserReviewController@store');
+                Route::prefix('book-reviews')->group(function () {
+                    Route::post('/', 'BookReviewController@store');
                 });
             });
         });
@@ -142,10 +142,10 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             Route::delete('{rentalId}', 'RentalController@destroy');
         });
 
-        Route::prefix('user-reviews/{reviewId}')->group(function () {
-            Route::get('/', 'UserReviewController@show');
-            Route::patch('/', 'UserReviewController@update');
-            Route::delete('/', 'UserReviewController@destroy');
+        Route::prefix('book-reviews/{reviewId}')->group(function () {
+            Route::get('/', 'BookReviewController@show');
+            Route::patch('/', 'BookReviewController@update');
+            Route::delete('/', 'BookReviewController@destroy');
         });
 
         Route::prefix('videos')->group(function () {
@@ -155,7 +155,17 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             Route::prefix('{videoId}')->group(function () {
                 Route::patch('/', 'VideoController@update');
                 Route::delete('/', 'VideoController@destroy');
+
+                Route::prefix('video-reviews')->group(function () {
+                    Route::post('/', 'VideoReviewController@store');
+                });
             });
+        });
+
+        Route::prefix('video-reviews/{reviewId}')->group(function () {
+            Route::get('/', 'VideoReviewController@show');
+            Route::patch('/', 'VideoReviewController@update');
+            Route::delete('/', 'VideoReviewController@destroy');
         });
     });
 });
