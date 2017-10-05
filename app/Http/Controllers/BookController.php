@@ -19,8 +19,11 @@ class BookController extends Controller
      * @param Author $authorModel
      * @param CreateBook $createBook
      */
-    public function __construct(Book $bookModel, Author $authorModel, CreateBook $createBook)
-    {
+    public function __construct(
+        Book $bookModel,
+        Author $authorModel,
+        CreateBook $createBook
+    ){
         $this->bookModel = $bookModel;
         $this->authorModel = $authorModel;
         $this->createBook = $createBook;
@@ -28,14 +31,16 @@ class BookController extends Controller
 
     public function index()
     {
-        return BookResource::collection($this->bookModel
-            ->with(['authors'])->paginate(25));
+        $books = $this->bookModel->with(['authors'])->paginate(25);
+
+        return BookResource::collection($books);
     }
 
     public function show($bookId)
     {
-        return new BookResource($this->bookModel
-            ->with(['authors', 'owner'])->findOrFail($bookId));
+        $book = $this->bookModel->with(['authors', 'owner'])->findOrFail($bookId);
+
+        return new BookResource($book);
     }
 
     public function store(BookRequest $request)

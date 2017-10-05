@@ -22,19 +22,25 @@ class UserController extends Controller
 
     public function index()
     {
-        return UserResource::collection($this->userModel->paginate(25));
+        $users = $this->userModel->paginate(25);
+
+        return UserResource::collection($users);
     }
 
     public function show($userId)
     {
-        return new UserResource($this->userModel
+        $user = $this->userModel
             ->with(['bookReviews.book', 'videoReviews.video', 'rentals.book.authors'])
-            ->findOrFail($userId));
+            ->findOrFail($userId);
+
+        return new UserResource($user);
     }
 
     public function store(UserRequest $request)
     {
-        return new UserResource($this->userModel->create($request->all()));
+        $user = $this->userModel->create($request->all());
+
+        return new UserResource($user);
     }
 
     public function update(UserRequest $request, $userId)

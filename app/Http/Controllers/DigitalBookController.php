@@ -31,21 +31,23 @@ class DigitalBookController extends Controller
 
     public function index()
     {
-        return DigitalBookResource::collection($this->bookModel
-            ->with(['authors'])->paginate(25));
+        $books = $this->bookModel->with(['authors'])->paginate(25);
+
+        return DigitalBookResource::collection($books);
     }
 
     public function show($bookId)
     {
-        return new DigitalBookResource($this->bookModel
-            ->with(['authors', 'files'])->findOrFail($bookId));
+        $book = $this->bookModel->with(['authors', 'files'])->findOrFail($bookId);
+
+        return new DigitalBookResource($book);
     }
 
     public function store(DigitalBookRequest $request)
     {
         $this->authorize('store', $this->bookModel);
-        $request = $request->all();
 
+        $request = $request->all();
         $book = $this->createDigitalBook->handle($request);
 
         return new DigitalBookResource($book);

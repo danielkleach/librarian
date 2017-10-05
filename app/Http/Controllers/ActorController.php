@@ -22,17 +22,23 @@ class ActorController extends Controller
 
     public function index()
     {
-        return ActorResource::collection($this->actorModel->paginate(25));
+        $actors = $this->actorModel->paginate(25);
+
+        return ActorResource::collection($actors);
     }
 
     public function show($actorId)
     {
-        return new ActorResource($this->actorModel->with('videos')->findOrFail($actorId));
+        $actor = $this->actorModel->with('videos')->findOrFail($actorId);
+
+        return new ActorResource($actor);
     }
 
     public function store(ActorRequest $request)
     {
-        return new ActorResource($this->actorModel->create($request->all()));
+        $actor = $this->actorModel->create($request->all());
+
+        return new ActorResource($actor);
     }
 
     public function update(ActorRequest $request, $actorId)

@@ -22,17 +22,23 @@ class AuthorController extends Controller
 
     public function index()
     {
-        return AuthorResource::collection($this->authorModel->paginate(25));
+        $authors = $this->authorModel->paginate(25);
+
+        return AuthorResource::collection($authors);
     }
 
     public function show($authorId)
     {
-        return new AuthorResource($this->authorModel->with('books')->findOrFail($authorId));
+        $author = $this->authorModel->with('books')->findOrFail($authorId);
+
+        return new AuthorResource($author);
     }
 
     public function store(AuthorRequest $request)
     {
-        return new AuthorResource($this->authorModel->create($request->all()));
+        $author = $this->authorModel->create($request->all());
+
+        return new AuthorResource($author);
     }
 
     public function update(AuthorRequest $request, $authorId)

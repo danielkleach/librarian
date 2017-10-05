@@ -19,8 +19,11 @@ class BookDownloadController extends Controller
      * @param File $fileModel
      * @param Download $downloadModel
      */
-    public function __construct(DigitalBook $digitalBookModel, File $fileModel, Download $downloadModel)
-    {
+    public function __construct(
+        DigitalBook $digitalBookModel,
+        File $fileModel,
+        Download $downloadModel
+    ){
         $this->digitalBookModel = $digitalBookModel;
         $this->fileModel = $fileModel;
         $this->downloadModel = $downloadModel;
@@ -30,7 +33,9 @@ class BookDownloadController extends Controller
     {
         $user = Auth::user();
         $book = $this->digitalBookModel->findOrFail($bookId);
-        $file = $this->fileModel->where('book_id', $bookId)->where('format', $request->format)->firstOrFail();
+        $file = $this->fileModel->where('book_id', $bookId)
+            ->where('format', $request->format)
+            ->firstOrFail();
 
         $this->downloadModel->download($user, $book);
 

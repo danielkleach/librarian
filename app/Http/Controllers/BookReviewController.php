@@ -26,8 +26,10 @@ class BookReviewController extends Controller
 
     public function show($bookReviewId)
     {
-        return new BookReviewResource($this->bookReviewModel
-            ->with(['user', 'book'])->findOrFail($bookReviewId));
+        $review = $this->bookReviewModel
+            ->with(['user', 'book'])->findOrFail($bookReviewId);
+
+        return new BookReviewResource($review);
     }
 
     public function store(BookReviewRequest $request, $bookId)
@@ -35,7 +37,9 @@ class BookReviewController extends Controller
         $user = Auth::user();
         $book = $this->bookModel->findOrFail($bookId);
 
-        return new BookReviewResource($this->bookReviewModel->createReview($request, $user, $book));
+        $review = $this->bookReviewModel->createReview($request, $user, $book);
+
+        return new BookReviewResource($review);
     }
 
     public function update(BookReviewRequest $request, $bookReviewId)
@@ -43,7 +47,9 @@ class BookReviewController extends Controller
         $bookReview = $this->bookReviewModel->findOrFail($bookReviewId);
         $this->authorize('update', $bookReview);
 
-        return new BookReviewResource($this->bookReviewModel->updateReview($request, $bookReview));
+        $review = $this->bookReviewModel->updateReview($request, $bookReview);
+
+        return new BookReviewResource($review);
     }
 
     public function destroy($bookReviewId)

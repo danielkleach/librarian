@@ -26,8 +26,10 @@ class VideoReviewController extends Controller
 
     public function show($videoReviewId)
     {
-        return new VideoReviewResource($this->videoReviewModel
-            ->with(['user', 'video'])->findOrFail($videoReviewId));
+        $review = $this->videoReviewModel
+            ->with(['user', 'video'])->findOrFail($videoReviewId);
+
+        return new VideoReviewResource($review);
     }
 
     public function store(VideoReviewRequest $request, $videoId)
@@ -35,7 +37,9 @@ class VideoReviewController extends Controller
         $user = Auth::user();
         $video = $this->videoModel->findOrFail($videoId);
 
-        return new VideoReviewResource($this->videoReviewModel->createReview($request, $user, $video));
+        $review = $this->videoReviewModel->createReview($request, $user, $video);
+
+        return new VideoReviewResource($review);
     }
 
     public function update(VideoReviewRequest $request, $videoReviewId)
@@ -43,7 +47,9 @@ class VideoReviewController extends Controller
         $videoReview = $this->videoReviewModel->findOrFail($videoReviewId);
         $this->authorize('update', $videoReview);
 
-        return new VideoReviewResource($this->videoReviewModel->updateReview($request, $videoReview));
+        $review = $this->videoReviewModel->updateReview($request, $videoReview);
+
+        return new VideoReviewResource($review);
     }
 
     public function destroy($videoReviewId)

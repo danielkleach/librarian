@@ -23,17 +23,21 @@ class FavoriteBookController extends Controller
 
     public function index()
     {
-        return FavoriteBookResource::collection($this->favoriteBookModel
+        $books = $this->favoriteBookModel
             ->with(['user', 'book.authors'])
-            ->where('user_id', '=', Auth::user()->id)->paginate(25));
+            ->where('user_id', '=', Auth::user()->id)->paginate(25);
+
+        return FavoriteBookResource::collection($books);
     }
 
     public function store(Request $request)
     {
-        return new FavoriteBookResource($this->favoriteBookModel->create([
+        $book = $this->favoriteBookModel->create([
             'user_id' => Auth::user()->id,
             'book_id' => $request->book_id
-        ]));
+        ]);
+
+        return new FavoriteBookResource($book);
     }
 
     public function destroy($userId, $favoriteBookId)

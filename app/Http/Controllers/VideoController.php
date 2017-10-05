@@ -28,14 +28,16 @@ class VideoController extends Controller
 
     public function index()
     {
-        return VideoResource::collection($this->videoModel
-            ->with(['actors'])->paginate(25));
+        $videos = $this->videoModel->with(['actors'])->paginate(25);
+
+        return VideoResource::collection($videos);
     }
 
     public function show($videoId)
     {
-        return new VideoResource($this->videoModel
-            ->with(['actors', 'owner'])->findOrFail($videoId));
+        $video = $this->videoModel->with(['actors', 'owner'])->findOrFail($videoId);
+
+        return new VideoResource($video);
     }
 
     public function store(VideoRequest $request)
