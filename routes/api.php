@@ -16,8 +16,6 @@ Route::group(['middleware' => ['respondWithJson']], function() {
     Route::post('/login', 'Auth\LoginController@login');
     Route::post('/logout', 'Auth\LoginController@logout');
 
-    Route::post('/search', 'SearchController@index');
-
     Route::get('/featured/books', 'FeaturedBookController@index');
     Route::get('/popular/books', 'PopularBookController@index');
     Route::get('/new/books', 'NewBookController@index');
@@ -41,6 +39,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
 
     Route::prefix('books')->group(function () {
         Route::get('/', 'BookController@index');
+        Route::post('/search', 'BookSearchController@index');
 
         Route::prefix('{bookId}')->group(function () {
             Route::get('/', 'BookController@show');
@@ -57,6 +56,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
 
     Route::prefix('videos')->group(function () {
         Route::get('/', 'VideoController@index');
+        Route::post('/search', 'VideoSearchController@index');
 
         Route::prefix('{videoId}')->group(function () {
             Route::get('/', 'VideoController@show');

@@ -6,12 +6,12 @@ use App\Book;
 use App\DigitalBook;
 use App\Http\Requests\SearchRequest;
 
-class SearchController extends Controller
+class BookSearchController extends Controller
 {
     protected $bookModel, $digitalBookModel;
 
     /**
-     * SearchController constructor.
+     * BookSearchController constructor.
      *
      * @param Book $bookModel
      * @param DigitalBook $digitalBookModel
