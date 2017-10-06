@@ -184,6 +184,11 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::post('/checkout', 'VideoCheckoutController@store');
                 Route::post('/checkin/{rentalId}', 'VideoCheckinController@store');
 
+                Route::prefix('actors')->group(function () {
+                    Route::post('/', 'VideoActorController@store');
+                    Route::delete('/{actorId}', 'VideoActorController@destroy');
+                });
+
                 Route::prefix('video-reviews')->group(function () {
                     Route::post('/', 'VideoReviewController@store');
                 });
