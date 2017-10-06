@@ -5,11 +5,14 @@ namespace App;
 use Carbon\Carbon;
 use Spatie\Tags\HasTags;
 use App\Traits\Rentable;
+use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    use Rentable, HasTags;
+    use Rentable, HasTags, Searchable;
+
+    protected $indexConfigurator = VideoIndexConfigurator::class;
 
     protected $fillable = [
         'owner_id',
@@ -24,6 +27,30 @@ class Video extends Model
 
     protected $casts = [
         'featured' => 'boolean'
+    ];
+
+    protected $searchRules = [
+        VideoSearchRule::class
+    ];
+
+    protected $mapping = [
+        'properties' => [
+            'title' => [
+                'type' => 'text',
+                'analyzer' => 'english'
+            ],
+            'description' => [
+                'type' => 'text',
+                'analyzer' => 'english'
+            ],
+            'release_date' => [
+                'type' => 'text',
+                'analyzer' => 'english'
+            ],
+            'runtime' => [
+                'type' => 'keyword'
+            ]
+        ]
     ];
 
     /***********************************************/
