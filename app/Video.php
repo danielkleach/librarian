@@ -5,12 +5,13 @@ namespace App;
 use Carbon\Carbon;
 use Spatie\Tags\HasTags;
 use App\Traits\Rentable;
+use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    use Rentable, HasTags, Searchable;
+    use Rentable, Favoritable, HasTags, Searchable;
 
     protected $indexConfigurator = VideoIndexConfigurator::class;
 

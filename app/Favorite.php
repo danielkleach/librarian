@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class FavoriteBook extends Model
+class Favorite extends Model
 {
     use SoftDeletes;
 
@@ -16,7 +16,7 @@ class FavoriteBook extends Model
     /***********************************************/
 
     /**
-     * A FavoriteBook belongs to a User.
+     * A Favorite belongs to a User.
      *
      * @return mixed
      */
@@ -26,12 +26,10 @@ class FavoriteBook extends Model
     }
 
     /**
-     * A FavoriteBook belongs to a Book.
-     *
-     * @return mixed
+     * Get all of the owning favoritable models.
      */
-    public function book()
+    public function favoritable()
     {
-        return $this->belongsTo(Book::class, 'book_id');
+        return $this->morphTo();
     }
 }

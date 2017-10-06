@@ -5,7 +5,6 @@ use App\Book;
 use App\Video;
 use App\Author;
 use Carbon\Carbon;
-use App\UserReview;
 use App\DigitalBook;
 use Faker\Generator as Faker;
 
@@ -216,31 +215,28 @@ $factory->state(App\BookReview::class, 'withRandomBook', function ($faker) {
     ];
 });
 
-$factory->define(App\FavoriteBook::class, function (Faker $faker) {
-    return [];
+$factory->define(App\Favorite::class, function (Faker $faker) {
+    $favoritableType = $faker->randomElement([
+        Book::class,
+        DigitalBook::class,
+        Video::class
+    ]);
+
+    return [
+        'favoritable_id' => factory($favoritableType)->lazy(),
+        'favoritable_type' => $favoritableType,
+    ];
 });
 
-$factory->state(App\FavoriteBook::class, 'withUser', function ($faker) {
+$factory->state(App\Favorite::class, 'withUser', function ($faker) {
     return [
         'user_id' => factory(User::class)->lazy()
     ];
 });
 
-$factory->state(App\FavoriteBook::class, 'withBook', function ($faker) {
-    return [
-        'book_id' => factory(Book::class)->lazy()
-    ];
-});
-
-$factory->state(App\FavoriteBook::class, 'withRandomUser', function ($faker) {
+$factory->state(App\Favorite::class, 'withRandomUser', function ($faker) {
     return [
         'user_id' => User::all()->random()->id
-    ];
-});
-
-$factory->state(App\FavoriteBook::class, 'withRandomBook', function ($faker) {
-    return [
-        'book_id' => Book::all()->random()->id
     ];
 });
 

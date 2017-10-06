@@ -23,6 +23,7 @@ class User extends Resource
             'updated_at' => $this->updated_at->format('F j, Y'),
 
             'rentals' => Rental::collection($this->whenLoaded('rentals')),
+            'favorites' => Favorite::collection($this->whenLoaded('favorites')),
             'book_reviews' => BookReview::collection($this->whenLoaded('bookReviews')),
             'video_reviews' => VideoReview::collection($this->whenLoaded('videoReviews'))
         ];

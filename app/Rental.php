@@ -34,6 +34,14 @@ class Rental extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * Get all of the owning rentable models.
+     */
+    public function rentable()
+    {
+        return $this->morphTo();
+    }
+
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/

@@ -32,8 +32,7 @@ class Rental extends Resource
             'updated_at' => $this->updated_at->format('F j, Y'),
 
             'user' => User::make($this->whenLoaded('user')),
-            'book' => Book::make($this->whenLoaded('book')),
-            'video' => Video::make($this->whenLoaded('video'))
+            'rentable' => Book::make($this->whenLoaded('rentable'))
         ];
     }
 }

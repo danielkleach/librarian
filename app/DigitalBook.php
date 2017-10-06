@@ -3,6 +3,7 @@
 namespace App;
 
 use Spatie\Tags\HasTags;
+use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,7 +12,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class DigitalBook extends Model implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait, HasTags, Searchable;
+    use SoftDeletes, Favoritable, HasMediaTrait, HasTags, Searchable;
 
     private $cacheCoverImage;
     protected $indexConfigurator = BookIndexConfigurator::class;
@@ -99,16 +100,6 @@ class DigitalBook extends Model implements HasMedia
     public function userReviews()
     {
         return $this->hasMany(UserReview::class, 'book_id');
-    }
-
-    /**
-     * A Book has many FavoriteBooks.
-     *
-     * @return mixed
-     */
-    public function favoriteBooks()
-    {
-        return $this->hasMany(FavoriteBook::class, 'book_id');
     }
 
     /***********************************************/

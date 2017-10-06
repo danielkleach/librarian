@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class FavoriteBook extends Resource
+class Favorite extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,15 @@ class FavoriteBook extends Resource
         return [
             'id' => (int) $this->id,
             'user_id' => (int) $this->user_id,
-            'book_id' => (int) $this->book_id,
+            'favoritable_id' => (int) $this->favoritable_id,
+            'favoritable_type' => $this->favoritable_type,
             'created_at' => $this->created_at->format('F j, Y'),
             'updated_at' => $this->updated_at->format('F j, Y'),
 
             'user' => User::make($this->whenLoaded('user')),
-            'book' => Book::make($this->whenLoaded('book'))
+            'book' => Book::make($this->whenLoaded('favoritable')),
+            'digitalBook' => DigitalBook::make($this->whenLoaded('favoritable')),
+            'video' => Video::make($this->whenLoaded('favoritable'))
         ];
     }
 }

@@ -79,13 +79,13 @@ class User extends Authenticatable
     }
 
     /**
-     * A User has many FavoriteBooks.
+     * A User has many Favorites.
      *
      * @return mixed
      */
-    public function favoriteBooks()
+    public function favorites()
     {
-        return $this->hasMany(FavoriteBook::class, 'user_id');
+        return $this->hasMany(Favorite::class, 'user_id');
     }
 
     /***********************************************/

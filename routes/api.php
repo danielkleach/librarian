@@ -161,16 +161,11 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             Route::prefix('{userId}')->group(function () {
                 Route::get('/', 'UserController@show');
                 Route::patch('/', 'UserController@update');
-
-                Route::prefix('favorites')->group(function () {
-                    Route::get('/', 'FavoriteBookController@index');
-                    Route::post('/', 'FavoriteBookController@store');
-
-                    Route::prefix('{favoriteBookId}')->group(function () {
-                        Route::delete('/', 'FavoriteBookController@destroy');
-                    });
-                });
             });
+        });
+
+        Route::prefix('favorites')->group(function () {
+            Route::delete('/{favoriteId}', 'FavoriteController@destroy');
         });
 
         Route::prefix('videos')->group(function () {

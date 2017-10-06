@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DownloadSeeder::class);
         $this->call(BookReviewSeeder::class);
         $this->call(VideoReviewSeeder::class);
-        $this->call(FavoriteBookSeeder::class);
+        $this->call(FavoriteSeeder::class);
     }
 }
