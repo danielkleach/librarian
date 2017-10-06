@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Book;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RecommendedBookTest extends TestCase
 {
-    use RefreshDatabase, WithoutMiddleware;
+    use DatabaseTransactions, WithoutMiddleware;
 
     public function testIndexEndpointReturnsTheBestRatedBooks()
     {

@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Book;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FeaturedBookTest extends TestCase
 {
-    use WithoutMiddleware, RefreshDatabase;
+    use WithoutMiddleware, DatabaseTransactions;
 
     public function testIndexEndpointReturnsOnlyFeaturedBooks()
     {
