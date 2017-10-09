@@ -8,12 +8,12 @@ use App\DigitalBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class BookDownloadController extends Controller
+class DigitalBookDownloadController extends Controller
 {
     protected $digitalBookModel, $fileModel, $downloadModel;
 
     /**
-     * BookDownloadController constructor.
+     * DigitalBookDownloadController constructor.
      *
      * @param DigitalBook $digitalBookModel
      * @param File $fileModel

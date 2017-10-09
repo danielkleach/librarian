@@ -127,7 +127,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             Route::prefix('{bookId}')->group(function () {
                 Route::patch('/', 'DigitalBookController@update');
                 Route::delete('/', 'DigitalBookController@destroy');
-                Route::post('/download', 'BookDownloadController@store');
+                Route::post('/download', 'DigitalBookDownloadController@store');
 
                 Route::prefix('authors')->group(function () {
                     Route::post('/', 'DigitalBookAuthorController@store');
