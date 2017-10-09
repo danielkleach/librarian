@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use App\Traits\Rentable;
 use Spatie\Tags\HasTags;
 use App\Traits\Reviewable;
+use App\Traits\Featurable;
 use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,14 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class Book extends Model implements HasMedia
 {
-    use SoftDeletes, Rentable, Reviewable, Favoritable, HasMediaTrait, HasTags, Searchable;
+    use SoftDeletes,
+        Favoritable,
+        Featurable,
+        HasMediaTrait,
+        HasTags,
+        Rentable,
+        Reviewable,
+        Searchable;
 
     private $cacheCoverImage;
 
@@ -87,79 +94,6 @@ class Book extends Model implements HasMedia
     /***********************************************/
     /******************* Scopes ********************/
     /***********************************************/
-
-    /**
-     * Scope a query to only include available books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeAvailable($query)
-    {
-        return $query->whereDoesntHave('rentals', function ($query) {
-            $query->whereNull('return_date');
-        });
-    }
-
-    /**
-     * Scope a query to only include unavailable books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeUnavailable($query)
-    {
-        return $query->whereHas('rentals', function ($query) {
-            $query->whereNull('return_date');
-        });
-    }
-
-    /**
-     * Scope a query to only include overdue books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeOverdue($query)
-    {
-        return $query->whereHas('rentals', function ($query) {
-            $query->where('due_date', '<', Carbon::now()->toDateTimeString())
-                ->whereNull('return_date');
-        });
-    }
-
-    /**
-     * Scope a query to only include featured books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeFeatured($query)
-    {
-        return $query->where('featured', true);
-    }
-
-    /**
-     * Scope a query to newest books first.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeNew($query)
-    {
-        return $query->orderBy('created_at', 'desc');
-    }
-
-    /**
-     * Scope a query to most popular books first.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopePopular($query)
-    {
-        return $query->orderBy('total_rentals', 'desc');
-    }
 
     /**
      * Scope a query to best rated books first.

@@ -4,6 +4,7 @@ namespace App;
 
 use Spatie\Tags\HasTags;
 use App\Traits\Reviewable;
+use App\Traits\Featurable;
 use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,13 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class DigitalBook extends Model implements HasMedia
 {
-    use SoftDeletes, Reviewable, Favoritable, HasMediaTrait, HasTags, Searchable;
+    use SoftDeletes,
+        Favoritable,
+        Featurable,
+        HasMediaTrait,
+        HasTags,
+        Reviewable,
+        Searchable;
 
     private $cacheCoverImage;
 
@@ -93,28 +100,6 @@ class DigitalBook extends Model implements HasMedia
     /***********************************************/
     /******************* Scopes ********************/
     /***********************************************/
-
-    /**
-     * Scope a query to only include featured books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeFeatured($query)
-    {
-        return $query->where('featured', true);
-    }
-
-    /**
-     * Scope a query to newest books first.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeNew($query)
-    {
-        return $query->orderBy('created_at', 'desc');
-    }
 
     /**
      * Scope a query to most popular books first.
