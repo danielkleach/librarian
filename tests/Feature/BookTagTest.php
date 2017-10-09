@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Book;
-use App\Author;
-use Spatie\Tags\Tag;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

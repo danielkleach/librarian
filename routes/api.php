@@ -184,6 +184,11 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::delete('/{actorId}', 'VideoActorController@destroy');
                 });
 
+                Route::prefix('tags')->group(function () {
+                    Route::post('/', 'VideoTagController@store');
+                    Route::delete('/{tag}', 'VideoTagController@destroy');
+                });
+
                 Route::prefix('video-reviews')->group(function () {
                     Route::post('/', 'VideoReviewController@store');
                 });
