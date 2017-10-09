@@ -93,13 +93,13 @@ class DigitalBook extends Model implements HasMedia
     }
 
     /**
-     * A Book has many UserReviews.
+     * A Book has many Reviews.
      *
      * @return mixed
      */
-    public function userReviews()
+    public function reviews()
     {
-        return $this->hasMany(UserReview::class, 'book_id');
+        return $this->hasMany(BookReview::class, 'book_id');
     }
 
     /***********************************************/
