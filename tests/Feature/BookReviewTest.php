@@ -46,7 +46,8 @@ class BookReviewTest extends TestCase
             'comments' => 'This book is pretty good.'
         ];
 
-        $response = $this->actingAs($user)->patchJson("/book-reviews/{$bookReview->id}", $data);
+        $response = $this->actingAs($user)
+            ->patchJson("/books/{$bookReview->book_id}/book-reviews/{$bookReview->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('book_reviews', $data);
@@ -61,7 +62,8 @@ class BookReviewTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $response = $this->actingAs($user)->deleteJson("/book-reviews/{$bookReview->id}");
+        $response = $this->actingAs($user)
+            ->deleteJson("/books/{$bookReview->book_id}/book-reviews/{$bookReview->id}");
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('book_reviews', ['id' => $bookReview->id, 'deleted_at' => null]);

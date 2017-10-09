@@ -40,7 +40,7 @@ class BookReviewAuthorizationTest extends TestCase
         ];
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->patchJson("/book-reviews/{$bookReview->id}", $data);
+            ->patchJson("/books/{$bookReview->book_id}/book-reviews/{$bookReview->id}", $data);
 
         $response->assertStatus(401);
     }
@@ -50,7 +50,7 @@ class BookReviewAuthorizationTest extends TestCase
         $bookReview = factory(BookReview::class)->states(['withUser', 'withBook'])->create();
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->deleteJson("/book-reviews/{$bookReview->id}");
+            ->deleteJson("/books/{$bookReview->book_id}/book-reviews/{$bookReview->id}");
 
         $response->assertStatus(401);
     }
