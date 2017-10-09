@@ -22,7 +22,7 @@ class NewVideoController extends Controller
 
     public function index()
     {
-        $videos = $this->videoModel->with(['actors', 'owner'])->new()->paginate(25);
+        $videos = $this->videoModel->with(['actors', 'owner'])->latest()->paginate(25);
 
         return VideoResource::collection($videos);
     }
