@@ -40,7 +40,8 @@ class Video extends Resource
             'actors' => Actor::collection($this->whenLoaded('actors')),
             'owner' => User::make($this->whenLoaded('owner')),
             'rentals' => Rental::collection($this->whenLoaded('rentals')),
-            'reviews' => VideoReview::collection($this->whenLoaded('reviews'))
+            'reviews' => Review::collection($this->whenLoaded('reviews')),
+            'favorites' => Favorite::collection($this->whenLoaded('favorites')),
         ];
     }
 }

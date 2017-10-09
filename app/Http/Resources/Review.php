@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class BookReview extends Resource
+class Review extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -17,14 +17,16 @@ class BookReview extends Resource
         return [
             'id' => (int) $this->id,
             'user_id' => (int) $this->user_id,
-            'book_id' => (int) $this->book_id,
-            'rating' => $this->rating,
+            'reviewable_id' => (int) $this->reviewable_id,
+            'reviewable_type' => $this->reviewable_type,
+            'rating' => (int) $this->rating,
             'comments' => $this->comments,
             'created_at' => $this->created_at->format('F j, Y'),
             'updated_at' => $this->updated_at->format('F j, Y'),
 
-            'user' => User::make($this->whenLoaded('user')),
-            'book' => Book::make($this->whenLoaded('book'))
+            'reviewable' => $this->reviewable,
+
+            'user' => User::make($this->whenLoaded('user'))
         ];
     }
 }

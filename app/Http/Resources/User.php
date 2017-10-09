@@ -24,8 +24,7 @@ class User extends Resource
 
             'rentals' => Rental::collection($this->whenLoaded('rentals')),
             'favorites' => Favorite::collection($this->whenLoaded('favorites')),
-            'book_reviews' => BookReview::collection($this->whenLoaded('bookReviews')),
-            'video_reviews' => VideoReview::collection($this->whenLoaded('videoReviews'))
+            'reviews' => Review::collection($this->whenLoaded('reviews'))
         ];
     }
 }

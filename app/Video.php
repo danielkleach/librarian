@@ -5,13 +5,14 @@ namespace App;
 use Carbon\Carbon;
 use Spatie\Tags\HasTags;
 use App\Traits\Rentable;
+use App\Traits\Reviewable;
 use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    use Rentable, Favoritable, HasTags, Searchable;
+    use Rentable, Reviewable, Favoritable, HasTags, Searchable;
 
     protected $indexConfigurator = VideoIndexConfigurator::class;
 
@@ -81,16 +82,6 @@ class Video extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
-    }
-
-    /**
-     * A Video has many Reviews.
-     *
-     * @return mixed
-     */
-    public function reviews()
-    {
-        return $this->hasMany(VideoReview::class, 'video_id');
     }
 
     /***********************************************/

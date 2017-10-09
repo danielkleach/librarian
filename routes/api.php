@@ -117,16 +117,6 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::post('/', 'Books\BookTagController@store');
                     Route::delete('/{tag}', 'Books\BookTagController@destroy');
                 });
-
-                Route::prefix('book-reviews')->group(function () {
-                    Route::post('/', 'Books\BookReviewController@store');
-
-                    Route::prefix('{reviewId}')->group(function () {
-                        Route::get('/', 'Books\BookReviewController@show');
-                        Route::patch('/', 'Books\BookReviewController@update');
-                        Route::delete('/', 'Books\BookReviewController@destroy');
-                    });
-                });
             });
         });
 
@@ -153,21 +143,15 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::post('/', 'DigitalBooks\DigitalBookTagController@store');
                     Route::delete('/{tag}', 'DigitalBooks\DigitalBookTagController@destroy');
                 });
-
-                Route::prefix('book-reviews')->group(function () {
-                    Route::post('/', 'DigitalBooks\DigitalBookReviewController@store');
-
-                    Route::prefix('{reviewId}')->group(function () {
-                        Route::get('/', 'DigitalBooks\DigitalBookReviewController@show');
-                        Route::patch('/', 'DigitalBooks\DigitalBookReviewController@update');
-                        Route::delete('/', 'DigitalBooks\DigitalBookReviewController@destroy');
-                    });
-                });
             });
         });
 
         Route::prefix('rentals')->group(function () {
             Route::delete('{rentalId}', 'RentalController@destroy');
+        });
+
+        Route::prefix('reviews')->group(function () {
+            Route::delete('/{reviewId}', 'ReviewController@destroy');
         });
 
         Route::prefix('users')->group(function () {
@@ -204,17 +188,7 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::post('/', 'Videos\VideoTagController@store');
                     Route::delete('/{tag}', 'Videos\VideoTagController@destroy');
                 });
-
-                Route::prefix('video-reviews')->group(function () {
-                    Route::post('/', 'Videos\VideoReviewController@store');
-                });
             });
-        });
-
-        Route::prefix('video-reviews/{reviewId}')->group(function () {
-            Route::get('/', 'Videos\VideoReviewController@show');
-            Route::patch('/', 'Videos\VideoReviewController@update');
-            Route::delete('/', 'Videos\VideoReviewController@destroy');
         });
     });
 });

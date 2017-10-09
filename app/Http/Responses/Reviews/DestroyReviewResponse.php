@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Responses\BookReviews;
+namespace App\Http\Responses\Reviews;
 
 use Illuminate\Contracts\Support\Responsable;
 
-class DestroyBookReviewResponse implements Responsable
+class DestroyReviewResponse implements Responsable
 {
-    protected $bookReview;
+    protected $review;
 
-    public function __construct($bookReview)
+    public function __construct($review)
     {
-        $this->bookReview = $bookReview;
+        $this->review = $review;
     }
 
     public function toResponse($request)

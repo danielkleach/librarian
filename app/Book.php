@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use App\Traits\Rentable;
 use Spatie\Tags\HasTags;
+use App\Traits\Reviewable;
 use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class Book extends Model implements HasMedia
 {
-    use SoftDeletes, Rentable, Favoritable, HasMediaTrait, HasTags, Searchable;
+    use SoftDeletes, Rentable, Reviewable, Favoritable, HasMediaTrait, HasTags, Searchable;
 
     private $cacheCoverImage;
     protected $indexConfigurator = BookIndexConfigurator::class;
@@ -84,16 +85,6 @@ class Book extends Model implements HasMedia
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
-    }
-
-    /**
-     * A Book has many Reviews.
-     *
-     * @return mixed
-     */
-    public function reviews()
-    {
-        return $this->hasMany(BookReview::class, 'book_id');
     }
 
     /***********************************************/

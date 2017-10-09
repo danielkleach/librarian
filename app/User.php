@@ -59,23 +59,13 @@ class User extends Authenticatable
     }
 
     /**
-     * A User has many BookReviews.
+     * A User has many Reviews.
      *
      * @return mixed
      */
-    public function bookReviews()
+    public function reviews()
     {
-        return $this->hasMany(BookReview::class, 'user_id');
-    }
-
-    /**
-     * A User has many VideoReviews.
-     *
-     * @return mixed
-     */
-    public function videoReviews()
-    {
-        return $this->hasMany(VideoReview::class, 'user_id');
+        return $this->hasMany(Review::class, 'user_id');
     }
 
     /**

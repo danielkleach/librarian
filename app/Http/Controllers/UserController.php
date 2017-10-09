@@ -30,7 +30,7 @@ class UserController extends Controller
     public function show($userId)
     {
         $user = $this->userModel
-            ->with(['bookReviews.book', 'videoReviews.video', 'rentals', 'favorites'])
+            ->with(['reviews', 'rentals', 'favorites'])
             ->findOrFail($userId);
 
         return new UserResource($user);

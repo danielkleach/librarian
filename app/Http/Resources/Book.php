@@ -39,7 +39,8 @@ class Book extends Resource
             'authors' => Author::collection($this->whenLoaded('authors')),
             'owner' => User::make($this->whenLoaded('owner')),
             'rentals' => Rental::collection($this->whenLoaded('rentals')),
-            'reviews' => BookReview::collection($this->whenLoaded('reviews'))
+            'reviews' => Review::collection($this->whenLoaded('reviews')),
+            'favorites' => Favorite::collection($this->whenLoaded('favorites')),
         ];
     }
 }

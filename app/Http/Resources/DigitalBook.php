@@ -35,7 +35,8 @@ class DigitalBook extends Resource
             'authors' => Author::collection($this->whenLoaded('authors')),
             'files' => File::collection($this->whenLoaded('files')),
             'downloads' => Download::collection($this->whenLoaded('downloads')),
-            'reviews' => BookReview::collection($this->whenLoaded('reviews'))
+            'reviews' => Review::collection($this->whenLoaded('reviews')),
+            'favorites' => Favorite::collection($this->whenLoaded('favorites')),
         ];
     }
 }

@@ -2,29 +2,30 @@
 
 namespace Tests\Unit;
 
-use App\Book;
 use App\User;
-use App\BookReview;
+use App\Book;
+use App\Review;
 use Tests\TestCase;
 use App\Exceptions\UserAlreadyReviewedException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class BookReviewTest extends TestCase
+class ReviewTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testUserCanOnlyLeaveASingleReviewForABook()
+    public function testUserCanOnlyLeaveASingleReview()
     {
         $user = factory(User::class)->create();
 
         $book = factory(Book::class)->create();
 
-        factory(BookReview::class)->create([
+        factory(Review::class)->create([
             'user_id' => $user->id,
-            'book_id' => $book->id
+            'reviewable_id' => $book->id,
+            'reviewable_type' => get_class($book)
         ]);
 
-        $review = new BookReview();
+        $review = new Review();
 
         $data = (object) [
             'rating' => 3,

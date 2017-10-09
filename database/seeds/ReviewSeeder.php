@@ -1,9 +1,9 @@
 <?php
 
-use App\VideoReview;
+use App\Review;
 use Illuminate\Database\Seeder;
 
-class VideoReviewSeeder extends Seeder
+class ReviewSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,8 +12,8 @@ class VideoReviewSeeder extends Seeder
      */
     public function run()
     {
-        factory(VideoReview::class, 500)
-            ->states(['withRandomUser', 'withRandomVideo'])
+        factory(Review::class, 500)
+            ->states(['withRandomUser'])
             ->create();
     }
 }
