@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Responses\VideoReviews;
 
 use Illuminate\Contracts\Support\Responsable;
 

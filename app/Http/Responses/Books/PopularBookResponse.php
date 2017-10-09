@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Responses\Books;
 
 use Illuminate\Contracts\Support\Responsable;
 
