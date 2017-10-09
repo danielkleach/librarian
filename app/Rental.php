@@ -70,7 +70,7 @@ class Rental extends Model
                 ->toDateTimeString()
         ]);
 
-        $item->checkedOut();
+        $item->rented();
 
         return $rental;
     }

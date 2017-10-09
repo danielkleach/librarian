@@ -135,16 +135,4 @@ class Book extends Model implements HasMedia
 
         return $rented ? false : true;
     }
-
-    /**
-     * Handle a Book checkout.
-     *
-     * @return bool
-     */
-    public function checkedOut()
-    {
-        $this->increment('total_rentals');
-
-        return true;
-    }
 }

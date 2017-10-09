@@ -40,6 +40,18 @@ trait Rentable
     }
 
     /**
+     * Increment rental count when an item is checked out.
+     *
+     * @return bool
+     */
+    public function rented()
+    {
+        $this->increment('total_rentals');
+
+        return true;
+    }
+
+    /**
      * Scope a query to only include items rented by a specific user.
      *
      * @param $query
