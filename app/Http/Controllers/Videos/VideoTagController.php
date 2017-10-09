@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Videos;
 
 use App\Video;
 use Spatie\Tags\Tag;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoTagRequest;
+use App\Http\Responses\VideoTags\StoreVideoTagResponse;
+use App\Http\Responses\VideoTags\DestroyVideoTagResponse;
 
 class VideoTagController extends Controller
 {

@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Books;
 
 use App\Book;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\BookAuthorRequest;
+use App\Http\Responses\BookAuthors\StoreBookAuthorResponse;
+use App\Http\Responses\BookAuthors\DestroyBookAuthorResponse;
 
 class BookAuthorController extends Controller
 {

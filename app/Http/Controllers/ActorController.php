@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actor;
 use App\Http\Requests\ActorRequest;
 use App\Http\Resources\Actor as ActorResource;
+use App\Http\Responses\Actors\DestroyActorResponse;
 
 class ActorController extends Controller
 {

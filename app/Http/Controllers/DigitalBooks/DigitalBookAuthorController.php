@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DigitalBooks;
 
 use App\DigitalBook;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\BookAuthorRequest;
+use App\Http\Responses\BookAuthors\StoreBookAuthorResponse;
+use App\Http\Responses\BookAuthors\DestroyBookAuthorResponse;
 
 class DigitalBookAuthorController extends Controller
 {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\Http\Requests\CoverImageRequest;
+use App\Http\Responses\CoverImages\StoreCoverImageResponse;
+use App\Http\Responses\CoverImages\DestroyCoverImageResponse;
 
 class CoverImageController extends Controller
 {

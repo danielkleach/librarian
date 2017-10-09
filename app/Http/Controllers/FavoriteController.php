@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Favorite;
+use App\Http\Responses\Favorites\DestroyFavoriteResponse;
 
 class FavoriteController extends Controller
 {

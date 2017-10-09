@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Videos;
 
 use App\Video;
 use App\Rental;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Rental as RentalResource;
 
 class VideoCheckinController extends Controller

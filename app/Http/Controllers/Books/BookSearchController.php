@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Books;
 
 use App\Book;
 use App\DigitalBook;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchRequest;
 
 class BookSearchController extends Controller

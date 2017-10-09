@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Books;
 
 use App\Book;
 use App\Rental;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Rental as RentalResource;
 
-class BookCheckoutController extends Controller
+class BookCheckinController extends Controller
 {
-    protected $bookModel, $rentalModel;
+    protected $bookModel;
+    protected $rentalModel;
 
     /**
-     * BookCheckoutController constructor.
+     * BookCheckinController constructor.
      *
      * @param Book $bookModel
      * @param Rental $rentalModel
@@ -23,10 +25,10 @@ class BookCheckoutController extends Controller
         $this->rentalModel = $rentalModel;
     }
 
-    public function store(Request $request, $bookId)
+    public function store(Request $request, $bookId, $rentalId)
     {
         $book = $this->bookModel->findOrFail($bookId);
-        $rental = $this->rentalModel->checkout($request->user(), $book);
+        $rental = $this->rentalModel->findOrFail($rentalId)->checkin($book);
 
         return new RentalResource($rental);
     }

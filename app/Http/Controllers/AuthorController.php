@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Author;
 use App\Http\Requests\AuthorRequest;
 use App\Http\Resources\Author as AuthorResource;
+use App\Http\Responses\Authors\DestroyAuthorResponse;
 
 class AuthorController extends Controller
 {

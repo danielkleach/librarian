@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Videos;
 
 use App\Video;
 use App\VideoLookup;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Video as VideoResource;
 
 class VideoLookupController extends Controller

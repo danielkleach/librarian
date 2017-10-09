@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Videos;
 
 use App\Video;
 use App\VideoReview;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoReviewRequest;
 use App\Http\Resources\VideoReview as VideoReviewResource;
+use App\Http\Responses\VideoReviews\DestroyVideoReviewResponse;
 
 class VideoReviewController extends Controller
 {

@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Videos;
 
 use App\Video;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\VideoActorRequest;
+use App\Http\Responses\VideoActors\StoreVideoActorResponse;
+use App\Http\Responses\VideoActors\DestroyVideoActorResponse;
 
 class VideoActorController extends Controller
 {

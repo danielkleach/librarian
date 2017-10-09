@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Videos;
 
 use App\Video;
 use App\Actor;
 use App\CreateVideo;
 use App\Http\Requests\VideoRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Video as VideoResource;
 
 class VideoController extends Controller

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Books;
 
 use App\Book;
 use App\Author;
 use App\CreateBook;
 use App\Http\Requests\BookRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Book as BookResource;
 
 class BookController extends Controller

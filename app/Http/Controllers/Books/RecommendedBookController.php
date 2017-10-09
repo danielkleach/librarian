@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Books;
 
 use App\Book;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Book as BookResource;
 
-class NewBookController extends Controller
+class RecommendedBookController extends Controller
 {
     protected $bookModel;
 
     /**
-     * NewBookController constructor.
+     * RecommendedBookController constructor.
      *
      * @param Book $bookModel
      */
@@ -21,7 +22,7 @@ class NewBookController extends Controller
 
     public function index()
     {
-        $books = $this->bookModel->with(['authors', 'owner'])->new()->paginate(25);
+        $books = $this->bookModel->with(['authors', 'owner'])->recommended()->paginate(25);
 
         return BookResource::collection($books);
     }

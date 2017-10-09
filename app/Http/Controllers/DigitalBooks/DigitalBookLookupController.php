@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DigitalBooks;
 
 use App\BookLookup;
 use App\CreateDigitalBook;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Book as BookResource;
 
 class DigitalBookLookupController extends Controller

@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DigitalBooks;
 
-use App\Book;
 use App\BookReview;
+use App\DigitalBook;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\BookReviewRequest;
 use App\Http\Resources\BookReview as BookReviewResource;
+use App\Http\Responses\BookReviews\DestroyBookReviewResponse;
 
-class BookReviewController extends Controller
+class DigitalBookReviewController extends Controller
 {
     protected $bookModel, $bookReviewModel;
 
     /**
      * BookReviewController constructor.
      *
-     * @param Book $bookModel
+     * @param DigitalBook $bookModel
      * @param BookReview $bookReviewModel
      */
-    public function __construct(Book $bookModel, BookReview $bookReviewModel)
+    public function __construct(DigitalBook $bookModel, BookReview $bookReviewModel)
     {
         $this->bookModel = $bookModel;
         $this->bookReviewModel = $bookReviewModel;
@@ -27,7 +29,7 @@ class BookReviewController extends Controller
     public function show($bookReviewId)
     {
         $review = $this->bookReviewModel
-            ->with(['user', 'book'])->findOrFail($bookReviewId);
+            ->with(['user', 'digitalBook'])->findOrFail($bookReviewId);
 
         return new BookReviewResource($review);
     }

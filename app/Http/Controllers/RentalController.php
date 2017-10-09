@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Rental;
+use App\Http\Responses\Rentals\DestroyRentalResponse;
 
 class RentalController extends Controller
 {

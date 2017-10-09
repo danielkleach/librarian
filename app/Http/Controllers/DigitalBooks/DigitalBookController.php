@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DigitalBooks;
 
 use App\Author;
-use App\CreateDigitalBook;
 use App\DigitalBook;
+use App\CreateDigitalBook;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\DigitalBookRequest;
 use App\Http\Resources\DigitalBook as DigitalBookResource;
 
