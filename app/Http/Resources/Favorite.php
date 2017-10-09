@@ -22,10 +22,9 @@ class Favorite extends Resource
             'created_at' => $this->created_at->format('F j, Y'),
             'updated_at' => $this->updated_at->format('F j, Y'),
 
-            'user' => User::make($this->whenLoaded('user')),
-            'book' => Book::make($this->whenLoaded('favoritable')),
-            'digitalBook' => DigitalBook::make($this->whenLoaded('favoritable')),
-            'video' => Video::make($this->whenLoaded('favoritable'))
+            'favoritable' => $this->favoritable,
+
+            'user' => User::make($this->whenLoaded('user'))
         ];
     }
 }
