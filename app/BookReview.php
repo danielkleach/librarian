@@ -37,6 +37,16 @@ class BookReview extends Model
         return $this->belongsTo(Book::class, 'book_id');
     }
 
+    /**
+     * A BookReview belongs to a DigitalBook.
+     *
+     * @return mixed
+     */
+    public function digitalBook()
+    {
+        return $this->belongsTo(DigitalBook::class, 'book_id');
+    }
+
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/
