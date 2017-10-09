@@ -16,10 +16,20 @@ Route::group(['middleware' => ['respondWithJson']], function() {
     Route::post('/login', 'Auth\LoginController@login');
     Route::post('/logout', 'Auth\LoginController@logout');
 
-    Route::get('/featured/books', 'FeaturedBookController@index');
-    Route::get('/popular/books', 'PopularBookController@index');
-    Route::get('/new/books', 'NewBookController@index');
-    Route::get('/recommended/books', 'RecommendedBookController@index');
+    Route::get('/featured/books', 'Books\FeaturedBookController@index');
+    Route::get('/popular/books', 'Books\PopularBookController@index');
+    Route::get('/new/books', 'Books\NewBookController@index');
+    Route::get('/recommended/books', 'Books\RecommendedBookController@index');
+
+    Route::get('/featured/digital-books', 'DigitalBooks\FeaturedDigitalBookController@index');
+    Route::get('/popular/digital-books', 'DigitalBooks\PopularDigitalBookController@index');
+    Route::get('/new/digital-books', 'DigitalBooks\NewDigitalBookController@index');
+    Route::get('/recommended/digital-books', 'DigitalBooks\RecommendedDigitalBookController@index');
+
+    Route::get('/featured/videos', 'Videos\FeaturedVideoController@index');
+    Route::get('/popular/videos', 'Videos\PopularVideoController@index');
+    Route::get('/new/videos', 'Videos\NewVideoController@index');
+    Route::get('/recommended/videos', 'Videos\RecommendedVideoController@index');
 
     Route::prefix('actors')->group(function () {
         Route::get('/', 'ActorController@index');
@@ -38,28 +48,28 @@ Route::group(['middleware' => ['respondWithJson']], function() {
     });
 
     Route::prefix('books')->group(function () {
-        Route::get('/', 'BookController@index');
-        Route::post('/search', 'BookSearchController@index');
+        Route::get('/', 'Books\BookController@index');
+        Route::post('/search', 'Books\BookSearchController@index');
 
         Route::prefix('{bookId}')->group(function () {
-            Route::get('/', 'BookController@show');
+            Route::get('/', 'Books\BookController@show');
         });
     });
 
     Route::prefix('digital-books')->group(function () {
-        Route::get('/', 'DigitalBookController@index');
+        Route::get('/', 'DigitalBooks\DigitalBookController@index');
 
         Route::prefix('{bookId}')->group(function () {
-            Route::get('/', 'DigitalBookController@show');
+            Route::get('/', 'DigitalBooks\DigitalBookController@show');
         });
     });
 
     Route::prefix('videos')->group(function () {
-        Route::get('/', 'VideoController@index');
-        Route::post('/search', 'VideoSearchController@index');
+        Route::get('/', 'Videos\VideoController@index');
+        Route::post('/search', 'Videos\VideoSearchController@index');
 
         Route::prefix('{videoId}')->group(function () {
-            Route::get('/', 'VideoController@show');
+            Route::get('/', 'Videos\VideoController@show');
         });
     });
 
@@ -84,18 +94,18 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
 
         Route::prefix('books')->group(function () {
-            Route::post('/', 'BookController@store');
-            Route::post('/lookup', 'BookLookupController@store');
+            Route::post('/', 'Books\BookController@store');
+            Route::post('/lookup', 'Books\BookLookupController@store');
 
             Route::prefix('{bookId}')->group(function () {
-                Route::patch('/', 'BookController@update');
-                Route::delete('/', 'BookController@destroy');
-                Route::post('/checkout', 'BookCheckoutController@store');
-                Route::post('/checkin/{rentalId}', 'BookCheckinController@store');
+                Route::patch('/', 'Books\BookController@update');
+                Route::delete('/', 'Books\BookController@destroy');
+                Route::post('/checkout', 'Books\BookCheckoutController@store');
+                Route::post('/checkin/{rentalId}', 'Books\BookCheckinController@store');
 
                 Route::prefix('authors')->group(function () {
-                    Route::post('/', 'BookAuthorController@store');
-                    Route::delete('/{authorId}', 'BookAuthorController@destroy');
+                    Route::post('/', 'Books\BookAuthorController@store');
+                    Route::delete('/{authorId}', 'Books\BookAuthorController@destroy');
                 });
 
                 Route::prefix('cover-image')->group(function () {
@@ -104,34 +114,34 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 });
 
                 Route::prefix('tags')->group(function () {
-                    Route::post('/', 'BookTagController@store');
-                    Route::delete('/{tag}', 'BookTagController@destroy');
+                    Route::post('/', 'Books\BookTagController@store');
+                    Route::delete('/{tag}', 'Books\BookTagController@destroy');
                 });
 
                 Route::prefix('book-reviews')->group(function () {
-                    Route::post('/', 'BookReviewController@store');
+                    Route::post('/', 'Books\BookReviewController@store');
+
+                    Route::prefix('{reviewId}')->group(function () {
+                        Route::get('/', 'Books\BookReviewController@show');
+                        Route::patch('/', 'Books\BookReviewController@update');
+                        Route::delete('/', 'Books\BookReviewController@destroy');
+                    });
                 });
             });
         });
 
-        Route::prefix('book-reviews/{reviewId}')->group(function () {
-            Route::get('/', 'BookReviewController@show');
-            Route::patch('/', 'BookReviewController@update');
-            Route::delete('/', 'BookReviewController@destroy');
-        });
-
         Route::prefix('digital-books')->group(function () {
-            Route::post('/', 'DigitalBookController@store');
-            Route::post('/lookup', 'DigitalBookLookupController@store');
+            Route::post('/', 'DigitalBooks\DigitalBookController@store');
+            Route::post('/lookup', 'DigitalBooks\DigitalBookLookupController@store');
 
             Route::prefix('{bookId}')->group(function () {
-                Route::patch('/', 'DigitalBookController@update');
-                Route::delete('/', 'DigitalBookController@destroy');
-                Route::post('/download', 'DigitalBookDownloadController@store');
+                Route::patch('/', 'DigitalBooks\DigitalBookController@update');
+                Route::delete('/', 'DigitalBooks\DigitalBookController@destroy');
+                Route::post('/download', 'DigitalBooks\DigitalBookDownloadController@store');
 
                 Route::prefix('authors')->group(function () {
-                    Route::post('/', 'DigitalBookAuthorController@store');
-                    Route::delete('/{authorId}', 'DigitalBookAuthorController@destroy');
+                    Route::post('/', 'DigitalBooks\DigitalBookAuthorController@store');
+                    Route::delete('/{authorId}', 'DigitalBooks\DigitalBookAuthorController@destroy');
                 });
 
                 Route::prefix('cover-image')->group(function () {
@@ -140,12 +150,18 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 });
 
                 Route::prefix('tags')->group(function () {
-                    Route::post('/', 'DigitalBookTagController@store');
-                    Route::delete('/{tag}', 'DigitalBookTagController@destroy');
+                    Route::post('/', 'DigitalBooks\DigitalBookTagController@store');
+                    Route::delete('/{tag}', 'DigitalBooks\DigitalBookTagController@destroy');
                 });
 
                 Route::prefix('book-reviews')->group(function () {
-                    Route::post('/', 'BookReviewController@store');
+                    Route::post('/', 'DigitalBooks\DigitalBookReviewController@store');
+
+                    Route::prefix('{reviewId}')->group(function () {
+                        Route::get('/', 'DigitalBooks\DigitalBookReviewController@show');
+                        Route::patch('/', 'DigitalBooks\DigitalBookReviewController@update');
+                        Route::delete('/', 'DigitalBooks\DigitalBookReviewController@destroy');
+                    });
                 });
             });
         });
@@ -169,36 +185,36 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
 
         Route::prefix('videos')->group(function () {
-            Route::post('/', 'VideoController@store');
-            Route::post('/lookup/search', 'VideoLookupController@index');
-            Route::post('/lookup/create', 'VideoLookupController@store');
+            Route::post('/', 'Videos\VideoController@store');
+            Route::post('/lookup/search', 'Videos\VideoLookupController@index');
+            Route::post('/lookup/create', 'Videos\VideoLookupController@store');
 
             Route::prefix('{videoId}')->group(function () {
-                Route::patch('/', 'VideoController@update');
-                Route::delete('/', 'VideoController@destroy');
-                Route::post('/checkout', 'VideoCheckoutController@store');
-                Route::post('/checkin/{rentalId}', 'VideoCheckinController@store');
+                Route::patch('/', 'Videos\VideoController@update');
+                Route::delete('/', 'Videos\VideoController@destroy');
+                Route::post('/checkout', 'Videos\VideoCheckoutController@store');
+                Route::post('/checkin/{rentalId}', 'Videos\VideoCheckinController@store');
 
                 Route::prefix('actors')->group(function () {
-                    Route::post('/', 'VideoActorController@store');
-                    Route::delete('/{actorId}', 'VideoActorController@destroy');
+                    Route::post('/', 'Videos\VideoActorController@store');
+                    Route::delete('/{actorId}', 'Videos\VideoActorController@destroy');
                 });
 
                 Route::prefix('tags')->group(function () {
-                    Route::post('/', 'VideoTagController@store');
-                    Route::delete('/{tag}', 'VideoTagController@destroy');
+                    Route::post('/', 'Videos\VideoTagController@store');
+                    Route::delete('/{tag}', 'Videos\VideoTagController@destroy');
                 });
 
                 Route::prefix('video-reviews')->group(function () {
-                    Route::post('/', 'VideoReviewController@store');
+                    Route::post('/', 'Videos\VideoReviewController@store');
                 });
             });
         });
 
         Route::prefix('video-reviews/{reviewId}')->group(function () {
-            Route::get('/', 'VideoReviewController@show');
-            Route::patch('/', 'VideoReviewController@update');
-            Route::delete('/', 'VideoReviewController@destroy');
+            Route::get('/', 'Videos\VideoReviewController@show');
+            Route::patch('/', 'Videos\VideoReviewController@update');
+            Route::delete('/', 'Videos\VideoReviewController@destroy');
         });
     });
 });
