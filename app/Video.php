@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Ratable;
 use Spatie\Tags\HasTags;
 use App\Traits\Rentable;
 use App\Traits\Featurable;
@@ -16,6 +17,7 @@ class Video extends Model
         Favoritable,
         Featurable,
         HasTags,
+        Ratable,
         Reviewable,
         Searchable;
 
@@ -83,21 +85,6 @@ class Video extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
-    }
-
-    /***********************************************/
-    /******************* Scopes ********************/
-    /***********************************************/
-
-    /**
-     * Scope a query to best rated videos first.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeRecommended($query)
-    {
-        return $query->orderBy('rating', 'desc');
     }
 
     /***********************************************/

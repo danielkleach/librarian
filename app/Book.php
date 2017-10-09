@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Ratable;
 use App\Traits\Rentable;
 use Spatie\Tags\HasTags;
 use App\Traits\Reviewable;
@@ -20,6 +21,7 @@ class Book extends Model implements HasMedia
         Featurable,
         HasMediaTrait,
         HasTags,
+        Ratable,
         Rentable,
         Reviewable,
         Searchable;
@@ -89,21 +91,6 @@ class Book extends Model implements HasMedia
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
-    }
-
-    /***********************************************/
-    /******************* Scopes ********************/
-    /***********************************************/
-
-    /**
-     * Scope a query to best rated books first.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeRecommended($query)
-    {
-        return $query->orderBy('rating', 'desc');
     }
 
     /***********************************************/

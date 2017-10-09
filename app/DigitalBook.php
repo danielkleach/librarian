@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Ratable;
 use Spatie\Tags\HasTags;
 use App\Traits\Reviewable;
 use App\Traits\Featurable;
@@ -19,6 +20,7 @@ class DigitalBook extends Model implements HasMedia
         Featurable,
         HasMediaTrait,
         HasTags,
+        Ratable,
         Reviewable,
         Searchable;
 
@@ -110,17 +112,6 @@ class DigitalBook extends Model implements HasMedia
     public function scopePopular($query)
     {
         return $query->orderBy('download_count', 'desc');
-    }
-
-    /**
-     * Scope a query to best rated books first.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeRecommended($query)
-    {
-        return $query->orderBy('rating', 'desc');
     }
 
     /***********************************************/
