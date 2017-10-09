@@ -16,7 +16,6 @@ class DigitalBook extends Model implements HasMedia
     use SoftDeletes, Reviewable, Favoritable, HasMediaTrait, HasTags, Searchable;
 
     private $cacheCoverImage;
-    protected $indexConfigurator = BookIndexConfigurator::class;
 
     protected $fillable = [
         'title',
@@ -30,10 +29,8 @@ class DigitalBook extends Model implements HasMedia
         'featured' => 'boolean'
     ];
 
-    protected $searchRules = [
-        BookSearchRule::class
-    ];
-
+    protected $indexConfigurator = BookIndexConfigurator::class;
+    protected $searchRules = [BookSearchRule::class];
     protected $mapping = [
         'properties' => [
             'title' => [

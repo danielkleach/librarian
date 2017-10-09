@@ -14,8 +14,6 @@ class Video extends Model
 {
     use Rentable, Reviewable, Favoritable, HasTags, Searchable;
 
-    protected $indexConfigurator = VideoIndexConfigurator::class;
-
     protected $fillable = [
         'owner_id',
         'title',
@@ -31,10 +29,8 @@ class Video extends Model
         'featured' => 'boolean'
     ];
 
-    protected $searchRules = [
-        VideoSearchRule::class
-    ];
-
+    protected $indexConfigurator = VideoIndexConfigurator::class;
+    protected $searchRules = [VideoSearchRule::class];
     protected $mapping = [
         'properties' => [
             'title' => [
