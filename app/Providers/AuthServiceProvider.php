@@ -4,16 +4,14 @@ namespace App\Providers;
 
 use App\Book;
 use App\Video;
-use App\BookReview;
+use App\Review;
+use App\Favorite;
 use App\DigitalBook;
-use App\VideoReview;
-use App\FavoriteBook;
 use App\Policies\BookPolicy;
 use App\Policies\VideoPolicy;
-use App\Policies\BookReviewPolicy;
-use App\Policies\VideoReviewPolicy;
+use App\Policies\ReviewPolicy;
+use App\Policies\FavoritePolicy;
 use App\Policies\DigitalBookPolicy;
-use App\Policies\FavoriteBookPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,11 +23,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Book::class => BookPolicy::class,
-        BookReview::class => BookReviewPolicy::class,
+        Review::class => ReviewPolicy::class,
         DigitalBook::class => DigitalBookPolicy::class,
-        FavoriteBook::class => FavoriteBookPolicy::class,
+        Favorite::class => FavoritePolicy::class,
         Video::class => VideoPolicy::class,
-        VideoReview::class => VideoReviewPolicy::class,
     ];
 
     /**
