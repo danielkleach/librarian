@@ -151,7 +151,12 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
 
         Route::prefix('reviews')->group(function () {
-            Route::delete('/{reviewId}', 'ReviewController@destroy');
+            Route::post('/{itemType}/{itemId}', 'ReviewController@store');
+
+            Route::prefix('{reviewId}')->group(function () {
+                Route::patch('/', 'ReviewController@update');
+                Route::delete('/', 'ReviewController@destroy');
+            });
         });
 
         Route::prefix('users')->group(function () {

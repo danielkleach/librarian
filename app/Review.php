@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Events\BookRated;
+use App\Events\ItemRated;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Exceptions\UserAlreadyReviewedException;
@@ -43,28 +43,32 @@ class Review extends Model
      * Create a review.
      *
      * @param $request
-     * @param $user
+     * @param $userId
      * @param $item
      * @return $this|Model
      * @throws UserAlreadyReviewedException
      * @internal param $bookId
      */
-    public function createReview($request, $user, $item)
+    public function createReview($request, $userId, $item)
     {
-        $review = $this->where('user_id', $user->id)->first();
+        $review = $this->where('user_id', $userId)
+            ->where('reviewable_id', $item->id)
+            ->where('reviewable_type', get_class($item))
+            ->exists();
+
         if ($review) {
             throw new UserAlreadyReviewedException;
         }
 
         $review = $this->create([
-            'user_id' => $user->id,
+            'user_id' => $userId,
             'reviewable_id' => $item->id,
             'reviewable_type' => get_class($item),
-            'rating' => $request->rating,
-            'comments' => $request->comments
+            'rating' => $request['rating'],
+            'comments' => $request['comments']
         ]);
 
-//        event(new BookRated($review));
+        event(new ItemRated($review));
 
         return $review;
     }
@@ -83,7 +87,7 @@ class Review extends Model
     {
         $review->update($request->all());
 
-//        event(new BookRated($review));
+        event(new ItemRated($review));
 
         return $review;
     }
