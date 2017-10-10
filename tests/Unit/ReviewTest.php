@@ -16,7 +16,6 @@ class ReviewTest extends TestCase
     public function testUserCanOnlyLeaveASingleReview()
     {
         $user = factory(User::class)->create();
-
         $book = factory(Book::class)->create();
 
         factory(Review::class)->create([
@@ -27,13 +26,13 @@ class ReviewTest extends TestCase
 
         $review = new Review();
 
-        $data = (object) [
+        $data = [
             'rating' => 3,
             'comments' => 'This book is decent.'
         ];
 
         try {
-            $review->createReview($data, $user, $book);
+            $review->createReview($data, $user->id, $book);
         } catch (UserAlreadyReviewedException $e) {
             $reviews = $book->reviews()->where('user_id', $user->id)->get();
             $this->assertEquals(1, $reviews->count());
