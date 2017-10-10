@@ -13,12 +13,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\BookRated' => [
-            'App\Listeners\RecalculateBookRating',
-        ],
-        'App\Events\VideoRated' => [
-            'App\Listeners\RecalculateVideoRating',
-        ],
+        'App\Events\ItemRated' => [
+            'App\Listeners\RecalculateItemRating',
+        ]
     ];
 
     /**
