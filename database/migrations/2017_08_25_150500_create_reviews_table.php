@@ -23,6 +23,8 @@ class CreateReviewsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->unique(['user_id', 'reviewable_id', 'reviewable_type']);
+
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
