@@ -20,7 +20,8 @@ class Author extends Resource
             'created_at' => $this->created_at->format('F j, Y'),
             'updated_at' => $this->updated_at->format('F j, Y'),
 
-            'books' => Book::collection($this->whenLoaded('books'))
+            'books' => Book::collection($this->whenLoaded('books')),
+            'ebooks' => Ebook::collection($this->whenLoaded('ebooks'))
         ];
     }
 }
