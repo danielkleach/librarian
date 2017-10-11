@@ -2,43 +2,43 @@
 
 namespace Tests\Feature;
 
-use App\Book;
 use App\User;
+use App\Category;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class BookAuthorizationTest extends TestCase
+class CategoryAuthorizationTest extends TestCase
 {
     use DatabaseTransactions;
 
     public function testStoreRejectsAnUnauthorizedUser()
     {
-        $data = ['title' => 'Book Title'];
+        $data = ['name' => 'Category Name'];
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->postJson("/books", $data);
+            ->postJson("/categories", $data);
 
         $response->assertStatus(401);
     }
 
     public function testUpdateRejectsAnUnauthorizedUser()
     {
-        $book = factory(Book::class)->states(['withCategory'])->create();
+        $category = factory(Category::class)->create();
 
-        $data = ['title' => 'New Book Title'];
+        $data = ['name' => 'New Category Name'];
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->patchJson("/books/{$book->id}", $data);
+            ->patchJson("/categories/{$category->id}", $data);
 
         $response->assertStatus(401);
     }
 
     public function testDestroyRejectsAnUnauthorizedUser()
     {
-        $book = factory(Book::class)->states(['withCategory'])->create();
+        $category = factory(Category::class)->create();
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->deleteJson("/books/{$book->id}");
+            ->deleteJson("/categories/{$category->id}");
 
         $response->assertStatus(401);
     }

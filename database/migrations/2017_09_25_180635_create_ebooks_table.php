@@ -15,6 +15,7 @@ class CreateEbooksTable extends Migration
     {
         Schema::create('ebooks', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('category_id')->unsigned()->nullable();
             $table->string('title');
             $table->text('description');
             $table->string('isbn')->nullable();
@@ -25,6 +26,8 @@ class CreateEbooksTable extends Migration
             $table->decimal('rating', 3, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

@@ -19,7 +19,7 @@ class BookCheckinTest extends TestCase
         $user = factory(User::class)->create();
         $user->api_token = $user->generateToken();
 
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $rental = factory(Rental::class)->create([
             'user_id' => $user->id,

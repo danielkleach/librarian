@@ -16,7 +16,7 @@ class ReviewTest extends TestCase
     public function testUserCanOnlyLeaveASingleReview()
     {
         $user = factory(User::class)->create();
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         factory(Review::class)->create([
             'user_id' => $user->id,

@@ -13,9 +13,9 @@ class PopularBookTest extends TestCase
 
     public function testIndexEndpointReturnsTheMostPopularBooks()
     {
-        $book1 = factory(Book::class)->create(['total_rentals' => 5]);
-        $book2 = factory(Book::class)->create(['total_rentals' => 10]);
-        $book3 = factory(Book::class)->create(['total_rentals' => 6]);
+        $book1 = factory(Book::class)->states(['withCategory'])->create(['total_rentals' => 5]);
+        $book2 = factory(Book::class)->states(['withCategory'])->create(['total_rentals' => 10]);
+        $book3 = factory(Book::class)->states(['withCategory'])->create(['total_rentals' => 6]);
 
         $response = $this->getJson("/popular/books");
 

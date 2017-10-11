@@ -22,7 +22,7 @@ class NewEbookController extends Controller
 
     public function index()
     {
-        $books = $this->bookModel->with(['authors'])->latest()->paginate(25);
+        $books = $this->bookModel->with(['authors', 'category'])->latest()->paginate(25);
 
         return BookResource::collection($books);
     }

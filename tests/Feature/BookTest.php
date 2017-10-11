@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use App\Book;
+use App\Category;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,13 +15,14 @@ class BookTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $response = $this->getJson("/books/{$book->id}");
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
             'id' => (int) $book->id,
+            'category_id' => (int) $book->category_id,
             'owner_id' => $book->owner_id
                 ? (int) $book->owner_id
                 : null,
@@ -43,9 +45,11 @@ class BookTest extends TestCase
 
     public function testStoreEndpointCreatesABookInTheDatabase()
     {
+        $category = factory(Category::class)->create();
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [
+            'category_id' => $category->id,
             'owner_id' => $user->id,
             'title' => 'New test title',
             'description' => 'New test description.',
@@ -79,7 +83,7 @@ class BookTest extends TestCase
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [

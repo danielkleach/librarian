@@ -13,7 +13,7 @@ class EbookSeeder extends Seeder
      */
     public function run()
     {
-        factory(Ebook::class, 50)->create()->each(function ($book) {
+        factory(Ebook::class, 50)->states(['withRandomCategory'])->create()->each(function ($book) {
             $book->authors()->saveMany(factory(Author::class, 2)->make());
         });
     }

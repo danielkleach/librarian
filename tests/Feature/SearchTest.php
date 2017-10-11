@@ -22,7 +22,7 @@ class SearchTest extends TestCase
 
     public function testIndexEndpointCanSearchForBooks()
     {
-        $book = factory(Book::class)->create([
+        $book = factory(Book::class)->states(['withCategory'])->create([
             'title' => 'Title for Search',
             'description' => 'A good book.',
             'isbn' => '9999999999',

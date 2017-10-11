@@ -47,6 +47,14 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
     });
 
+    Route::prefix('categories')->group(function () {
+        Route::get('/', 'CategoryController@index');
+
+        Route::prefix('{categoryId}')->group(function () {
+            Route::get('/', 'CategoryController@show');
+        });
+    });
+
     Route::prefix('books')->group(function () {
         Route::get('/', 'Books\BookController@index');
         Route::post('/search', 'Books\BookSearchController@index');
@@ -115,6 +123,15 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             });
         });
 
+        Route::prefix('categories')->group(function () {
+            Route::post('/', 'CategoryController@store');
+
+            Route::prefix('{categoryId}')->group(function () {
+                Route::patch('/', 'CategoryController@update');
+                Route::delete('/', 'CategoryController@destroy');
+            });
+        });
+
         Route::prefix('ebooks')->group(function () {
             Route::post('/', 'Ebooks\EbookController@store');
             Route::post('/lookup', 'Ebooks\EbookLookupController@store');
@@ -144,6 +161,10 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             });
         });
 
+        Route::prefix('favorites')->group(function () {
+            Route::delete('/{favoriteId}', 'FavoriteController@destroy');
+        });
+
         Route::prefix('rentals')->group(function () {
             Route::delete('{rentalId}', 'RentalController@destroy');
         });
@@ -165,10 +186,6 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                 Route::get('/', 'UserController@show');
                 Route::patch('/', 'UserController@update');
             });
-        });
-
-        Route::prefix('favorites')->group(function () {
-            Route::delete('/{favoriteId}', 'FavoriteController@destroy');
         });
 
         Route::prefix('videos')->group(function () {

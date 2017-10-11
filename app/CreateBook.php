@@ -21,6 +21,7 @@ class CreateBook
     public function handle($request)
     {
         $book = $this->bookModel->create([
+            'category_id' => $request['category_id'] ?? null,
             'owner_id' => $request['owner_id'] ?? null,
             'title' => $request['title'],
             'description' => $request['description'],

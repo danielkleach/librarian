@@ -29,6 +29,7 @@ class Book extends Model implements HasMedia
     private $cacheCoverImage;
 
     protected $fillable = [
+        'category_id',
         'owner_id',
         'title',
         'description',
@@ -91,6 +92,16 @@ class Book extends Model implements HasMedia
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    /**
+     * A Book belongs to a Category.
+     *
+     * @return mixed
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     /***********************************************/

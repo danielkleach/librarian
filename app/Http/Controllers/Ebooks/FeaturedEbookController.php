@@ -22,7 +22,7 @@ class FeaturedEbookController extends Controller
 
     public function index()
     {
-        $books = $this->bookModel->with(['authors'])->featured()->paginate(25);
+        $books = $this->bookModel->with(['authors', 'category'])->featured()->paginate(25);
 
         return BookResource::collection($books);
     }

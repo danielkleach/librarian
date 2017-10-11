@@ -22,7 +22,7 @@ class PopularEbookController extends Controller
 
     public function index()
     {
-        $books = $this->bookModel->with(['authors'])->popular()->paginate(25);
+        $books = $this->bookModel->with(['authors', 'category'])->popular()->paginate(25);
 
         return BookResource::collection($books);
     }

@@ -32,14 +32,14 @@ class EbookController extends Controller
 
     public function index()
     {
-        $books = $this->bookModel->with(['authors'])->paginate(25);
+        $books = $this->bookModel->with(['authors', 'category'])->paginate(25);
 
         return EbookResource::collection($books);
     }
 
     public function show($bookId)
     {
-        $book = $this->bookModel->with(['authors', 'files'])->findOrFail($bookId);
+        $book = $this->bookModel->with(['authors', 'category', 'files'])->findOrFail($bookId);
 
         return new EbookResource($book);
     }

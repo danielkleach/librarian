@@ -19,6 +19,10 @@ class BookRequest extends Request
         switch ($this->method()) {
             case 'POST':
                 return [
+                    'category_id' => [
+                        'integer',
+                        'exists:categories,id',
+                    ],
                     'owner_id' => [
                         'integer',
                         'exists:users,id',
@@ -52,6 +56,12 @@ class BookRequest extends Request
                 ];
             case 'PATCH':
                 return [
+                    'category_id' => [
+                        'sometimes',
+                        'required',
+                        'integer',
+                        'exists:categories,id',
+                    ],
                     'owner_id' => [
                         'sometimes',
                         'required',

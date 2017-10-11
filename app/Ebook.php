@@ -27,6 +27,7 @@ class Ebook extends Model implements HasMedia
     private $cacheCoverImage;
 
     protected $fillable = [
+        'category_id',
         'title',
         'description',
         'isbn',
@@ -65,7 +66,7 @@ class Ebook extends Model implements HasMedia
     /***********************************************/
 
     /**
-     * A Book belongs to an Author.
+     * An Ebook belongs to an Author.
      *
      * @return mixed
      */
@@ -80,7 +81,17 @@ class Ebook extends Model implements HasMedia
     }
 
     /**
-     * A Book has many Downloads.
+     * An Ebook belongs to a Category.
+     *
+     * @return mixed
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    /**
+     * An Ebook has many Downloads.
      *
      * @return mixed
      */
@@ -90,7 +101,7 @@ class Ebook extends Model implements HasMedia
     }
 
     /**
-     * A Book has many Rentals.
+     * An Ebook has many Rentals.
      *
      * @return mixed
      */

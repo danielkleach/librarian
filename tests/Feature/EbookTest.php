@@ -17,7 +17,7 @@ class EbookTest extends TestCase
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
-        $book = factory(Ebook::class)->create();
+        $book = factory(Ebook::class)->states(['withCategory'])->create();
 
         $response = $this->getJson("/ebooks/{$book->id}");
 
@@ -81,7 +81,7 @@ class EbookTest extends TestCase
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
-        $book = factory(Ebook::class)->create();
+        $book = factory(Ebook::class)->states(['withCategory'])->create();
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [

@@ -16,6 +16,7 @@ class Ebook extends Resource
     {
         return [
             'id' => (int) $this->id,
+            'category_id' => (int) $this->category_id,
             'title' => $this->title,
             'description' => $this->description,
             'isbn' => $this->isbn,
@@ -33,10 +34,11 @@ class Ebook extends Resource
             'updated_at' => $this->updated_at->format('F j, Y'),
 
             'authors' => Author::collection($this->whenLoaded('authors')),
-            'files' => File::collection($this->whenLoaded('files')),
+            'category' => Category::make($this->whenLoaded('category')),
             'downloads' => Download::collection($this->whenLoaded('downloads')),
-            'reviews' => Review::collection($this->whenLoaded('reviews')),
             'favorites' => Favorite::collection($this->whenLoaded('favorites')),
+            'files' => File::collection($this->whenLoaded('files')),
+            'reviews' => Review::collection($this->whenLoaded('reviews')),
         ];
     }
 }

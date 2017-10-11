@@ -13,7 +13,7 @@ class BookTagTest extends TestCase
 
     public function testStoreEndpointAddsATagToABook()
     {
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $data = [
             'tag' => 'php'
@@ -32,7 +32,7 @@ class BookTagTest extends TestCase
     {
         $tag = 'php';
 
-        $book = factory(Book::class)->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
         $book->attachTag($tag);
 
         $response = $this->deleteJson("/books/{$book->id}/tags/{$tag}");

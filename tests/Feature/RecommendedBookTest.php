@@ -13,9 +13,9 @@ class RecommendedBookTest extends TestCase
 
     public function testIndexEndpointReturnsTheBestRatedBooks()
     {
-        $book1 = factory(Book::class)->create(['rating' => 4.35]);
-        $book2 = factory(Book::class)->create(['rating' => 4.22]);
-        $book3 = factory(Book::class)->create(['rating' => 4.95]);
+        $book1 = factory(Book::class)->states(['withCategory'])->create(['rating' => 4.35]);
+        $book2 = factory(Book::class)->states(['withCategory'])->create(['rating' => 4.22]);
+        $book3 = factory(Book::class)->states(['withCategory'])->create(['rating' => 4.95]);
 
         $response = $this->getJson("/recommended/books");
 
