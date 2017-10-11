@@ -21,7 +21,7 @@ class CoverImageAuthorizationTest extends TestCase
         ];
 
         $response = $this->actingAs(factory(User::class)->create())
-            ->postJson("/books/{$book->id}/cover-image", $data);
+            ->postJson("/cover-image/book/{$book->id}", $data);
 
         $response->assertStatus(401);
     }

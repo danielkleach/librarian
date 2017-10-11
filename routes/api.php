@@ -108,11 +108,6 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::delete('/{authorId}', 'Books\BookAuthorController@destroy');
                 });
 
-                Route::prefix('cover-image')->group(function () {
-                    Route::post('/', 'CoverImageController@store');
-                    Route::delete('/', 'CoverImageController@destroy');
-                });
-
                 Route::prefix('tags')->group(function () {
                     Route::post('/', 'Books\BookTagController@store');
                     Route::delete('/{tag}', 'Books\BookTagController@destroy');
@@ -134,15 +129,18 @@ Route::group(['middleware' => ['respondWithJson']], function() {
                     Route::delete('/{authorId}', 'DigitalBooks\DigitalBookAuthorController@destroy');
                 });
 
-                Route::prefix('cover-image')->group(function () {
-                    Route::post('/', 'CoverImageController@store');
-                    Route::delete('/', 'CoverImageController@destroy');
-                });
-
                 Route::prefix('tags')->group(function () {
                     Route::post('/', 'DigitalBooks\DigitalBookTagController@store');
                     Route::delete('/{tag}', 'DigitalBooks\DigitalBookTagController@destroy');
                 });
+            });
+        });
+
+        Route::prefix('cover-image')->group(function () {
+
+            Route::prefix('/{itemType}/{itemId}')->group(function () {
+                Route::post('/', 'CoverImageController@store');
+                Route::delete('/', 'CoverImageController@destroy');
             });
         });
 

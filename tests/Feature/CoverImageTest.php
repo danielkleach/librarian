@@ -21,7 +21,7 @@ class CoverImageTest extends TestCase
             'cover_image' => UploadedFile::fake()->image('test.jpg', $width = 100, $height = 100)
         ];
 
-        $response = $this->postJson("/books/{$book->id}/cover-image", $data);
+        $response = $this->postJson("/cover-image/book/{$book->id}", $data);
 
         $response->assertStatus(201);
 
@@ -40,7 +40,7 @@ class CoverImageTest extends TestCase
             'cover_image' => UploadedFile::fake()->image('test.jpg', $width = 100, $height = 100)
         ];
 
-        $response = $this->postJson("/books/{$book->id}/cover-image", $data);
+        $response = $this->postJson("/cover-image/book/{$book->id}", $data);
 
         $response->assertStatus(201);
 
@@ -56,7 +56,7 @@ class CoverImageTest extends TestCase
         $book = factory(Book::class)->create();
         $coverImage = $book->coverImage->save(UploadedFile::fake()->image('test.jpg'));
 
-        $response = $this->deleteJson("/books/{$book->id}/cover-image");
+        $response = $this->deleteJson("/cover-image/book/{$book->id}");
 
         $response->assertStatus(200);
         Storage::disk('media')->assertMissing("{$coverImage->media->id}");
