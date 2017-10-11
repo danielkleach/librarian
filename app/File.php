@@ -21,13 +21,13 @@ class File extends Model
     /***********************************************/
 
     /**
-     * A File belongs to a DigitalBook.
+     * A File belongs to a Ebook.
      *
      * @return mixed
      */
-    public function digitalBook()
+    public function ebook()
     {
-        return $this->belongsTo(DigitalBook::class, 'book_id');
+        return $this->belongsTo(Ebook::class, 'book_id');
     }
 
     /***********************************************/

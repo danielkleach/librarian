@@ -1,31 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\DigitalBooks;
+namespace App\Http\Controllers\Ebooks;
 
 use App\File;
+use App\Ebook;
 use App\Download;
-use App\DigitalBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
-class DigitalBookDownloadController extends Controller
+class EbookDownloadController extends Controller
 {
-    protected $digitalBookModel, $fileModel, $downloadModel;
+    protected $eBookModel, $fileModel, $downloadModel;
 
     /**
-     * DigitalBookDownloadController constructor.
+     * EbookDownloadController constructor.
      *
-     * @param DigitalBook $digitalBookModel
+     * @param Ebook $eBookModel
      * @param File $fileModel
      * @param Download $downloadModel
      */
     public function __construct(
-        DigitalBook $digitalBookModel,
+        Ebook $eBookModel,
         File $fileModel,
         Download $downloadModel
     ){
-        $this->digitalBookModel = $digitalBookModel;
+        $this->eBookModel = $eBookModel;
         $this->fileModel = $fileModel;
         $this->downloadModel = $downloadModel;
     }
@@ -33,7 +33,7 @@ class DigitalBookDownloadController extends Controller
     public function store(Request $request, $bookId)
     {
         $user = Auth::user();
-        $book = $this->digitalBookModel->findOrFail($bookId);
+        $book = $this->eBookModel->findOrFail($bookId);
         $file = $this->fileModel->where('book_id', $bookId)
             ->where('format', $request->format)
             ->firstOrFail();

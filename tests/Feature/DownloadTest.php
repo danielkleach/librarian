@@ -25,7 +25,7 @@ class DownloadTest extends TestCase
             'format' => 'pdf'
         ];
 
-        $response = $this->actingAs($user)->postJson("/digital-books/{$file->book_id}/download", $data);
+        $response = $this->actingAs($user)->postJson("/ebooks/{$file->book_id}/download", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('downloads', [

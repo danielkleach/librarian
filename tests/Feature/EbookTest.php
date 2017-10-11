@@ -3,23 +3,23 @@
 namespace Tests\Feature;
 
 use App\User;
-use Illuminate\Support\Facades\Storage;
+use App\Ebook;
 use Tests\TestCase;
-use App\DigitalBook;
 use App\Traits\MockABookLookup;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DigitalBookTest extends TestCase
+class EbookTest extends TestCase
 {
     use MockABookLookup, DatabaseTransactions, WithoutMiddleware;
 
     public function testShowEndpointReturnsTheSpecifiedBook()
     {
-        $book = factory(DigitalBook::class)->create();
+        $book = factory(Ebook::class)->create();
 
-        $response = $this->getJson("/digital-books/{$book->id}");
+        $response = $this->getJson("/ebooks/{$book->id}");
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -61,10 +61,10 @@ class DigitalBookTest extends TestCase
             ]
         ];
 
-        $response = $this->actingAs($user)->postJson("/digital-books", $data);
+        $response = $this->actingAs($user)->postJson("/ebooks", $data);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('digital_books', [
+        $this->assertDatabaseHas('ebooks', [
             'title' => 'New test title',
             'description' => 'New test description.',
             'isbn' => 'abcde12345',
@@ -81,7 +81,7 @@ class DigitalBookTest extends TestCase
 
     public function testUpdateEndpointUpdatesABookInTheDatabase()
     {
-        $book = factory(DigitalBook::class)->create();
+        $book = factory(Ebook::class)->create();
         $user = factory(User::class)->states(['admin'])->create();
 
         $data = [
@@ -91,9 +91,9 @@ class DigitalBookTest extends TestCase
             'publication_year' => 2017
         ];
 
-        $response = $this->actingAs($user)->patchJson("/digital-books/{$book->id}", $data);
+        $response = $this->actingAs($user)->patchJson("/ebooks/{$book->id}", $data);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('digital_books', $data);
+        $this->assertDatabaseHas('ebooks', $data);
     }
 }

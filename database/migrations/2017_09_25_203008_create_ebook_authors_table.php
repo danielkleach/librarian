@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDigitalBookAuthorsTable extends Migration
+class CreateEbookAuthorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateDigitalBookAuthorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('digital_book_authors', function (Blueprint $table) {
+        Schema::create('ebook_authors', function (Blueprint $table) {
             $table->integer('book_id')->unsigned();
             $table->integer('author_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('book_id')->references('id')->on('digital_books');
+            $table->foreign('book_id')->references('id')->on('ebooks');
             $table->foreign('author_id')->references('id')->on('authors');
         });
     }
@@ -31,6 +31,6 @@ class CreateDigitalBookAuthorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('digital_book_authors');
+        Schema::dropIfExists('ebook_authors');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 
 class File extends Resource
@@ -24,7 +23,7 @@ class File extends Resource
             'created_at' => $this->created_at->format('F j, Y'),
             'updated_at' => $this->updated_at->format('F j, Y'),
 
-            'book' => Book::make($this->whenLoaded('book'))
+            'ebook' => Ebook::make($this->whenLoaded('ebook'))
         ];
     }
 }

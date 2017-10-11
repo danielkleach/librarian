@@ -22,7 +22,7 @@ class CreateFilesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('book_id')->references('id')->on('digital_books');
+            $table->foreign('book_id')->references('id')->on('ebooks');
         });
     }
 

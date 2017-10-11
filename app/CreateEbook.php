@@ -2,18 +2,18 @@
 
 namespace App;
 
-class CreateDigitalBook
+class CreateEbook
 {
     protected $bookModel, $authorModel, $fileModel;
 
     /**
-     * CreateDigitalBook constructor.
+     * CreateEbook constructor.
      *
-     * @param DigitalBook $bookModel
+     * @param Ebook $bookModel
      * @param Author $authorModel
      * @param File $fileModel
      */
-    public function __construct(DigitalBook $bookModel, Author $authorModel, File $fileModel)
+    public function __construct(Ebook $bookModel, Author $authorModel, File $fileModel)
     {
         $this->bookModel = $bookModel;
         $this->authorModel = $authorModel;

@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\DigitalBooks;
+namespace App\Http\Controllers\Ebooks;
 
-use App\DigitalBook;
+use App\Ebook;
 use Spatie\Tags\Tag;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookTagRequest;
 use App\Http\Responses\BookTags\StoreBookTagResponse;
 use App\Http\Responses\BookTags\DestroyBookTagResponse;
 
-class DigitalBookTagController extends Controller
+class EbookTagController extends Controller
 {
     protected $bookModel, $tagModel;
 
     /**
-     * DigitalBookTagController constructor.
+     * EbookTagController constructor.
      *
-     * @param DigitalBook $bookModel
+     * @param Ebook $bookModel
      * @param Tag $tagModel
      */
-    public function __construct(DigitalBook $bookModel, Tag $tagModel)
+    public function __construct(Ebook $bookModel, Tag $tagModel)
     {
         $this->bookModel = $bookModel;
         $this->tagModel = $tagModel;

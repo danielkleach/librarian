@@ -3,32 +3,32 @@
 namespace App\Http\Controllers\Books;
 
 use App\Book;
-use App\DigitalBook;
+use App\Ebook;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchRequest;
 
 class BookSearchController extends Controller
 {
-    protected $bookModel, $digitalBookModel;
+    protected $bookModel, $ebookModel;
 
     /**
      * BookSearchController constructor.
      *
      * @param Book $bookModel
-     * @param DigitalBook $digitalBookModel
+     * @param Ebook $ebookModel
      */
-    public function __construct(Book $bookModel, DigitalBook $digitalBookModel)
+    public function __construct(Book $bookModel, Ebook $ebookModel)
     {
         $this->bookModel = $bookModel;
-        $this->digitalBookModel = $digitalBookModel;
+        $this->ebookModel = $ebookModel;
     }
 
     public function index(SearchRequest $request)
     {
         $books = $this->bookModel->search($request->search)->get();
-        $digitalBooks = $this->digitalBookModel->search($request->search)->get();
+        $ebooks = $this->ebookModel->search($request->search)->get();
 
-        $books->merge($digitalBooks);
+        $books->merge($ebooks);
 
         return $books;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class DigitalBookRequest extends Request
+class EbookRequest extends Request
 {
     public function authorize()
     {

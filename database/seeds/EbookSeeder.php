@@ -1,10 +1,10 @@
 <?php
 
+use App\Ebook;
 use App\Author;
-use App\DigitalBook;
 use Illuminate\Database\Seeder;
 
-class DigitalBookSeeder extends Seeder
+class EbookSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class DigitalBookSeeder extends Seeder
      */
     public function run()
     {
-        factory(DigitalBook::class, 50)->create()->each(function ($book) {
+        factory(Ebook::class, 50)->create()->each(function ($book) {
             $book->authors()->saveMany(factory(Author::class, 2)->make());
         });
     }

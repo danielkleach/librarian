@@ -46,15 +46,15 @@ class Author extends Model
     }
 
     /**
-     * An Author has many Books.
+     * An Author has many Ebooks.
      *
      * @return mixed
      */
-    public function digitalBooks()
+    public function ebooks()
     {
         return $this->belongsToMany(
-            DigitalBook::class,
-            'digital_book_authors',
+            Ebook::class,
+            'ebook_authors',
             'author_id',
             'book_id'
         )->withTimestamps();

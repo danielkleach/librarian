@@ -3,9 +3,9 @@
 use App\User;
 use App\Book;
 use App\Video;
+use App\Ebook;
 use App\Author;
 use Carbon\Carbon;
-use App\DigitalBook;
 use Faker\Generator as Faker;
 
 /*
@@ -77,7 +77,7 @@ $factory->state(App\Book::class, 'withRandomUser', function ($faker) {
     ];
 });
 
-$factory->define(App\DigitalBook::class, function (Faker $faker) {
+$factory->define(App\Ebook::class, function (Faker $faker) {
 
     return [
         'title' => $faker->sentence,
@@ -101,13 +101,13 @@ $factory->define(App\File::class, function (Faker $faker) {
 
 $factory->state(App\File::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(DigitalBook::class)->lazy()
+        'book_id' => factory(Ebook::class)->lazy()
     ];
 });
 
 $factory->state(App\File::class, 'withRandomBook', function ($faker) {
     return [
-        'book_id' => DigitalBook::all()->random()->id
+        'book_id' => Ebook::all()->random()->id
     ];
 });
 
@@ -167,7 +167,7 @@ $factory->state(App\Download::class, 'withUser', function ($faker) {
 
 $factory->state(App\Download::class, 'withBook', function ($faker) {
     return [
-        'book_id' => factory(DigitalBook::class)->lazy()
+        'book_id' => factory(Ebook::class)->lazy()
     ];
 });
 
@@ -179,14 +179,14 @@ $factory->state(App\Download::class, 'withRandomUser', function ($faker) {
 
 $factory->state(App\Download::class, 'withRandomBook', function ($faker) {
     return [
-        'book_id' => DigitalBook::all()->random()->id
+        'book_id' => Ebook::all()->random()->id
     ];
 });
 
 $factory->define(App\Review::class, function (Faker $faker) {
     $reviewableType = $faker->randomElement([
         Book::class,
-        DigitalBook::class,
+        Ebook::class,
         Video::class
     ]);
 
@@ -213,7 +213,7 @@ $factory->state(App\Review::class, 'withRandomUser', function ($faker) {
 $factory->define(App\Favorite::class, function (Faker $faker) {
     $favoritableType = $faker->randomElement([
         Book::class,
-        DigitalBook::class,
+        Ebook::class,
         Video::class
     ]);
 

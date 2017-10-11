@@ -21,10 +21,10 @@ Route::group(['middleware' => ['respondWithJson']], function() {
     Route::get('/new/books', 'Books\NewBookController@index');
     Route::get('/recommended/books', 'Books\RecommendedBookController@index');
 
-    Route::get('/featured/digital-books', 'DigitalBooks\FeaturedDigitalBookController@index');
-    Route::get('/popular/digital-books', 'DigitalBooks\PopularDigitalBookController@index');
-    Route::get('/new/digital-books', 'DigitalBooks\NewDigitalBookController@index');
-    Route::get('/recommended/digital-books', 'DigitalBooks\RecommendedDigitalBookController@index');
+    Route::get('/featured/ebooks', 'Ebooks\FeaturedEbookController@index');
+    Route::get('/popular/ebooks', 'Ebooks\PopularEbookController@index');
+    Route::get('/new/ebooks', 'Ebooks\NewEbookController@index');
+    Route::get('/recommended/ebooks', 'Ebooks\RecommendedEbookController@index');
 
     Route::get('/featured/videos', 'Videos\FeaturedVideoController@index');
     Route::get('/popular/videos', 'Videos\PopularVideoController@index');
@@ -56,11 +56,11 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
     });
 
-    Route::prefix('digital-books')->group(function () {
-        Route::get('/', 'DigitalBooks\DigitalBookController@index');
+    Route::prefix('ebooks')->group(function () {
+        Route::get('/', 'Ebooks\EbookController@index');
 
         Route::prefix('{bookId}')->group(function () {
-            Route::get('/', 'DigitalBooks\DigitalBookController@show');
+            Route::get('/', 'Ebooks\EbookController@show');
         });
     });
 
@@ -115,23 +115,23 @@ Route::group(['middleware' => ['respondWithJson']], function() {
             });
         });
 
-        Route::prefix('digital-books')->group(function () {
-            Route::post('/', 'DigitalBooks\DigitalBookController@store');
-            Route::post('/lookup', 'DigitalBooks\DigitalBookLookupController@store');
+        Route::prefix('ebooks')->group(function () {
+            Route::post('/', 'Ebooks\EbookController@store');
+            Route::post('/lookup', 'Ebooks\EbookLookupController@store');
 
             Route::prefix('{bookId}')->group(function () {
-                Route::patch('/', 'DigitalBooks\DigitalBookController@update');
-                Route::delete('/', 'DigitalBooks\DigitalBookController@destroy');
-                Route::post('/download', 'DigitalBooks\DigitalBookDownloadController@store');
+                Route::patch('/', 'Ebooks\EbookController@update');
+                Route::delete('/', 'Ebooks\EbookController@destroy');
+                Route::post('/download', 'Ebooks\EbookDownloadController@store');
 
                 Route::prefix('authors')->group(function () {
-                    Route::post('/', 'DigitalBooks\DigitalBookAuthorController@store');
-                    Route::delete('/{authorId}', 'DigitalBooks\DigitalBookAuthorController@destroy');
+                    Route::post('/', 'Ebooks\EbookAuthorController@store');
+                    Route::delete('/{authorId}', 'Ebooks\EbookAuthorController@destroy');
                 });
 
                 Route::prefix('tags')->group(function () {
-                    Route::post('/', 'DigitalBooks\DigitalBookTagController@store');
-                    Route::delete('/{tag}', 'DigitalBooks\DigitalBookTagController@destroy');
+                    Route::post('/', 'Ebooks\EbookTagController@store');
+                    Route::delete('/{tag}', 'Ebooks\EbookTagController@destroy');
                 });
             });
         });

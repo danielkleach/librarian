@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\DigitalBooks;
+namespace App\Http\Controllers\Ebooks;
 
-use App\DigitalBook;
+use App\Ebook;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DigitalBook as BookResource;
+use App\Http\Resources\Ebook as BookResource;
 
-class NewDigitalBookController extends Controller
+class NewEbookController extends Controller
 {
     protected $bookModel;
 
     /**
-     * NewDigitalBookController constructor.
+     * NewEbookController constructor.
      *
-     * @param DigitalBook $bookModel
+     * @param Ebook $bookModel
      */
-    public function __construct(DigitalBook $bookModel)
+    public function __construct(Ebook $bookModel)
     {
         $this->bookModel = $bookModel;
     }

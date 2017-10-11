@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
-class DigitalBook extends Model implements HasMedia
+class Ebook extends Model implements HasMedia
 {
     use SoftDeletes,
         Favoritable,
@@ -73,7 +73,7 @@ class DigitalBook extends Model implements HasMedia
     {
         return $this->belongsToMany(
             Author::class,
-            'digital_book_authors',
+            'ebook_authors',
             'book_id',
             'author_id'
         )->withTimestamps();

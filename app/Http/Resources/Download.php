@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 
 class Download extends Resource
@@ -23,7 +22,7 @@ class Download extends Resource
             'updated_at' => $this->updated_at->format('F j, Y'),
 
             'user' => User::make($this->whenLoaded('user')),
-            'book' => Book::make($this->whenLoaded('book'))
+            'ebook' => Ebook::make($this->whenLoaded('ebook'))
         ];
     }
 }

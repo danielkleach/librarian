@@ -3,23 +3,21 @@
 namespace App\Policies;
 
 use App\User;
-use App\DigitalBook;
+use App\Ebook;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DigitalBookPolicy
+class EbookPolicy
 {
     use HandlesAuthorization;
-
-    protected $bookModel;
 
     /**
      * Policy applying to adding a Book.
      *
      * @param User $user
-     * @param DigitalBook $book
+     * @param Ebook $book
      * @return bool
      */
-    public function store(User $user, DigitalBook $book)
+    public function store(User $user, Ebook $book)
     {
         return $user->is_admin;
     }
@@ -28,10 +26,10 @@ class DigitalBookPolicy
      * Policy applying to updating a Book.
      *
      * @param User $user
-     * @param DigitalBook $book
+     * @param Ebook $book
      * @return bool
      */
-    public function update(User $user, DigitalBook $book)
+    public function update(User $user, Ebook $book)
     {
         return $user->is_admin;
     }

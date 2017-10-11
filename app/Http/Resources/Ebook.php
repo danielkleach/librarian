@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class DigitalBook extends Resource
+class Ebook extends Resource
 {
     /**
      * Transform the resource into an array.
