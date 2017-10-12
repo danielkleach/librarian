@@ -26,10 +26,14 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         AuthenticationException::class,
         AuthorizationException::class,
+        BookLookupFailureException::class,
+        BookNotFoundException::class,
         HttpException::class,
         ItemUnavailableException::class,
         ItemAlreadyCheckedInException::class,
         ModelNotFoundException::class,
+        UserAlreadyFavoritedException::class,
+        UserAlreadyReviewedException::class,
         ValidationException::class,
         VideoLookupFailureException::class,
         VideoNotFoundException::class
@@ -86,6 +90,7 @@ class Handler extends ExceptionHandler
             ModelNotFoundException::class => $this->errorNotFound(),
             NotFoundHttpException::class => $this->errorNotFound(),
             ServiceUnavailableHttpException::class => $this->errorServiceUnavailable(),
+            UserAlreadyFavoritedException::class => $this->errorCustomType("This item is already in your favorites."),
             UserAlreadyReviewedException::class => $this->errorCustomType("You have already left a review for this item."),
             VideoLookupFailureException::class => $this->errorCustomType("There was a problem connecting to TMDB."),
             VideoNotFoundException::class => $this->errorCustomType("No videos were found matching the term(s) given.")

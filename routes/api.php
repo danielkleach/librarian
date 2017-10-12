@@ -160,7 +160,11 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
 
         Route::prefix('favorites')->group(function () {
-            Route::delete('/{favoriteId}', 'FavoriteController@destroy');
+            Route::post('/{itemType}/{itemId}', 'FavoriteController@store');
+
+            Route::prefix('{favoriteId}')->group(function () {
+                Route::delete('/', 'FavoriteController@destroy');
+            });
         });
 
         Route::prefix('genres')->group(function () {
