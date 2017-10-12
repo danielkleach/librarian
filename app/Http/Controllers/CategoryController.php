@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\Category as CategoryResource;
-use App\Http\Responses\Categories\DestroyCategoryResponse;
 
 class CategoryController extends Controller
 {
