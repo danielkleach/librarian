@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Book;
+use App\Genre;
 use App\Video;
 use App\Ebook;
 use App\Author;
@@ -187,6 +188,13 @@ $factory->state(App\File::class, 'withRandomBook', function ($faker) {
     ];
 });
 
+$factory->define(App\Genre::class, function (Faker $faker) {
+
+    return [
+        'name' => $faker->name,
+    ];
+});
+
 $factory->define(App\Rental::class, function (Faker $faker) {
     $rentableType = $faker->randomElement([
         Book::class,
@@ -314,9 +322,21 @@ $factory->define(App\Video::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(App\Video::class, 'withGenre', function ($faker) {
+    return [
+        'genre_id' => factory(Genre::class)->lazy()
+    ];
+});
+
 $factory->state(App\Video::class, 'withUser', function ($faker) {
     return [
         'owner_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\Video::class, 'withRandomGenre', function ($faker) {
+    return [
+        'genre_id' => Genre::all()->random()->id
     ];
 });
 

@@ -62,6 +62,14 @@ Route::group(['middleware' => ['respondWithJson']], function() {
         });
     });
 
+    Route::prefix('genres')->group(function () {
+        Route::get('/', 'GenreController@index');
+
+        Route::prefix('{genreId}')->group(function () {
+            Route::get('/', 'GenreController@show');
+        });
+    });
+
     Route::prefix('videos')->group(function () {
         Route::get('/', 'Videos\VideoController@index');
         Route::post('/search', 'Videos\VideoSearchController@index');
@@ -153,6 +161,15 @@ Route::group(['middleware' => ['respondWithJson']], function() {
 
         Route::prefix('favorites')->group(function () {
             Route::delete('/{favoriteId}', 'FavoriteController@destroy');
+        });
+
+        Route::prefix('genres')->group(function () {
+            Route::post('/', 'GenreController@store');
+
+            Route::prefix('{genreId}')->group(function () {
+                Route::patch('/', 'GenreController@update');
+                Route::delete('/', 'GenreController@destroy');
+            });
         });
 
         Route::prefix('rentals')->group(function () {

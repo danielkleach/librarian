@@ -16,6 +16,7 @@ class Video extends Resource
     {
         return [
             'id' => (int) $this->id,
+            'genre_id' => (int) $this->genre_id,
             'owner_id' => $this->owner_id
                 ? (int) $this->owner_id
                 : null,
@@ -38,6 +39,7 @@ class Video extends Resource
             'updated_at' => $this->updated_at->format('F j, Y'),
 
             'actors' => Actor::collection($this->whenLoaded('actors')),
+            'genre' => Genre::make($this->whenLoaded('genre')),
             'owner' => User::make($this->whenLoaded('owner')),
             'rentals' => Rental::collection($this->whenLoaded('rentals')),
             'reviews' => Review::collection($this->whenLoaded('reviews')),

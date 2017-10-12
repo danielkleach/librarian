@@ -15,6 +15,7 @@ class CreateVideosTable extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('genre_id')->unsigned()->nullable();
             $table->integer('owner_id')->unsigned()->nullable();
             $table->string('title');
             $table->text('description');
@@ -30,6 +31,7 @@ class CreateVideosTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('genre_id')->references('id')->on('genres');
             $table->foreign('owner_id')->references('id')->on('users');
         });
     }

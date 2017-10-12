@@ -23,6 +23,7 @@ class Video extends Model
         Searchable;
 
     protected $fillable = [
+        'genre_id',
         'owner_id',
         'title',
         'description',
@@ -76,6 +77,16 @@ class Video extends Model
             'video_id',
             'actor_id'
         )->withTimestamps();
+    }
+
+    /**
+     * A Video belongs to a Genre.
+     *
+     * @return mixed
+     */
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class, 'genre_id');
     }
 
     /**

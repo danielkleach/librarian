@@ -19,6 +19,10 @@ class VideoRequest extends Request
         switch ($this->method()) {
             case 'POST':
                 return [
+                    'genre_id' => [
+                        'integer',
+                        'exists:genres,id'
+                    ],
                     'owner_id' => [
                         'integer',
                         'exists:users,id',
@@ -60,6 +64,12 @@ class VideoRequest extends Request
                 ];
             case 'PATCH':
                 return [
+                    'genre_id' => [
+                        'sometimes',
+                        'required',
+                        'integer',
+                        'exists:genres,id'
+                    ],
                     'owner_id' => [
                         'sometimes',
                         'required',
