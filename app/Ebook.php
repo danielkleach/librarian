@@ -9,6 +9,7 @@ use App\Traits\Featurable;
 use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\Ebook as BookResource;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
@@ -143,10 +144,55 @@ class Ebook extends Model implements HasMedia
         return $this->cacheCoverImage = new CoverImage($this);
     }
 
+    /**
+     * Increment the download_count when a book is downloaded.
+     *
+     * @return bool
+     */
     public function downloaded()
     {
         $this->increment('download_count');
 
         return true;
+    }
+
+    /**
+     * Get featured ebooks.
+     */
+    public function getFeatured()
+    {
+        $books = $this->with(['authors', 'category'])->featured()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get new ebooks.
+     */
+    public function getNew()
+    {
+        $books = $this->with(['authors', 'category'])->latest()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get popular ebooks.
+     */
+    public function getPopular()
+    {
+        $books = $this->with(['authors', 'category'])->popular()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get recommended ebooks.
+     */
+    public function getRecommended()
+    {
+        $books = $this->with(['authors', 'category'])->recommended()->paginate(25);
+
+        return BookResource::collection($books);
     }
 }

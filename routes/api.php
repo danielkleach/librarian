@@ -16,20 +16,10 @@ Route::group(['middleware' => ['respondWithJson']], function() {
     Route::post('/login', 'Auth\LoginController@login');
     Route::post('/logout', 'Auth\LoginController@logout');
 
-    Route::get('/featured/books', 'Books\FeaturedBookController@index');
-    Route::get('/popular/books', 'Books\PopularBookController@index');
-    Route::get('/new/books', 'Books\NewBookController@index');
-    Route::get('/recommended/books', 'Books\RecommendedBookController@index');
-
-    Route::get('/featured/ebooks', 'Ebooks\FeaturedEbookController@index');
-    Route::get('/popular/ebooks', 'Ebooks\PopularEbookController@index');
-    Route::get('/new/ebooks', 'Ebooks\NewEbookController@index');
-    Route::get('/recommended/ebooks', 'Ebooks\RecommendedEbookController@index');
-
-    Route::get('/featured/videos', 'Videos\FeaturedVideoController@index');
-    Route::get('/popular/videos', 'Videos\PopularVideoController@index');
-    Route::get('/new/videos', 'Videos\NewVideoController@index');
-    Route::get('/recommended/videos', 'Videos\RecommendedVideoController@index');
+    Route::get('/featured/{itemType}', 'FeaturedItemController@index');
+    Route::get('/popular/{itemType}', 'PopularItemController@index');
+    Route::get('/new/{itemType}', 'NewItemController@index');
+    Route::get('/recommended/{itemType}', 'RecommendedItemController@index');
 
     Route::prefix('actors')->group(function () {
         Route::get('/', 'ActorController@index');

@@ -10,6 +10,7 @@ use App\Traits\Reviewable;
 use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\Video as VideoResource;
 
 class Video extends Model
 {
@@ -101,5 +102,45 @@ class Video extends Model
         $rented = $this->rentals()->whereNull('return_date')->first();
 
         return $rented ? false : true;
+    }
+
+    /**
+     * Get featured videos.
+     */
+    public function getFeatured()
+    {
+        $videos = $this->with(['actors', 'owner'])->featured()->paginate(25);
+
+        return VideoResource::collection($videos);
+    }
+
+    /**
+     * Get new videos.
+     */
+    public function getNew()
+    {
+        $videos = $this->with(['actors', 'owner'])->latest()->paginate(25);
+
+        return VideoResource::collection($videos);
+    }
+
+    /**
+     * Get popular videos.
+     */
+    public function getPopular()
+    {
+        $videos = $this->with(['actors', 'owner'])->popular()->paginate(25);
+
+        return VideoResource::collection($videos);
+    }
+
+    /**
+     * Get recommended videos.
+     */
+    public function getRecommended()
+    {
+        $videos = $this->with(['actors', 'owner'])->recommended()->paginate(25);
+
+        return VideoResource::collection($videos);
     }
 }

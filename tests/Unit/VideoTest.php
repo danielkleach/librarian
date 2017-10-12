@@ -92,15 +92,4 @@ class VideoTest extends TestCase
         $this->assertTrue($overdueVideos->contains($video2));
         $this->assertFalse($overdueVideos->contains($video1));
     }
-
-    public function testItCanGetOnlyFeaturedVideos()
-    {
-        $video1 = factory(Video::class)->create(['featured' => true]);
-        $video2 = factory(Video::class)->create(['featured' => false]);
-
-        $removedVideos = Video::featured()->get();
-
-        $this->assertTrue($removedVideos->contains($video1));
-        $this->assertFalse($removedVideos->contains($video2));
-    }
 }

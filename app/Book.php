@@ -10,6 +10,7 @@ use App\Traits\Featurable;
 use App\Traits\Favoritable;
 use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\Book as BookResource;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
@@ -132,5 +133,45 @@ class Book extends Model implements HasMedia
         $rented = $this->rentals()->whereNull('return_date')->first();
 
         return $rented ? false : true;
+    }
+
+    /**
+     * Get featured books.
+     */
+    public function getFeatured()
+    {
+        $books = $this->with(['authors', 'owner', 'category'])->featured()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get new books.
+     */
+    public function getNew()
+    {
+        $books = $this->with(['authors', 'owner', 'category'])->latest()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get popular books.
+     */
+    public function getPopular()
+    {
+        $books = $this->with(['authors', 'owner', 'category'])->popular()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get recommended books.
+     */
+    public function getRecommended()
+    {
+        $books = $this->with(['authors', 'owner', 'category'])->recommended()->paginate(25);
+
+        return BookResource::collection($books);
     }
 }

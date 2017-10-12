@@ -11,8 +11,8 @@ class EntityFactory
         switch ($type) {
             case 'book':
                 return new Book();
-            case 'digitalBook':
-                return new DigitalBook();
+            case 'ebook':
+                return new Ebook();
             case 'video':
                 return new Video();
             default:
