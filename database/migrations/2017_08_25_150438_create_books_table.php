@@ -15,20 +15,21 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id')->unsigned();
-            $table->integer('author_id')->unsigned();
-            $table->integer('owner_id')->unsigned();
+            $table->integer('category_id')->unsigned()->nullable();
+            $table->integer('owner_id')->unsigned()->nullable();
             $table->string('title');
             $table->text('description');
             $table->string('isbn');
             $table->smallInteger('publication_year')->unsigned();
-            $table->string('location');
-            $table->string('status')->default('available');
+            $table->string('location')->nullable();
+            $table->string('cover_image_url')->nullable();
+            $table->boolean('featured')->default(0);
+            $table->integer('total_rentals')->default(0);
+            $table->decimal('rating', 3, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('author_id')->references('id')->on('authors');
             $table->foreign('owner_id')->references('id')->on('users');
         });
     }

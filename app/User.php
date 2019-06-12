@@ -3,12 +3,13 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use SoftDeletes, Notifiable;
 
     protected $guarded = [
         'remember_token'
@@ -38,28 +39,65 @@ class User extends Authenticatable
     }
 
     /**
-     * A User has many Trackers.
+     * A User has many Rentals.
      *
      * @return mixed
      */
-    public function trackers()
+    public function rentals()
     {
-        return $this->hasMany(Tracker::class, 'user_id');
+        return $this->hasMany(Rental::class, 'user_id');
     }
 
     /**
-     * A User has many UserReviews.
+     * A User has many videos.
      *
      * @return mixed
      */
-    public function userReviews()
+    public function videos()
     {
-        return $this->hasMany(UserReview::class, 'user_id');
+        return $this->hasMany(Video::class, 'owner_id');
+    }
+
+    /**
+     * A User has many Reviews.
+     *
+     * @return mixed
+     */
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'user_id');
+    }
+
+    /**
+     * A User has many Favorites.
+     *
+     * @return mixed
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
     }
 
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/
+
+    /**
+     * Check if user has a role of admin.
+     */
+    public function isAdmin() {
+        return $this->roles->where('slug', 'admin')->isNotEmpty();
+    }
+
+    /**
+     * Generate an api token for the user.
+     */
+    public function generateToken()
+    {
+        $this->api_token = str_random(80);
+        $this->save();
+        return $this->api_token;
+    }
 
     /**
      * Combine the user's first name and last name.
@@ -70,19 +108,19 @@ class User extends Authenticatable
     }
 
     /**
-     * Determines how many books this user currently has checked out.
+     * Determines what books this user currently has checked out.
      */
     public function getCheckedOut()
     {
-        return $this->trackers->where('return_date', null)->count();
+        return $this->rentals->where('return_date', null);
     }
 
     /**
-     * Determines how many books this user currently has overdue.
+     * Determines what books this user currently has overdue.
      */
     public function getOverDue()
     {
-        return $this->trackers->where('due_date', '<', Carbon::now()->toDateTimeString())
-            ->where('return_date', null)->count();
+        return $this->rentals->where('due_date', '<', Carbon::now()->toDateTimeString())
+            ->where('return_date', null);
     }
 }

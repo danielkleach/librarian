@@ -15,7 +15,7 @@ class CategoryTest extends TestCase
     {
         $category = factory(Category::class)->create();
 
-        $response = $this->getJson("/api/categories/{$category->id}");
+        $response = $this->getJson("/categories/{$category->id}");
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -30,7 +30,7 @@ class CategoryTest extends TestCase
             'name' => 'Category Name'
         ];
 
-        $response = $this->postJson("/api/categories", $data);
+        $response = $this->postJson("/categories", $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('categories', $data);
@@ -44,19 +44,9 @@ class CategoryTest extends TestCase
             'name' => 'New Category Name'
         ];
 
-        $response = $this->patchJson("/api/categories/{$category->id}", $data);
+        $response = $this->patchJson("/categories/{$category->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('categories', $data);
-    }
-
-    public function testDestroyEndpointRemovesACategory()
-    {
-        $category = factory(Category::class)->create();
-
-        $response = $this->deleteJson("/api/categories/{$category->id}");
-
-        $response->assertStatus(204);
-        $this->assertDatabaseMissing('categories', ['id' => $category->id, 'deleted_at' => null]);
     }
 }

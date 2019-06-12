@@ -6,10 +6,16 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "babenkoivan/scout-elasticsearch-driver": "^2.2",
+        "barryvdh/laravel-cors": "^0.9.3",
+        "elasticsearch/elasticsearch": "^5.3",
         "fideloper/proxy": "~3.3",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "spatie/laravel-medialibrary": "^6.0.0"
+        "sentry/sentry-laravel": "^0.8.0",
+        "spatie/laravel-medialibrary": "^6.0.0",
+        "spatie/laravel-tags": "^2.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

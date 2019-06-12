@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = [];
 
     /***********************************************/
@@ -13,7 +16,7 @@ class Category extends Model
     /***********************************************/
 
     /**
-     * A Category has many Books.
+     * An Category has many Books.
      *
      * @return mixed
      */
@@ -22,15 +25,13 @@ class Category extends Model
         return $this->hasMany(Book::class, 'category_id');
     }
 
-    /***********************************************/
-    /******************* Methods *******************/
-    /***********************************************/
-
     /**
-     * Get the average rating for this book.
+     * An Category has many Ebooks.
+     *
+     * @return mixed
      */
-    public function getBookCount()
+    public function ebooks()
     {
-        return $this->books->count();
+        return $this->hasMany(Ebook::class, 'category_id');
     }
 }

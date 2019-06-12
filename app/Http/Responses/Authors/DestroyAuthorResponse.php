@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Responses\Authors;
 
 use Illuminate\Contracts\Support\Responsable;
 
@@ -15,6 +15,6 @@ class DestroyAuthorResponse implements Responsable
 
     public function toResponse($request)
     {
-        return response()->json(['message' => 'This author has been deleted.'], 204);
+        return response()->json(['message' => 'This author has been deleted.'], 200);
     }
 }

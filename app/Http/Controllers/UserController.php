@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
     protected $userModel;
 
+    /**
+     * UserController constructor.
+     *
+     * @param User $userModel
+     */
     public function __construct(User $userModel)
     {
         $this->userModel = $userModel;
@@ -18,38 +24,30 @@ class UserController extends Controller
     {
         $users = $this->userModel->paginate(25);
 
-        return new IndexUserResponse($users);
+        return UserResource::collection($users);
     }
 
     public function show($userId)
     {
-        $user = $this->userModel->with(['userReviews.book', 'trackers.book'])->findOrFail($userId);
+        $user = $this->userModel
+            ->with(['reviews', 'rentals', 'favorites'])
+            ->findOrFail($userId);
 
-        return new ShowUserResponse($user);
+        return new UserResource($user);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $user = $this->userModel->create($request->all());
 
-        return new StoreUserResponse($user);
+        return new UserResource($user);
     }
 
-    public function update(Request $request, $userId)
+    public function update(UserRequest $request, $userId)
     {
         $user = $this->userModel->findOrFail($userId);
-
         $user->update($request->all());
 
-        return new UpdateUserResponse($user);
-    }
-
-    public function destroy($userId)
-    {
-        $user = $this->userModel->findOrFail($userId);
-
-        $user->delete();
-
-        return new DestroyUserResponse($user);
+        return new UserResource($user);
     }
 }

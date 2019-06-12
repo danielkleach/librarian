@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Tracker;
+use App\Book;
+use App\User;
+use App\Rental;
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -11,20 +14,26 @@ class BookCheckinTest extends TestCase
 {
     use DatabaseTransactions, WithoutMiddleware;
 
-    public function testUpdateEndpointUpdatesATrackerInTheDatabase()
+    public function testStoreEndpointChecksInARentalInTheDatabase()
     {
-        $tracker = factory(Tracker::class)->states(['withUser', 'withBook'])->create([
+        $user = factory(User::class)->create();
+        $user->api_token = $user->generateToken();
+
+        $book = factory(Book::class)->states(['withCategory'])->create();
+
+        $rental = factory(Rental::class)->create([
+            'user_id' => $user->id,
+            'rentable_id' => $book->id,
+            'rentable_type' => get_class($book),
             'return_date' => null
         ]);
 
-        $data = [
-            'user_id' => $tracker->user_id,
-            'book_id' => $tracker->book_id
-        ];
-
-        $response = $this->postJson("/api/books/checkin", $data);
+        $response = $this->actingAs($user)->postJson("/books/{$rental->rentable_id}/checkin/{$rental->id}");
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('trackers', $data);
+        $this->assertDatabaseHas('rentals', [
+            'id' => $rental->id,
+            'return_date' => Carbon::now()->toDateTimeString()
+        ]);
     }
 }

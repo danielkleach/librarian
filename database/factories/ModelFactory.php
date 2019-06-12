@@ -1,13 +1,13 @@
 <?php
 
-use App\Type;
 use App\User;
 use App\Book;
+use App\Genre;
+use App\Video;
+use App\Ebook;
 use App\Author;
-use App\Tracker;
 use App\Category;
 use Carbon\Carbon;
-use App\UserReview;
 use Faker\Generator as Faker;
 
 /*
@@ -21,15 +21,17 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
-    static $password;
+$factory->define(App\Author::class, function (Faker $faker) {
 
     return [
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'name' => $faker->name,
+    ];
+});
+
+$factory->define(App\Actor::class, function (Faker $faker) {
+
+    return [
+        'name' => $faker->name,
     ];
 });
 
@@ -40,36 +42,23 @@ $factory->define(App\Category::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Author::class, function (Faker $faker) {
-
-    return [
-        'name' => $faker->name,
-    ];
-});
-
 $factory->define(App\Book::class, function (Faker $faker) {
 
     return [
+        'owner_id' => null,
         'title' => $faker->sentence,
         'description' => $faker->text(200),
         'isbn' => $faker->isbn10,
         'publication_year' => $faker->year,
         'location' => $faker->word,
-        'status' => $faker->boolean(90)
-            ? $faker->randomElement(['available', 'unavailable'])
-            : $faker->randomElement(['lost', 'removed']),
+        'cover_image_url' => $faker->imageUrl(),
+        'featured' => $faker->boolean(10)
     ];
 });
 
 $factory->state(App\Book::class, 'withCategory', function ($faker) {
     return [
         'category_id' => factory(Category::class)->lazy()
-    ];
-});
-
-$factory->state(App\Book::class, 'withAuthor', function ($faker) {
-    return [
-        'author_id' => factory(Author::class)->lazy()
     ];
 });
 
@@ -85,19 +74,140 @@ $factory->state(App\Book::class, 'withRandomCategory', function ($faker) {
     ];
 });
 
-$factory->state(App\Book::class, 'withRandomAuthor', function ($faker) {
-    return [
-        'author_id' => Author::all()->random()->id
-    ];
-});
-
 $factory->state(App\Book::class, 'withRandomUser', function ($faker) {
     return [
         'owner_id' => User::all()->random()->id
     ];
 });
 
-$factory->define(App\Tracker::class, function (Faker $faker) {
+$factory->define(App\Ebook::class, function (Faker $faker) {
+
+    return [
+        'title' => $faker->sentence,
+        'description' => $faker->text(200),
+        'isbn' => $faker->isbn10,
+        'publication_year' => $faker->year,
+        'cover_image_url' => $faker->imageUrl(),
+        'featured' => $faker->boolean(10)
+    ];
+});
+
+$factory->state(App\Ebook::class, 'withCategory', function ($faker) {
+    return [
+        'category_id' => factory(Category::class)->lazy()
+    ];
+});
+
+$factory->state(App\Ebook::class, 'withRandomCategory', function ($faker) {
+    return [
+        'category_id' => Category::all()->random()->id
+    ];
+});
+
+$factory->define(App\Download::class, function (Faker $faker) {
+    return [];
+});
+
+$factory->state(App\Download::class, 'withUser', function ($faker) {
+    return [
+        'user_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\Download::class, 'withBook', function ($faker) {
+    return [
+        'book_id' => factory(Ebook::class)->lazy()
+    ];
+});
+
+$factory->state(App\Download::class, 'withRandomUser', function ($faker) {
+    return [
+        'user_id' => User::all()->random()->id
+    ];
+});
+
+$factory->state(App\Download::class, 'withRandomBook', function ($faker) {
+    return [
+        'book_id' => Ebook::all()->random()->id
+    ];
+});
+
+$factory->define(App\Favorite::class, function (Faker $faker) {
+    $favoritableType = $faker->randomElement([
+        Book::class,
+        Ebook::class,
+        Video::class
+    ]);
+
+    $categoricalTypes = [
+        Book::class,
+        Ebook::class,
+    ];
+
+    if (in_array($favoritableType, $categoricalTypes)) {
+        $favoritableId = factory($favoritableType)->states('withCategory')->lazy();
+    }
+
+    return [
+        'favoritable_id' => $favoritableId ?? factory($favoritableType)->lazy(),
+        'favoritable_type' => $favoritableType,
+    ];
+});
+
+$factory->state(App\Favorite::class, 'withUser', function ($faker) {
+    return [
+        'user_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\Favorite::class, 'withRandomUser', function ($faker) {
+    return [
+        'user_id' => User::all()->random()->id
+    ];
+});
+
+$factory->define(App\File::class, function (Faker $faker) {
+    $format = $faker->randomElement(['pdf', 'epub', 'mobi']);
+
+    return [
+        'format' => $format,
+        'path' => $faker->url,
+        'filename' => $faker->word . '.' . $format
+    ];
+});
+
+$factory->state(App\File::class, 'withBook', function ($faker) {
+    return [
+        'book_id' => factory(Ebook::class)->states(['withCategory'])->lazy()
+    ];
+});
+
+$factory->state(App\File::class, 'withRandomBook', function ($faker) {
+    return [
+        'book_id' => Ebook::all()->random()->id
+    ];
+});
+
+$factory->define(App\Genre::class, function (Faker $faker) {
+
+    return [
+        'name' => $faker->name,
+    ];
+});
+
+$factory->define(App\Rental::class, function (Faker $faker) {
+    $rentableType = $faker->randomElement([
+        Book::class,
+        Video::class
+    ]);
+
+    $categoricalTypes = [
+        Book::class
+    ];
+
+    if (in_array($rentableType, $categoricalTypes)) {
+        $rentableId = factory($rentableType)->states('withCategory')->lazy();
+    }
 
     $checkoutDate = $faker->dateTimeBetween(
         $startDate = '-3 years',
@@ -117,64 +227,121 @@ $factory->define(App\Tracker::class, function (Faker $faker) {
         : null;
 
     return [
+        'rentable_id' => $rentableId ?? factory($rentableType)->lazy(),
+        'rentable_type' => $rentableType,
         'checkout_date' => $checkoutDate,
         'due_date' => $dueDate,
         'return_date' => $returnDate
     ];
 });
 
-$factory->state(App\Tracker::class, 'withUser', function ($faker) {
+$factory->state(App\Rental::class, 'withUser', function ($faker) {
     return [
         'user_id' => factory(User::class)->lazy()
     ];
 });
 
-$factory->state(App\Tracker::class, 'withBook', function ($faker) {
-    return [
-        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
-    ];
-});
-
-$factory->state(App\Tracker::class, 'withRandomUser', function ($faker) {
+$factory->state(App\Rental::class, 'withRandomUser', function ($faker) {
     return [
         'user_id' => User::all()->random()->id
     ];
 });
 
-$factory->state(App\Tracker::class, 'withRandomBook', function ($faker) {
-    return [
-        'book_id' => Book::all()->random()->id
+$factory->define(App\Review::class, function (Faker $faker) {
+    $reviewableType = $faker->randomElement([
+        Book::class,
+        Ebook::class,
+        Video::class
+    ]);
+
+    $categoricalTypes = [
+        Book::class,
+        Ebook::class,
     ];
-});
 
-$factory->define(App\UserReview::class, function (Faker $faker) {
+    if (in_array($reviewableType, $categoricalTypes)) {
+        $reviewableId = factory($reviewableType)->states('withCategory')->lazy();
+    }
 
     return [
-        'rating' => $faker->numberBetween(1, 5),
+        'reviewable_id' => $reviewableId ?? factory($reviewableType)->lazy(),
+        'reviewable_type' => $reviewableType,
+        'rating' => $faker->numberBetween(1, 4),
         'comments' => $faker->text(200)
     ];
 });
 
-$factory->state(App\UserReview::class, 'withUser', function ($faker) {
+$factory->state(App\Review::class, 'withUser', function ($faker) {
     return [
         'user_id' => factory(User::class)->lazy()
     ];
 });
 
-$factory->state(App\UserReview::class, 'withBook', function ($faker) {
-    return [
-        'book_id' => factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->lazy()
-    ];
-});
-
-$factory->state(App\UserReview::class, 'withRandomUser', function ($faker) {
+$factory->state(App\Review::class, 'withRandomUser', function ($faker) {
     return [
         'user_id' => User::all()->random()->id
     ];
 });
 
-$factory->state(App\UserReview::class, 'withRandomBook', function ($faker) {
+$factory->define(App\User::class, function (Faker $faker) {
+    static $password;
+
     return [
-        'book_id' => Book::all()->random()->id
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = bcrypt('Tester12'),
+        'remember_token' => str_random(10),
+    ];
+});
+
+$factory->state(App\User::class, 'admin', function ($faker) {
+    return [
+        'is_admin' => true
+    ];
+});
+
+$factory->define(App\Video::class, function (Faker $faker) {
+
+    return [
+        'owner_id' => null,
+        'title' => $faker->sentence,
+        'description' => $faker->text(200),
+        'release_date' => $faker->dateTimeBetween(
+            $startDate = '-20 years',
+            $endDate = '-2 years'
+        )->format($format = 'Y-m-d'),
+        'location' => $faker->word,
+        'thumbnail_path' => $faker->imageUrl(),
+        'header_path' => $faker->imageUrl(),
+        'runtime' => $faker->numberBetween(60, 250),
+        'content_rating' => $faker->boolean(80)
+            ? $faker->randomElement(['G', 'PG', 'PG-13', 'R'])
+            : $faker->randomElement(['NC-17', 'Not Rated', 'Unrated']),
+        'featured' => $faker->boolean(10)
+    ];
+});
+
+$factory->state(App\Video::class, 'withGenre', function ($faker) {
+    return [
+        'genre_id' => factory(Genre::class)->lazy()
+    ];
+});
+
+$factory->state(App\Video::class, 'withUser', function ($faker) {
+    return [
+        'owner_id' => factory(User::class)->lazy()
+    ];
+});
+
+$factory->state(App\Video::class, 'withRandomGenre', function ($faker) {
+    return [
+        'genre_id' => Genre::all()->random()->id
+    ];
+});
+
+$factory->state(App\Video::class, 'withRandomUser', function ($faker) {
+    return [
+        'owner_id' => User::all()->random()->id
     ];
 });

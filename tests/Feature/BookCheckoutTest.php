@@ -12,19 +12,20 @@ class BookCheckoutTest extends TestCase
 {
     use DatabaseTransactions, WithoutMiddleware;
 
-    public function testStoreEndpointCreatesATrackerInTheDatabase()
+    public function testStoreEndpointCreatesARentalInTheDatabase()
     {
         $user = factory(User::class)->create();
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $user->api_token = $user->generateToken();
 
-        $data = [
-            'user_id' => (int) $user->id,
-            'book_id' => (int) $book->id
-        ];
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
-        $response = $this->postJson("/api/books/checkout", $data);
+        $response = $this->actingAs($user)->postJson("/books/{$book->id}/checkout");
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('trackers', $data);
+        $this->assertDatabaseHas('rentals', [
+            'user_id' => $user->id,
+            'rentable_id' => $book->id,
+            'rentable_type' => get_class($book)
+        ]);
     }
 }

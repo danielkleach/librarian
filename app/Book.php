@@ -2,30 +2,68 @@
 
 namespace App;
 
-use Carbon\Carbon;
+use App\Traits\Ratable;
+use App\Traits\Rentable;
+use Spatie\Tags\HasTags;
+use App\Traits\Reviewable;
+use App\Traits\Featurable;
+use App\Traits\Favoritable;
+use ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\Book as BookResource;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class Book extends Model implements HasMedia
 {
-    use HasMediaTrait;
+    use SoftDeletes,
+        Favoritable,
+        Featurable,
+        HasMediaTrait,
+        HasTags,
+        Ratable,
+        Rentable,
+        Reviewable,
+        Searchable;
 
     private $cacheCoverImage;
 
     protected $fillable = [
         'category_id',
-        'author_id',
         'owner_id',
         'title',
         'description',
         'isbn',
         'publication_year',
-        'location'
+        'location',
+        'cover_image_url'
     ];
 
-    protected $attributes = [
-        'status' => 'available'
+    protected $casts = [
+        'featured' => 'boolean'
+    ];
+
+    protected $indexConfigurator = BookIndexConfigurator::class;
+    protected $searchRules = [BookSearchRule::class];
+    protected $mapping = [
+        'properties' => [
+            'title' => [
+                'type' => 'text',
+                'analyzer' => 'english'
+            ],
+            'description' => [
+                'type' => 'text',
+                'analyzer' => 'english'
+            ],
+            'isbn' => [
+                'type' => 'keyword',
+            ],
+            'publication_year' => [
+                'type' => 'text',
+                'analyzer' => 'english'
+            ]
+        ]
     ];
 
     /***********************************************/
@@ -37,19 +75,14 @@ class Book extends Model implements HasMedia
      *
      * @return mixed
      */
-    public function author()
+    public function authors()
     {
-        return $this->belongsTo(Author::class, 'author_id');
-    }
-
-    /**
-     * A Book belongs to a Category.
-     *
-     * @return mixed
-     */
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsToMany(
+            Author::class,
+            'book_authors',
+            'book_id',
+            'author_id'
+        )->withTimestamps();
     }
 
     /**
@@ -63,99 +96,18 @@ class Book extends Model implements HasMedia
     }
 
     /**
-     * A Book has many Trackers.
+     * A Book belongs to a Category.
      *
      * @return mixed
      */
-    public function trackers()
+    public function category()
     {
-        return $this->hasMany(Tracker::class, 'book_id');
-    }
-
-    /**
-     * A Book has many UserReviews.
-     *
-     * @return mixed
-     */
-    public function userReviews()
-    {
-        return $this->hasMany(UserReview::class, 'book_id');
-    }
-
-    /***********************************************/
-    /******************* Scopes ********************/
-    /***********************************************/
-
-    /**
-     * Scope a query to only include available books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeAvailable($query)
-    {
-        return $query->where('status', 'available');
-    }
-
-    /**
-     * Scope a query to only include unavailable books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeUnavailable($query)
-    {
-        return $query->where('status', 'unavailable');
-    }
-
-    /**
-     * Scope a query to only include lost books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeLost($query)
-    {
-        return $query->where('status', 'lost');
-    }
-
-    /**
-     * Scope a query to only include removed books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeRemoved($query)
-    {
-        return $query->where('status', 'removed');
-    }
-
-    /**
-     * Scope a query to only include overdue books.
-     *
-     * @param $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeOverdue($query)
-    {
-        return $query->where('status', '!=', 'available')
-            ->whereHas('trackers', function ($query) {
-                $query->where('due_date', '<', Carbon::now()->toDateTimeString())
-                    ->whereNull('return_date');
-            });
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     /***********************************************/
     /******************* Methods *******************/
     /***********************************************/
-
-    /**
-     * Get the average rating for this book.
-     */
-    public function getAverageRating()
-    {
-        return $this->userReviews->avg('rating');
-    }
 
     /**
      * Get the cover image.
@@ -169,5 +121,57 @@ class Book extends Model implements HasMedia
         }
 
         return $this->cacheCoverImage = new CoverImage($this);
+    }
+
+    /**
+     * Checks if the Book is available.
+     *
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        $rented = $this->rentals()->whereNull('return_date')->first();
+
+        return $rented ? false : true;
+    }
+
+    /**
+     * Get featured books.
+     */
+    public function getFeatured()
+    {
+        $books = $this->with(['authors', 'owner', 'category'])->featured()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get new books.
+     */
+    public function getNew()
+    {
+        $books = $this->with(['authors', 'owner', 'category'])->latest()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get popular books.
+     */
+    public function getPopular()
+    {
+        $books = $this->with(['authors', 'owner', 'category'])->popular()->paginate(25);
+
+        return BookResource::collection($books);
+    }
+
+    /**
+     * Get recommended books.
+     */
+    public function getRecommended()
+    {
+        $books = $this->with(['authors', 'owner', 'category'])->recommended()->paginate(25);
+
+        return BookResource::collection($books);
     }
 }

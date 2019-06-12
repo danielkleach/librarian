@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\Category as CategoryResource;
 
 class CategoryController extends Controller
 {
     protected $categoryModel;
 
+    /**
+     * CategoryController constructor.
+     *
+     * @param Category $categoryModel
+     */
     public function __construct(Category $categoryModel)
     {
         $this->categoryModel = $categoryModel;
@@ -18,38 +24,28 @@ class CategoryController extends Controller
     {
         $categories = $this->categoryModel->paginate(25);
 
-        return new IndexCategoryResponse($categories);
+        return CategoryResource::collection($categories);
     }
 
     public function show($categoryId)
     {
-        $category = $this->categoryModel->findOrFail($categoryId);
+        $category = $this->categoryModel->with('books', 'ebooks')->findOrFail($categoryId);
 
-        return new ShowCategoryResponse($category);
+        return new CategoryResource($category);
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         $category = $this->categoryModel->create($request->all());
 
-        return new StoreCategoryResponse($category);
+        return new CategoryResource($category);
     }
 
-    public function update(Request $request, $categoryId)
+    public function update(CategoryRequest $request, $categoryId)
     {
         $category = $this->categoryModel->findOrFail($categoryId);
-
         $category->update($request->all());
 
-        return new UpdateCategoryResponse($category);
-    }
-
-    public function destroy($categoryId)
-    {
-        $category = $this->categoryModel->findOrFail($categoryId);
-
-        $category->delete();
-
-        return new DestroyCategoryResponse($category);
+        return new CategoryResource($category);
     }
 }

@@ -2,32 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Book;
-use Illuminate\Http\Request;
+use App\EntityFactory;
+use App\Http\Requests\CoverImageRequest;
+use App\Http\Responses\CoverImages\StoreCoverImageResponse;
+use App\Http\Responses\CoverImages\DestroyCoverImageResponse;
 
 class CoverImageController extends Controller
 {
-    protected $bookModel;
+    protected $entityFactory;
 
-    public function __construct(Book $bookModel)
+    /**
+     * CoverImageController constructor.
+     *
+     * @param EntityFactory $entityFactory
+     */
+    public function __construct(EntityFactory $entityFactory)
     {
-        $this->bookModel = $bookModel;
+        $this->entityFactory = $entityFactory;
     }
 
-    public function store(Request $request, $bookId)
+    public function store(CoverImageRequest $request, $itemType, $itemId)
     {
-        $book = $this->bookModel->findOrFail($bookId);
+        $entity = $this->entityFactory->translate($itemType);
+        $item = $entity->find($itemId);
 
-        $coverImage = $book->coverImage->save($request->cover_image);
+        $coverImage = $item->coverImage->save($request->cover_image);
 
         return new StoreCoverImageResponse($coverImage);
     }
 
-    public function destroy($bookId)
+    public function destroy($itemType, $itemId)
     {
-        $book = $this->bookModel->findOrFail($bookId);
+        $entity = $this->entityFactory->translate($itemType);
+        $item = $entity->find($itemId);
 
-        $coverImage = $book->coverImage->delete();
+        $coverImage = $item->coverImage->delete();
 
         return new DestroyCoverImageResponse($coverImage);
     }

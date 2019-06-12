@@ -15,13 +15,13 @@ class CoverImageTest extends TestCase
 
     public function testStoreEndpointUploadsANewCoverImage()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
 
         $data = [
             'cover_image' => UploadedFile::fake()->image('test.jpg', $width = 100, $height = 100)
         ];
 
-        $response = $this->postJson("/api/books/{$book->id}/cover-image", $data);
+        $response = $this->postJson("/cover-image/book/{$book->id}", $data);
 
         $response->assertStatus(201);
 
@@ -33,14 +33,14 @@ class CoverImageTest extends TestCase
 
     public function testStoreEndpointReplacesCoverImage()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
         $oldCoverImage = $book->coverImage->save(UploadedFile::fake()->image('old.jpg'));
 
         $data = [
             'cover_image' => UploadedFile::fake()->image('test.jpg', $width = 100, $height = 100)
         ];
 
-        $response = $this->postJson("/api/books/{$book->id}/cover-image", $data);
+        $response = $this->postJson("/cover-image/book/{$book->id}", $data);
 
         $response->assertStatus(201);
 
@@ -53,12 +53,12 @@ class CoverImageTest extends TestCase
 
     public function testDestroyEndpointRemovesACoverImage()
     {
-        $book = factory(Book::class)->states(['withCategory', 'withAuthor', 'withUser'])->create();
+        $book = factory(Book::class)->states(['withCategory'])->create();
         $coverImage = $book->coverImage->save(UploadedFile::fake()->image('test.jpg'));
 
-        $response = $this->deleteJson("/api/books/{$book->id}/cover-image");
+        $response = $this->deleteJson("/cover-image/book/{$book->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
         Storage::disk('media')->assertMissing("{$coverImage->media->id}");
         $this->assertDatabaseMissing('media', ['id' => $coverImage->media->id]);
     }
